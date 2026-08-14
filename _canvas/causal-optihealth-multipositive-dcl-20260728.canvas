@@ -1,0 +1,297 @@
+{
+  "nodes": [
+    {
+      "id": "n0",
+      "type": "text",
+      "text": "[[eiv-dcl-package]]",
+      "x": 0,
+      "y": 0,
+      "width": 220,
+      "height": 60
+    },
+    {
+      "id": "n1",
+      "type": "text",
+      "text": "[[eiv_heldout_hr_r2]]",
+      "x": 500,
+      "y": 90,
+      "width": 220,
+      "height": 60
+    },
+    {
+      "id": "n2",
+      "type": "text",
+      "text": "[[eiv_false_negative_pairs_per_batch]]",
+      "x": 500,
+      "y": 180,
+      "width": 220,
+      "height": 60
+    },
+    {
+      "id": "n3",
+      "type": "text",
+      "text": "[[eiv_crossmodal_median_rank]]",
+      "x": 500,
+      "y": 270,
+      "width": 220,
+      "height": 60
+    },
+    {
+      "id": "n4",
+      "type": "text",
+      "text": "[[eiv_effective_rank]]",
+      "x": 500,
+      "y": 360,
+      "width": 220,
+      "height": 60
+    },
+    {
+      "id": "n5",
+      "type": "text",
+      "text": "[[eiv_sensor_median_cosine]]",
+      "x": 500,
+      "y": 450,
+      "width": 220,
+      "height": 60
+    },
+    {
+      "id": "n6",
+      "type": "text",
+      "text": "[[eiv_training_runtime_sec]]",
+      "x": 500,
+      "y": 540,
+      "width": 220,
+      "height": 60
+    },
+    {
+      "id": "n7",
+      "type": "text",
+      "text": "[[eiv_duplicate_recall5]]",
+      "x": 500,
+      "y": 630,
+      "width": 220,
+      "height": 60
+    },
+    {
+      "id": "n8",
+      "type": "text",
+      "text": "[[eiv_crossmodal_alignment_gap]]",
+      "x": 500,
+      "y": 720,
+      "width": 220,
+      "height": 60
+    },
+    {
+      "id": "n9",
+      "type": "text",
+      "text": "[[eiv_peak_vram_gib]]",
+      "x": 500,
+      "y": 810,
+      "width": 220,
+      "height": 60
+    },
+    {
+      "id": "n10",
+      "type": "text",
+      "text": "[[eiv-multi-positive-dcl]]",
+      "x": 0,
+      "y": 900,
+      "width": 220,
+      "height": 60
+    },
+    {
+      "id": "n11",
+      "type": "text",
+      "text": "[[eiv_sensor_spectral_entropy]]",
+      "x": 500,
+      "y": 990,
+      "width": 220,
+      "height": 60
+    },
+    {
+      "id": "n12",
+      "type": "text",
+      "text": "[[eiv-multipositive-native-spectral-entropy]]",
+      "x": 0,
+      "y": 1080,
+      "width": 220,
+      "height": 60
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "fromNode": "n0",
+      "toNode": "n1",
+      "label": "\u2193 -2.51413"
+    },
+    {
+      "id": "e1",
+      "fromNode": "n0",
+      "toNode": "n2",
+      "label": "\u2193 -1.168"
+    },
+    {
+      "id": "e2",
+      "fromNode": "n0",
+      "toNode": "n3",
+      "label": "\u2193 -1"
+    },
+    {
+      "id": "e3",
+      "fromNode": "n0",
+      "toNode": "n4",
+      "label": "\u2191 +0.080047"
+    },
+    {
+      "id": "e4",
+      "fromNode": "n0",
+      "toNode": "n5",
+      "label": "\u2191 +0.032847"
+    },
+    {
+      "id": "e5",
+      "fromNode": "n0",
+      "toNode": "n6",
+      "label": "\u2193 -0.020272"
+    },
+    {
+      "id": "e6",
+      "fromNode": "n0",
+      "toNode": "n7",
+      "label": "\u2191 +0.004156"
+    },
+    {
+      "id": "e7",
+      "fromNode": "n0",
+      "toNode": "n8",
+      "label": "\u2193 -0.002472"
+    },
+    {
+      "id": "e8",
+      "fromNode": "n0",
+      "toNode": "n9",
+      "label": "\u2192 +0"
+    },
+    {
+      "id": "e9",
+      "fromNode": "n10",
+      "toNode": "n1",
+      "label": "\u2193 -1.27074"
+    },
+    {
+      "id": "e10",
+      "fromNode": "n10",
+      "toNode": "n2",
+      "label": "\u2193 -0.584"
+    },
+    {
+      "id": "e11",
+      "fromNode": "n10",
+      "toNode": "n5",
+      "label": "\u2191 +0.113664"
+    },
+    {
+      "id": "e12",
+      "fromNode": "n10",
+      "toNode": "n4",
+      "label": "\u2191 +0.108446"
+    },
+    {
+      "id": "e13",
+      "fromNode": "n10",
+      "toNode": "n6",
+      "label": "\u2193 -0.065369"
+    },
+    {
+      "id": "e14",
+      "fromNode": "n10",
+      "toNode": "n11",
+      "label": "\u2191 +0.017246"
+    },
+    {
+      "id": "e15",
+      "fromNode": "n10",
+      "toNode": "n8",
+      "label": "\u2193 -0.004976"
+    },
+    {
+      "id": "e16",
+      "fromNode": "n10",
+      "toNode": "n7",
+      "label": "\u2191 +0.002078"
+    },
+    {
+      "id": "e17",
+      "fromNode": "n10",
+      "toNode": "n3",
+      "label": "\u2192 +0"
+    },
+    {
+      "id": "e18",
+      "fromNode": "n10",
+      "toNode": "n9",
+      "label": "\u2192 +0"
+    },
+    {
+      "id": "e19",
+      "fromNode": "n12",
+      "toNode": "n3",
+      "label": "\u2191 +1"
+    },
+    {
+      "id": "e20",
+      "fromNode": "n12",
+      "toNode": "n5",
+      "label": "\u2191 +0.194481"
+    },
+    {
+      "id": "e21",
+      "fromNode": "n12",
+      "toNode": "n4",
+      "label": "\u2191 +0.136844"
+    },
+    {
+      "id": "e22",
+      "fromNode": "n12",
+      "toNode": "n6",
+      "label": "\u2193 -0.110467"
+    },
+    {
+      "id": "e23",
+      "fromNode": "n12",
+      "toNode": "n1",
+      "label": "\u2193 -0.027345"
+    },
+    {
+      "id": "e24",
+      "fromNode": "n12",
+      "toNode": "n11",
+      "label": "\u2191 +0.017246"
+    },
+    {
+      "id": "e25",
+      "fromNode": "n12",
+      "toNode": "n8",
+      "label": "\u2193 -0.007479"
+    },
+    {
+      "id": "e26",
+      "fromNode": "n12",
+      "toNode": "n7",
+      "label": "\u2192 +0"
+    },
+    {
+      "id": "e27",
+      "fromNode": "n12",
+      "toNode": "n2",
+      "label": "\u2192 +0"
+    },
+    {
+      "id": "e28",
+      "fromNode": "n12",
+      "toNode": "n9",
+      "label": "\u2192 +0"
+    }
+  ]
+}

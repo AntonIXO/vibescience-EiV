@@ -1,0 +1,49 @@
+---
+created_at: '2026-07-11T04:03:50+00:00'
+gates: []
+id: deep-vae-rhr-in-worker
+interventions:
+- rhr-cusum-detector
+paper_refs:
+- pcovnet-2023
+predicted_effects:
+- diagnostic_id: new_deps
+  direction: up
+  magnitude_note: torch + GPU training
+- diagnostic_id: runtime_sec
+  direction: up
+  magnitude_note: training loop per run
+problem_id: oh-missing-earlywarning-rhythm
+problem_tags:
+- missing-early-warning
+- missing-circadian
+- missing-directionality
+status: proposed
+supersedes: null
+topic_tags:
+- anomaly-detection
+- deep-learning
+- optihealth
+- wearables
+- n-of-1
+- resting-hr
+- illness-early-warning
+---
+
+## Statement
+A deep CNN-VAE/LSTM (PCovNet+) over resting-HR windows is the right way to add early-warning to the worker.
+
+## Rationale
+Higher sensitivity in the paper.
+
+## Plan
+(Not pursued — violates the classical/no-train/900m-RAM worker contract.)
+
+## Links
+Tests problem [[oh-missing-earlywarning-rhythm]].
+Applies [[rhr-cusum-detector]].
+Predicts [[new_deps]] (up).
+Predicts [[runtime_sec]] (up).
+Cites [[pcovnet-2023]].
+
+#anomaly-detection #deep-learning #optihealth #wearables #n-of-1 #resting-hr #illness-early-warning #missing-early-warning #missing-circadian #missing-directionality

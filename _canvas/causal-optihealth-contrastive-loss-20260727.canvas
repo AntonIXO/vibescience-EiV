@@ -1,0 +1,438 @@
+{
+  "nodes": [
+    {
+      "id": "n0",
+      "type": "text",
+      "text": "[[eiv-dcl-denominator-only]]",
+      "x": 0,
+      "y": 0,
+      "width": 220,
+      "height": 60
+    },
+    {
+      "id": "n1",
+      "type": "text",
+      "text": "[[eiv_training_runtime_sec]]",
+      "x": 500,
+      "y": 90,
+      "width": 220,
+      "height": 60
+    },
+    {
+      "id": "n2",
+      "type": "text",
+      "text": "[[eiv_crossmodal_median_rank]]",
+      "x": 500,
+      "y": 180,
+      "width": 220,
+      "height": 60
+    },
+    {
+      "id": "n3",
+      "type": "text",
+      "text": "[[eiv_effective_rank]]",
+      "x": 500,
+      "y": 270,
+      "width": 220,
+      "height": 60
+    },
+    {
+      "id": "n4",
+      "type": "text",
+      "text": "[[eiv_text_cache_batch_invariance_cosine]]",
+      "x": 500,
+      "y": 360,
+      "width": 220,
+      "height": 60
+    },
+    {
+      "id": "n5",
+      "type": "text",
+      "text": "[[eiv_sensor_median_cosine]]",
+      "x": 500,
+      "y": 450,
+      "width": 220,
+      "height": 60
+    },
+    {
+      "id": "n6",
+      "type": "text",
+      "text": "[[eiv_crossmodal_alignment_gap]]",
+      "x": 500,
+      "y": 540,
+      "width": 220,
+      "height": 60
+    },
+    {
+      "id": "n7",
+      "type": "text",
+      "text": "[[eiv_duplicate_recall5]]",
+      "x": 500,
+      "y": 630,
+      "width": 220,
+      "height": 60
+    },
+    {
+      "id": "n8",
+      "type": "text",
+      "text": "[[eiv_heldout_hr_r2]]",
+      "x": 500,
+      "y": 720,
+      "width": 220,
+      "height": 60
+    },
+    {
+      "id": "n9",
+      "type": "text",
+      "text": "[[eiv_peak_vram_gib]]",
+      "x": 500,
+      "y": 810,
+      "width": 220,
+      "height": 60
+    },
+    {
+      "id": "n10",
+      "type": "text",
+      "text": "[[eiv_false_negative_pairs_per_batch]]",
+      "x": 500,
+      "y": 900,
+      "width": 220,
+      "height": 60
+    },
+    {
+      "id": "n11",
+      "type": "text",
+      "text": "[[eiv-dcl-package]]",
+      "x": 0,
+      "y": 990,
+      "width": 220,
+      "height": 60
+    },
+    {
+      "id": "n12",
+      "type": "text",
+      "text": "[[eiv_crossmodal_hsic]]",
+      "x": 500,
+      "y": 1080,
+      "width": 220,
+      "height": 60
+    },
+    {
+      "id": "n13",
+      "type": "text",
+      "text": "[[eiv-dcl-rbf-hsic]]",
+      "x": 0,
+      "y": 1170,
+      "width": 220,
+      "height": 60
+    },
+    {
+      "id": "n14",
+      "type": "text",
+      "text": "[[eiv-medgemma-last-attended-cache-v2]]",
+      "x": 0,
+      "y": 1260,
+      "width": 220,
+      "height": 60
+    },
+    {
+      "id": "n15",
+      "type": "text",
+      "text": "[[eiv-native-rbf-kta-vicreg]]",
+      "x": 0,
+      "y": 1350,
+      "width": 220,
+      "height": 60
+    },
+    {
+      "id": "n16",
+      "type": "text",
+      "text": "[[eiv-soft-cca]]",
+      "x": 0,
+      "y": 1440,
+      "width": 220,
+      "height": 60
+    },
+    {
+      "id": "n17",
+      "type": "text",
+      "text": "[[eiv-vicreg]]",
+      "x": 0,
+      "y": 1530,
+      "width": 220,
+      "height": 60
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "fromNode": "n0",
+      "toNode": "n1",
+      "label": "\u2191 +3.28484"
+    },
+    {
+      "id": "e1",
+      "fromNode": "n0",
+      "toNode": "n2",
+      "label": "\u2193 -0.8"
+    },
+    {
+      "id": "e2",
+      "fromNode": "n0",
+      "toNode": "n3",
+      "label": "\u2193 -0.323688"
+    },
+    {
+      "id": "e3",
+      "fromNode": "n0",
+      "toNode": "n4",
+      "label": "\u2193 -0.155486"
+    },
+    {
+      "id": "e4",
+      "fromNode": "n0",
+      "toNode": "n5",
+      "label": "\u2193 -0.008952"
+    },
+    {
+      "id": "e5",
+      "fromNode": "n0",
+      "toNode": "n6",
+      "label": "\u2191 +0.006012"
+    },
+    {
+      "id": "e6",
+      "fromNode": "n0",
+      "toNode": "n7",
+      "label": "\u2191 +0.002993"
+    },
+    {
+      "id": "e7",
+      "fromNode": "n0",
+      "toNode": "n8",
+      "label": "\u2191 +0.001255"
+    },
+    {
+      "id": "e8",
+      "fromNode": "n0",
+      "toNode": "n9",
+      "label": "\u2192 +0"
+    },
+    {
+      "id": "e9",
+      "fromNode": "n0",
+      "toNode": "n10",
+      "label": "\u2192 +0"
+    },
+    {
+      "id": "e10",
+      "fromNode": "n11",
+      "toNode": "n9",
+      "label": "\u2191 +2.60742"
+    },
+    {
+      "id": "e11",
+      "fromNode": "n11",
+      "toNode": "n3",
+      "label": "\u2191 +0.940842"
+    },
+    {
+      "id": "e12",
+      "fromNode": "n11",
+      "toNode": "n7",
+      "label": "\u2191 +0.047382"
+    },
+    {
+      "id": "e13",
+      "fromNode": "n11",
+      "toNode": "n12",
+      "label": "\u2193 -0.023531"
+    },
+    {
+      "id": "e14",
+      "fromNode": "n11",
+      "toNode": "n8",
+      "label": "\u2191 +0.001492"
+    },
+    {
+      "id": "e15",
+      "fromNode": "n13",
+      "toNode": "n3",
+      "label": "\u2191 +0.244604"
+    },
+    {
+      "id": "e16",
+      "fromNode": "n13",
+      "toNode": "n8",
+      "label": "\u2191 +0.010455"
+    },
+    {
+      "id": "e17",
+      "fromNode": "n13",
+      "toNode": "n9",
+      "label": "\u2191 +0.007812"
+    },
+    {
+      "id": "e18",
+      "fromNode": "n13",
+      "toNode": "n7",
+      "label": "\u2191 +0.004988"
+    },
+    {
+      "id": "e19",
+      "fromNode": "n13",
+      "toNode": "n12",
+      "label": "\u2193 -0.001057"
+    },
+    {
+      "id": "e20",
+      "fromNode": "n14",
+      "toNode": "n1",
+      "label": "\u2191 +3.28484"
+    },
+    {
+      "id": "e21",
+      "fromNode": "n14",
+      "toNode": "n2",
+      "label": "\u2193 -0.8"
+    },
+    {
+      "id": "e22",
+      "fromNode": "n14",
+      "toNode": "n3",
+      "label": "\u2193 -0.323688"
+    },
+    {
+      "id": "e23",
+      "fromNode": "n14",
+      "toNode": "n5",
+      "label": "\u2193 -0.008952"
+    },
+    {
+      "id": "e24",
+      "fromNode": "n14",
+      "toNode": "n6",
+      "label": "\u2191 +0.006012"
+    },
+    {
+      "id": "e25",
+      "fromNode": "n14",
+      "toNode": "n7",
+      "label": "\u2191 +0.002993"
+    },
+    {
+      "id": "e26",
+      "fromNode": "n14",
+      "toNode": "n8",
+      "label": "\u2191 +0.001255"
+    },
+    {
+      "id": "e27",
+      "fromNode": "n14",
+      "toNode": "n10",
+      "label": "\u2192 +0"
+    },
+    {
+      "id": "e28",
+      "fromNode": "n14",
+      "toNode": "n9",
+      "label": "\u2192 +0"
+    },
+    {
+      "id": "e29",
+      "fromNode": "n14",
+      "toNode": "n4",
+      "label": "\u2192 +0"
+    },
+    {
+      "id": "e30",
+      "fromNode": "n15",
+      "toNode": "n3",
+      "label": "\u2191 +2.2501"
+    },
+    {
+      "id": "e31",
+      "fromNode": "n15",
+      "toNode": "n7",
+      "label": "\u2191 +0.112219"
+    },
+    {
+      "id": "e32",
+      "fromNode": "n15",
+      "toNode": "n12",
+      "label": "\u2193 -0.049894"
+    },
+    {
+      "id": "e33",
+      "fromNode": "n15",
+      "toNode": "n9",
+      "label": "\u2191 +0.007812"
+    },
+    {
+      "id": "e34",
+      "fromNode": "n15",
+      "toNode": "n8",
+      "label": "\u2191 +0.006557"
+    },
+    {
+      "id": "e35",
+      "fromNode": "n16",
+      "toNode": "n3",
+      "label": "\u2193 -2.05081"
+    },
+    {
+      "id": "e36",
+      "fromNode": "n16",
+      "toNode": "n7",
+      "label": "\u2193 -0.094763"
+    },
+    {
+      "id": "e37",
+      "fromNode": "n16",
+      "toNode": "n12",
+      "label": "\u2191 +0.050354"
+    },
+    {
+      "id": "e38",
+      "fromNode": "n16",
+      "toNode": "n9",
+      "label": "\u2191 +0.015625"
+    },
+    {
+      "id": "e39",
+      "fromNode": "n16",
+      "toNode": "n8",
+      "label": "\u2191 +0.010372"
+    },
+    {
+      "id": "e40",
+      "fromNode": "n17",
+      "toNode": "n3",
+      "label": "\u2193 -1.63994"
+    },
+    {
+      "id": "e41",
+      "fromNode": "n17",
+      "toNode": "n7",
+      "label": "\u2193 -0.099751"
+    },
+    {
+      "id": "e42",
+      "fromNode": "n17",
+      "toNode": "n12",
+      "label": "\u2191 +0.049939"
+    },
+    {
+      "id": "e43",
+      "fromNode": "n17",
+      "toNode": "n9",
+      "label": "\u2191 +0.015625"
+    },
+    {
+      "id": "e44",
+      "fromNode": "n17",
+      "toNode": "n8",
+      "label": "\u2193 -0.014513"
+    }
+  ]
+}
