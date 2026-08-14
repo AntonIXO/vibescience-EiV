@@ -1,17 +1,17 @@
 ---
 created_at: '2026-08-14T12:58:43+00:00'
 gates: []
-hypothesis_id: null
+hypothesis_id: hyp-e14-within-subject-affect-supply-20260814
 id: rb-e14-within-subject-multichannel-affect-supply
 priority: 3
 problem_id: affect-state-multichannel-supply-20260814
-status: queued
+status: done
 topic_tags:
 - cross-modal
 - wearables
 - optihealth
 - n-of-1
-updated_at: '2026-08-14T12:58:43+00:00'
+updated_at: '2026-08-14T19:25:35+00:00'
 ---
 
 ## Prompt
@@ -32,6 +32,7 @@ h4b caption-dispersion arm (priority-1 queued runbook under the 1-min-migration 
 
 ## Links
 Queued for problem [[affect-state-multichannel-supply-20260814]].
+Run as [[hyp-e14-within-subject-affect-supply-20260814]].
 This is a PLAN, not a preregistration — the prediction is committed via propose_hypothesis at run time.
 
 #cross-modal #wearables #optihealth #n-of-1

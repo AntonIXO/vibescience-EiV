@@ -5,24 +5,22 @@ paper_refs: []
 problem_tags:
 - subject-heldout
 - representation-learning
-status: open
+status: parked
 title: 'state/affect detection: non-HR channels (sleep, rr, skin_temp, hrv) are unread
   by the encoder AND their supply-side label information is unmeasured'
 topic_tags:
 - cross-modal
 - wearables
 - optihealth
-updated_at: '2026-08-14T07:47:01+00:00'
+updated_at: '2026-08-14T19:25:48+00:00'
 ---
 
 ## Description
-Anton's steer (2026-08-14): sleep/rr/spo2 channels currently contribute zero accuracy but 'probably will improve states detection'. Standing facts that frame this:
-1. state slot RULED OUT as a target-law axis (logs/state_label_probe_v9band04.json): emitted state carries no label info raw or residual (all p>=0.29), and corr(label, emitted hr) <= 0.09 kills the entire class of levers operating through HR level. The rule-out explicitly names 'richer channels' as the surviving lever — but that was never measured.
-2. eiv_nonhr_channel_grouped_r2 NEGATIVE (respiratory_rate -0.0757, sleep_prob_deep -0.1847 vs hr_mean +0.9750; 12ch_v2 Phase B, 2026-08-07): the current prefix does not carry non-HR channels.
-3. E4a liveness audit 2026-08-14 (scratch/e4_channel_liveness_audit.py -> logs/e4_channel_liveness_audit.json, current data/canonical 10344x1440x12): the sleep 4-channel block is ALIVE in this build (daily prob-sum p50/p95/max = 1.0) — the 2026-08-07 'probability sum 0.027, ~37x too small' record is STALE, repaired by the rebuild. Coverage on the two labeled cohorts:
-   - pmdata stress (n=1549 days, 16 subjects, ordinal 0-5, p50=3, std 0.71): ONLY hr + sleep + time exist; hrv/rr/temp days_any = 0.0000 (collinearity pre-flight P1: rr/temp/hrv untestable on pmdata BY CONSTRUCTION).
-   - lifesnaps TENSE/ANXIOUS (n=1780 days, 55 subjects, 76% exact-0.0): skin_temp 95.1% days, 94.9% at >=50% cov (dense!); rr 66.6% days any (1.1% dense — nightly value); hrv 67.1% days any; sleep 96.9% days.
-4. There is NO spo2 channel in the 12-ch canonical schema. Adding one is data-pipeline work (schema + supabase/processor support), out of scope for this problem; flagged to Anton.
-THE OPEN QUESTION (supply side, decides everything downstream): do the non-HR channels carry affect-label information BEYOND a rich HR-only feature set, on subject-grouped held-out folds? If NO — the multichannel-fusion program for state is dead at the data level and no encoder work can save it (cross-modal transfer moves only information that is actually in the channels). If YES — the justified lever is encoder/objective repair so the prefix carries what the data provably does (Phase A caption enrichment with sleep/rr/temp facts, channel-dropout augment, or multiplicative fusion), NOT target-law reshaping.
+[2026-08-14 UPDATE — BOTH REGIMES NOW TESTED, LEVER RULED OUT; PARKED]
+E5 (cross-subject, subject-grouped OOF): multichannel delta -0.028, perm p=0.84, all AUCs ~chance. E14 (within-subject walk-forward, powered null — MDE ~0.028 < 0.05 bar): lifesnaps delta +0.0003 perm p=0.65, linear check negative (-0.025); pmdata delta +0.0286 p=0.098 AND multichannel CI-worse than day-persistence trivial. The trait-dominance escape hatch is closed: multichannel daily-summary features add no affect information over rich HR-only in EITHER grouping regime. DO-NOT-RETRY multichannel daily-summary affect supply.
+POSITIVE residue (E14): within-subject affect skill EXISTS in rich-HR features alone — lifesnaps hr_only AUC 0.6133, CI-positive over both trivials (median-forward +0.0733 [0.045,0.103], persistence +0.1200 [0.084,0.158]). The surviving product lever is a rich-HR-only within-user state head (PerUserHeadStore) once supabase EMA labels accrue (~50-60 days), NOT channel fusion. Sub-daily/temporal features remain UNTESTED (daily summaries only) — would need a new hypothesis.
+Parked: no open hypothesis; unblocks only on supabase EMA label supply or a sub-daily-features prereg.
+
+[ORIGINAL 2026-08-14] Anton's steer: sleep/rr/temp channels 'probably will improve states detection' for the supabase N-of-1 deployment. E5 ruled this out cross-subject; deployment is N-of-1, so the within-subject regime (E13's winning regime for numeric slots) remained the untested residual. Question: for a FIXED subject, do multichannel daily features carry affect-label information that rich HR-only does not?
 
 #cross-modal #wearables #optihealth #subject-heldout #representation-learning
