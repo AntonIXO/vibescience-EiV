@@ -22,11 +22,14 @@ diagnostics_measured:
 - after: 5.21484375
   before: 5.20703125
   diagnostic_id: eiv_peak_vram_gib
+do_not_retry: []
 external_run: outputs/experiments/contrastive_losses_20260727/runs
+former_ids: []
 gate_results: []
 git_ref: fix/soft-token-norm-scale@955c1b5d19b4+manifest-4d905abd9f7e
 hypothesis_id: hyp-eiv-dcl-hsic-20260727
 id: exp-eiv-dcl-hsic-20260727
+key_numbers: {}
 observed_effects:
 - delta: 0.010455034328
   diagnostic_id: eiv_heldout_hr_r2
@@ -70,7 +73,5 @@ External run: outputs/experiments/contrastive_losses_20260727/runs
 
 ## Notes
 Closed after all nine preregistered pilots failed rank>=5 (range 4.386-4.544), so no configuration was selected and no confirmation lock was created. Logged after values are the exploratory best raw-R2 candidate w=0.1,bw=0.5; its +0.01046 R2 missed the committed +0.02, HSIC moved down, and rank remained below gate.
-
-#hsic #kernel #dcl #contrastive #cca #vicreg #wearable-ml #contrastive-loss #subject-heldout #optihealth-eiv #representation-learning
 
 #hsic #kernel #dcl #contrastive #cca #vicreg #wearable-ml #contrastive-loss #subject-heldout #optihealth-eiv #representation-learning

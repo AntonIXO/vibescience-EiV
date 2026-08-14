@@ -1,10 +1,12 @@
 ---
 created_at: '2026-08-05T15:47:14+00:00'
+former_ids: []
 gates:
 - gate-sparse-corr-survives-zero-exclusion
 - gate-skill-vs-constant-baseline
 hypothesis_id: null
 id: rb-e0-per-sample-audit-20260805
+notes: []
 priority: 10
 problem_id: phase-c-hr-peak-saturated-prior-20260805
 status: abandoned

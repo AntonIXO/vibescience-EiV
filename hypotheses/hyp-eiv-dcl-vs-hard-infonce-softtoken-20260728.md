@@ -1,5 +1,6 @@
 ---
 created_at: '2026-07-28T10:34:37+00:00'
+former_ids: []
 gates: []
 id: hyp-eiv-dcl-vs-hard-infonce-softtoken-20260728
 interventions:

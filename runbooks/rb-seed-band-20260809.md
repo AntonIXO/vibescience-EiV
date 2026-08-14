@@ -1,13 +1,15 @@
 ---
 created_at: '2026-08-11T21:22:21+00:00'
+former_ids: []
 gates:
 - gate-seed-band-measured
 - gate-band-vs-legacy-spread
 - gate-no-post-hoc-best-seed
-hypothesis_id: with-phase-c-now-seeded-0b5aff2-three-runs-of-the-identical-control-configuratio
+hypothesis_id: with-phase-c-now-seeded-0b5aff2-three-fae38a
 id: rb-seed-band-20260809
+notes: []
 priority: 5
-problem_id: phase-c-ran-unseeded-for-the-project-s-entire-history-so-every-phase-c-a-b-compared-two-basin-draws
+problem_id: phase-c-ran-unseeded-for-the-project-s-27557c
 status: done
 topic_tags:
 - medgemma
@@ -65,8 +67,8 @@ before any GPU is spent.
 Phase C seeding fix (0b5aff2) must be in HEAD, and the A/A determinism smoke must have passed (it did: identical final_loss 5.125603199005127 and identical adapter weight sha256 564ce044b0911435f8467125 across two runs of the same profile+seed). All arms must carry pinned hr_buckets with IDENTICAL cut points, or the accuracies are not comparable.
 
 ## Links
-Queued for problem [[phase-c-ran-unseeded-for-the-project-s-entire-history-so-every-phase-c-a-b-compared-two-basin-draws]].
-Run as [[with-phase-c-now-seeded-0b5aff2-three-runs-of-the-identical-control-configuratio]].
+Queued for problem [[phase-c-ran-unseeded-for-the-project-s-27557c]].
+Run as [[with-phase-c-now-seeded-0b5aff2-three-fae38a]].
 Intended gates: `gate-seed-band-measured`, `gate-band-vs-legacy-spread`, `gate-no-post-hoc-best-seed`.
 This is a PLAN, not a preregistration — the prediction is committed via propose_hypothesis at run time.
 

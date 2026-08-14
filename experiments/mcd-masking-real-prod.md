@@ -11,11 +11,14 @@ diagnostics_measured:
 - after: 0.853
   before: 0.837
   diagnostic_id: anomaly_auroc
+do_not_retry: []
 external_run: local:/root/vibe-experiments/exp_mcd_masking.py
+former_ids: []
 gate_results: []
 git_ref: optihealth_analysis@day_vector.py
 hypothesis_id: mcd-beats-lw-under-masking
 id: mcd-masking-real-prod
+key_numbers: {}
 observed_effects:
 - delta: 0.05
   diagnostic_id: anomaly_precision_at_k
@@ -46,7 +49,5 @@ External run: local:/root/vibe-experiments/exp_mcd_masking.py
 
 ## Notes
 Real prod user 98f26806, n=189 day-vectors, p=13 dims, 30 seeds. MCD wins precision@k in 4/8 regimes and clearly at eps=8% (+5-6pp), but LOSES AUROC at eps=15% (small-n subsampling variance). Verdict is regime-dependent: promising for moderate contamination (the realistic top-5 operating point), NOT a safe blanket replacement. Guarded deploy only.
-
-#robust-covariance #anomaly-detection #masking #covariance-contamination
 
 #robust-covariance #anomaly-detection #masking #covariance-contamination

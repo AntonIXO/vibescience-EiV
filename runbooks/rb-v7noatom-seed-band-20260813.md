@@ -1,13 +1,15 @@
 ---
 created_at: '2026-08-13T08:01:58+00:00'
+former_ids: []
 gates:
 - g1-all-seeds-floor-rate-below-0.05-blocking
 - g2-band-reported-with-per-seed-values
 - g3-no-best-seed-promotion
-hypothesis_id: the-atom-fix-a71034c-removed-the-dominant-source-of-phase-c-seed-bistability-on-
+hypothesis_id: the-atom-fix-a71034c-removed-the-d96b6e
 id: rb-v7noatom-seed-band-20260813
+notes: []
 priority: 1
-problem_id: phase-c-arms-fail-on-the-deployment-distribution-optihealth-supabase-hr-raw-floor-atom-at-30-0-plus-unlearned-sparsity-handling
+problem_id: phase-c-arms-fail-on-the-deployment-9217e0
 status: done
 topic_tags: []
 updated_at: '2026-08-13T10:08:22+00:00'
@@ -33,7 +35,7 @@ WHY PRIORITY 1: every queued arm (deployment-band mass, EOS supervision, dynamic
 GPU idle; outputs/checkpoints/v5c/phase_b present; data/eval_v3_1min bundle intact; commit 6cb9b97 or later checked out.
 
 ## Links
-Queued for problem [[phase-c-arms-fail-on-the-deployment-distribution-optihealth-supabase-hr-raw-floor-atom-at-30-0-plus-unlearned-sparsity-handling]].
-Run as [[the-atom-fix-a71034c-removed-the-dominant-source-of-phase-c-seed-bistability-on-]].
+Queued for problem [[phase-c-arms-fail-on-the-deployment-9217e0]].
+Run as [[the-atom-fix-a71034c-removed-the-d96b6e]].
 Intended gates: `g1-all-seeds-floor-rate-below-0.05-blocking`, `g2-band-reported-with-per-seed-values`, `g3-no-best-seed-promotion`.
 This is a PLAN, not a preregistration — the prediction is committed via propose_hypothesis at run time.

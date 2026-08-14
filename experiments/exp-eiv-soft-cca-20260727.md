@@ -22,11 +22,14 @@ diagnostics_measured:
 - after: 5.22265625
   before: 5.20703125
   diagnostic_id: eiv_peak_vram_gib
+do_not_retry: []
 external_run: outputs/experiments/contrastive_losses_20260727/runs
+former_ids: []
 gate_results: []
 git_ref: fix/soft-token-norm-scale@955c1b5d19b4+manifest-4d905abd9f7e
 hypothesis_id: hyp-eiv-soft-cca-20260727
 id: exp-eiv-soft-cca-20260727
+key_numbers: {}
 observed_effects:
 - delta: 0.010371749544
   diagnostic_id: eiv_heldout_hr_r2
@@ -70,7 +73,5 @@ External run: outputs/experiments/contrastive_losses_20260727/runs
 
 ## Notes
 Closed after all three pilots failed both anti-collapse gates (effective rank 2.249-2.437; cosine 0.99966-0.99994). Logged after is literature-default/best-R2 weight 0.5. The +0.01037 R2 missed +0.02 while Recall@5 collapsed from 0.1072 to 0.0125 and rank fell.
-
-#soft-cca #decorrelation #multiview #contrastive #hsic #cca #vicreg #wearable-ml #contrastive-loss #subject-heldout #optihealth-eiv #representation-learning
 
 #soft-cca #decorrelation #multiview #contrastive #hsic #cca #vicreg #wearable-ml #contrastive-loss #subject-heldout #optihealth-eiv #representation-learning

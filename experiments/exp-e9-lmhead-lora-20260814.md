@@ -19,7 +19,9 @@ diagnostics_measured:
 - after: 3.62
   before: 3.08
   diagnostic_id: eiv_dense128_hr_raw_mae_bpm
+do_not_retry: []
 external_run: ''
+former_ids: []
 gate_results:
 - evidence: ''
   gate_id: g1-peak-sign-flip
@@ -36,6 +38,7 @@ gate_results:
 git_ref: ''
 hypothesis_id: hyp-e9-lmhead-lora-20260814
 id: exp-e9-lmhead-lora-20260814
+key_numbers: {}
 observed_effects:
 - delta: -1.04
   diagnostic_id: eiv_gen_peak_skill_bpm

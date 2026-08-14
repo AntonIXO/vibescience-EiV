@@ -1,5 +1,6 @@
 ---
 created_at: '2026-07-28T08:18:25+00:00'
+former_ids: []
 id: optihealth-multipositive-dcl-20260728
 paper_refs:
 - paper-dcl-2110-06848
@@ -22,6 +23,7 @@ topic_tags:
 - contrastive
 - sensor-text
 updated_at: '2026-07-28T08:18:25+00:00'
+updates: []
 ---
 
 ## Description

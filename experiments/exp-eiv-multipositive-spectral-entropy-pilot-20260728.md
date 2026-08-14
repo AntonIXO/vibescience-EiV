@@ -45,11 +45,14 @@ diagnostics_measured:
 - after: 114.24245741600316
   before: 114.35292421000486
   diagnostic_id: eiv_training_runtime_sec
+do_not_retry: []
 external_run: file:///root/optiHealth-EiV/outputs/experiments/multi_positive_dcl_spectral_20260728
+former_ids: []
 gate_results: []
 git_ref: working-tree@multi-positive-spectral-manifest-9884ac3d
 hypothesis_id: hyp-eiv-multipositive-spectral-entropy-20260728
 id: exp-eiv-multipositive-spectral-entropy-pilot-20260728
+key_numbers: {}
 observed_effects:
 - delta: 0.136844480465
   diagnostic_id: eiv_effective_rank
@@ -112,7 +115,5 @@ External run: file:///root/optiHealth-EiV/outputs/experiments/multi_positive_dcl
 
 ## Notes
 Direction-only Vibescience observation uses the preregistered grid's maximum primary-response arm, weight 0.10, versus the paired weight-zero multi-positive DCL comparator. This is not a selected/eligible winner: the frozen campaign aggregate returned gate_passed=false and selected=null. Primary effective rank rose only 4.380875->4.517720 (delta +0.136844), below required +0.25 and below absolute 5.0. Weights 0.01 and 0.03 reduced rank by -0.072124 and -0.129266. All candidates therefore failed both mandatory rank gates; no confirmation_lock or test_unlock was created and confirmation/test were not run. Mechanism prediction did move directionally for weight 0.10: final batch normalized spectral entropy 0.368791->0.386036, but this did not transfer at required magnitude to held-out native effective rank. Weight 0.10 retained Recall@5 exactly (0.107232) but worsened median rank 38->39, median cosine 0.134607->0.329088, alignment gap 0.090315->0.082836, and secondary HR R2 0.952754->0.925409. Weight 0.03 had best retrieval, Recall@5 0.117207 (+0.009975), but rank fell to 4.251609. All arms used zero caption-equivalent false negatives while auditing 584 extra-positive directed pairs across 225/500 batches, had no OOM/nonfinite, peak 5.210938 GiB, and treatment runtime ratios <=1.0142. Scientific artifacts and 104 enumerated hashes verified. Pilot summary SHA256 72e26ca967e892fb01b58633c32f21409f2e1b2cfd7ec0ea4c46e31d3a601a67; protocol SHA256 9884ac3df783c5c9bc192ae9c72877e4af317a3370bda7d69ac4c2bb24e481a1. population_stats_mode remained disabled. Interpret any tool 'supports' verdict strictly as directional prediction match; the preregistered magnitude/eligibility result is a failed pilot.
-
-#multi-positive #dcl #spectral-entropy #effective-rank #batch-gram #contrastive #sensor-text #false-negatives #cross-modal #anti-collapse #representation-collapse #anisotropy #false-negatives #optihealth-eiv #subject-heldout
 
 #multi-positive #dcl #spectral-entropy #effective-rank #batch-gram #contrastive #sensor-text #false-negatives #cross-modal #anti-collapse #representation-collapse #anisotropy #false-negatives #optihealth-eiv #subject-heldout

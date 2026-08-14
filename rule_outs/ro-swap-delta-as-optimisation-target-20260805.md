@@ -1,5 +1,6 @@
 ---
 created_at: '2026-08-05T15:47:14+00:00'
+former_ids: []
 id: ro-swap-delta-as-optimisation-target-20260805
 problem_id: phase-c-hr-peak-saturated-prior-20260805
 retracted: false

@@ -18,7 +18,9 @@ diagnostics_measured:
 - after: 0.5283
   before: -0.0176
   diagnostic_id: eiv_peak_excursion_increment_r2
+do_not_retry: []
 external_run: ''
+former_ids: []
 gate_results:
 - evidence: 'FAILED AS WRITTEN, for a reason that invalidates the metric rather than
     the hypothesis. Measured gap = +0.3250 (B linear 0.8917 - A frozen 0.5667), nominally
@@ -62,8 +64,9 @@ gate_results:
   gate_id: gate-above-majority
   passed: false
 git_ref: ''
-hypothesis_id: the-hr-peak-readout-failure-is-recoverable-by-a-linear-correction-at-lm-head-the
+hypothesis_id: the-hr-peak-readout-failure-is-72d5f2
 id: exp-e25-readout-ceiling-20260805
+key_numbers: {}
 observed_effects:
 - delta: 0.0
   diagnostic_id: eiv_readout_linear_gap
@@ -82,7 +85,7 @@ verdict: inconclusive
 ---
 
 ## Summary
-Tests hypothesis [[the-hr-peak-readout-failure-is-recoverable-by-a-linear-correction-at-lm-head-the]].
+Tests hypothesis [[the-hr-peak-readout-failure-is-72d5f2]].
 Branches from [[exp-e24-lm-hidden-peak-20260805]].
 
 ## Measurements

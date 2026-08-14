@@ -26,7 +26,9 @@ diagnostics_measured:
 - after: 2241.35
   before: 2241.35
   diagnostic_id: eiv_training_runtime_sec
+do_not_retry: []
 external_run: ''
+former_ids: []
 gate_results:
 - evidence: ''
   gate_id: gate-entropy-recovered
@@ -43,6 +45,7 @@ gate_results:
 git_ref: ''
 hypothesis_id: hyp-eiv-boost-categorical-slot-signal-20260805
 id: exp-e23-arm1-unfreeze-projector-20260805
+key_numbers: {}
 observed_effects:
 - delta: 0.3703
   diagnostic_id: eiv_gen_pred_bucket_entropy

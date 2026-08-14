@@ -17,11 +17,14 @@ diagnostics_measured:
 - after: 10.314453125
   before: 10.314453125
   diagnostic_id: eiv_peak_vram_gib
+do_not_retry: []
 external_run: /root/optiHealth-EiV/outputs/experiments/infonce_vs_dcl_softtoken_20260728
+former_ids: []
 gate_results: []
 git_ref: fix/soft-token-norm-scale@955c1b5+frozen-dc45212c44f09693
 hypothesis_id: hyp-eiv-dcl-vs-hard-infonce-fp32-20260728
 id: exp-eiv-dcl-vs-hard-infonce-fp32-pilot-20260728
+key_numbers: {}
 observed_effects:
 - delta: 0.0
   diagnostic_id: eiv_peak_vram_gib
@@ -54,7 +57,5 @@ External run: /root/optiHealth-EiV/outputs/experiments/infonce_vs_dcl_softtoken_
 
 ## Notes
 Engineering smoke failed symmetrically before initialization or step 1: both hard InfoNCE and DCL tried to precompute 4,962 missing corrected-mask caption embeddings by moving fp32 MedGemma to the 11.51 GiB RTX 5070, then OOMed at 10.314 GiB reserved. No primary retrieval or training diagnostic exists, so this is an implementation/resource blockage, not evidence for or against DCL. Exact compatible cached embeddings already exist under other cache fingerprints; next experiment must use a new campaign root and authenticate/materialize the exact text-cache corpus before running. No retry, output deletion, pilot, confirmation, or test occurred.
-
-#contrastive #dcl #infonce #cross-modal #float32 #rtx-5070 #hsic #cca #vicreg #wearable-ml #optihealth-eiv #matched-baseline #denominator #optihealth-eiv #matched-baseline #historical-pipeline #contrastive-loss #subject-heldout #representation-learning
 
 #contrastive #dcl #infonce #cross-modal #float32 #rtx-5070 #hsic #cca #vicreg #wearable-ml #optihealth-eiv #matched-baseline #denominator #optihealth-eiv #matched-baseline #historical-pipeline #contrastive-loss #subject-heldout #representation-learning

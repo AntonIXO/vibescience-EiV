@@ -1,22 +1,29 @@
 ---
 created_at: '2026-08-14T07:58:04+00:00'
+former_ids: []
 gates:
 - blocking: true
   description: 'BLOCKING (existence at the encoder): subject-grouped OOF increment
     R2(peak | avg+max patch tokens) - R2(peak | true daily mean) >= 0.25 on the strict-clean
     1-min pool. Below that, the trained patch tokens have discarded within-patch extremes
     and a pooling-branch arm cannot recover them without retraining the encoder itself.'
+  diagnostic_id: null
   id: g1-avgmax-increment
+  mde: null
 - blocking: true
   description: 'BLOCKING (the branch adds over the incumbent): increment(avg+max)
     - increment(avg-pool) >= +0.10 on the same folds. If avg-pool already carries
     whatever is there, a max branch is dead weight.'
+  diagnostic_id: null
   id: g2-delta-over-avg
+  mde: null
 - blocking: false
   description: 'Informational: same pair computed on RAW-INPUT patch maxima (max of
     denormalized hr over each of the 23 patch windows, exact algebra) as the supply
     ceiling; and ridge MAE vs always-predict-median for engineering scale.'
+  diagnostic_id: null
   id: g3-supply-ceiling
+  mde: null
 id: hyp-e6-peak-maxpool-readout-20260814
 interventions: []
 paper_refs: []

@@ -20,7 +20,9 @@ diagnostics_measured:
 - after: 0.0
   before: 0.3
   diagnostic_id: eiv_lm_hidden_peak_r2
+do_not_retry: []
 external_run: ''
+former_ids: []
 gate_results:
 - evidence: "DIRECTLY MEASURED, NO LONGER AN INFERENCE. Seed 3's probe ran after the
     e33f patch to counterfactual.py, so it is the first artifact to persist the denominator.
@@ -68,8 +70,9 @@ gate_results:
   gate_id: gate-verdict-consistent-with-sibling-metrics
   passed: false
 git_ref: ''
-hypothesis_id: the-stage-c-collapse-tripwires-are-defective-and-seed-1-s-collapsed-yes-swap-0-3
+hypothesis_id: the-stage-c-collapse-tripwires-are-2211e6
 id: exp-e33g-swap-vacuity-confirmed-20260806
+key_numbers: {}
 observed_effects:
 - delta: -0.3
   diagnostic_id: eiv_lm_hidden_peak_r2
@@ -84,7 +87,7 @@ verdict: inconclusive
 ---
 
 ## Summary
-Tests hypothesis [[the-stage-c-collapse-tripwires-are-defective-and-seed-1-s-collapsed-yes-swap-0-3]].
+Tests hypothesis [[the-stage-c-collapse-tripwires-are-2211e6]].
 Branches from [[exp-e33f-tripwire-validity-20260806]].
 
 ## Measurements

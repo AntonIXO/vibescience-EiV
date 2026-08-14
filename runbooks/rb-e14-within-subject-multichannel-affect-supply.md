@@ -1,8 +1,10 @@
 ---
 created_at: '2026-08-14T12:58:43+00:00'
+former_ids: []
 gates: []
 hypothesis_id: hyp-e14-within-subject-affect-supply-20260814
 id: rb-e14-within-subject-multichannel-affect-supply
+notes: []
 priority: 3
 problem_id: affect-state-multichannel-supply-20260814
 status: done

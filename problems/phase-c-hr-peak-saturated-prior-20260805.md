@@ -1,5 +1,6 @@
 ---
 created_at: '2026-08-05T08:58:21+00:00'
+former_ids: []
 id: phase-c-hr-peak-saturated-prior-20260805
 paper_refs: []
 problem_tags:
@@ -15,6 +16,7 @@ topic_tags:
 - collapse
 - sensor-text
 updated_at: '2026-08-09T06:40:00+00:00'
+updates: []
 ---
 
 ## Description
@@ -697,17 +699,5 @@ STILL RULED OUT BY DIRECT MEASUREMENT (do not re-litigate): training marginal (e
 LEVER STATUS: (c) unfreeze projector = REFUTED as a route to categorical conditioning, but a genuine win for the NUMERIC slots (hr_raw, peak) and worth keeping for that alone. UNTESTED: (a) value_loss_weight concentrated on the bucket token; (b) LoRA on the LM head / final layers, currently not targeted; (e) shorten/reorder the JSON schema so the bucket is not slot 1, cutting the prior it must beat; (f) NEW, now top-ranked: eiv-dual-avg-max-patching. Next arm should target the FULL-coverage regime specifically, since that is where the attractor survived. Zero-init gated cross-attention (arXiv:2303.16199) remains a candidate; architecture inadequacy remains NOT established.
 
 GATING LESSON: eiv_gen_pred_bucket_entropy caught the original collapse while eiv_gen_peak_corr reported a false PASS (zero-HR contamination). Now extended: BOTH generation gates can move favourably while the underlying conditioning inverts. Pair distributional + correlation gates with a MECHANISM gate (swap delta sign, null_delta sign, dose slope), evaluate label-stratified, and split by HR coverage at 0.5. FOURTH-REVISION EXTENSION: the same false-PASS pattern exists for REPRESENTATION metrics -- always report an incremental-over-trivial-predictor control (eiv_peak_excursion_increment_r2) rather than a bare R2, because a config change can raise raw R2 while driving the incremental signal to exactly zero.
-
-#cross-modal #medgemma #collapse #sensor-text #optihealth-eiv #conditioning-collapse #data-contract-violation
-
-#cross-modal #medgemma #collapse #sensor-text #optihealth-eiv #conditioning-collapse #data-contract-violation
-
-#cross-modal #medgemma #collapse #sensor-text #optihealth-eiv #conditioning-collapse #data-contract-violation
-
-#cross-modal #medgemma #collapse #sensor-text #optihealth-eiv #conditioning-collapse #data-contract-violation
-
-#cross-modal #medgemma #collapse #sensor-text #optihealth-eiv #conditioning-collapse #data-contract-violation
-
-#cross-modal #medgemma #collapse #sensor-text #optihealth-eiv #conditioning-collapse #data-contract-violation
 
 #cross-modal #medgemma #collapse #sensor-text #optihealth-eiv #conditioning-collapse #data-contract-violation

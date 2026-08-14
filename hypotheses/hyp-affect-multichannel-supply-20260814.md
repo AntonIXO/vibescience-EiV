@@ -1,27 +1,36 @@
 ---
 created_at: '2026-08-14T07:47:39+00:00'
+former_ids: []
 gates:
 - blocking: true
   description: 'BLOCKING. lifesnaps TENSE/ANXIOUS (y>0 binarized): multichannel RF
     AUC minus rich-HR-only RF AUC >= +0.03, subject-grouped OOF, AND within-subject
     permutation p < 0.05 on the delta (>=20 perms).'
+  diagnostic_id: null
   id: g1-existence-lifesnaps
+  mde: null
 - blocking: true
   description: BLOCKING. Absolute multichannel AUC >= 0.58 on lifesnaps tense (chance
     0.50). A significant delta on top of chance-level absolute skill is existence-without-magnitude
     and does NOT justify encoder work.
+  diagnostic_id: null
   id: g2-magnitude-absolute
+  mde: null
 - blocking: false
   description: 'Non-blocking, informational. pmdata stress: (HR+sleep+time) Spearman
     minus HR-only Spearman, with the same within-subject permutation null. Only sleep
     can be added on this cohort.'
+  diagnostic_id: null
   id: g3-pmdata-sleep
+  mde: null
 - blocking: false
   description: Non-blocking. Per-family addition (HR+sleep, HR+temp, HR+rr, HR+hrv,
     HR+time on lifesnaps) reported so the winning family is named. If ONE family carries
     the full delta, the next lever is captioning/reading THAT channel, not generic
     fusion.
+  diagnostic_id: null
   id: g4-attribution
+  mde: null
 id: hyp-affect-multichannel-supply-20260814
 interventions: []
 paper_refs: []

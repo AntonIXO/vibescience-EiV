@@ -24,11 +24,14 @@ diagnostics_measured:
 - after: 0.0
   before: 0.0
   diagnostic_id: eiv_supabase_floor_emission_rate
+do_not_retry: []
 external_run: ''
+former_ids: []
 gate_results: []
 git_ref: ''
-hypothesis_id: hrv-raw-fails-on-deployment-for-the-same-reason-hr-raw-did-pre-band-law-the-trai
+hypothesis_id: hrv-raw-fails-on-deployment-for-the-624895
 id: exp-e3-hrv-band-20260813
+key_numbers: {}
 observed_effects:
 - delta: 0.82
   diagnostic_id: eiv_supabase_hr_raw_mae_bpm
@@ -49,7 +52,7 @@ verdict: inconclusive
 ---
 
 ## Summary
-Tests hypothesis [[hrv-raw-fails-on-deployment-for-the-same-reason-hr-raw-did-pre-band-law-the-trai]].
+Tests hypothesis [[hrv-raw-fails-on-deployment-for-the-624895]].
 Branches from [[exp-e1b-band04-20260813]].
 
 ## Measurements

@@ -1,14 +1,16 @@
 ---
 created_at: '2026-08-13T21:05:42+00:00'
+former_ids: []
 gates:
 - g1-supabase-hrv-raw-mae-below-trivial-8-31
 - g2-hrv-collapse-breaks-top1-below-0-5-and-stdratio-above-0-3
 - g3-BLOCKING-hr-preserved-supa-le-3-45-dense-le-4-73
 - g4-dense-hrv-skill-ge-1-5
-hypothesis_id: hrv-raw-fails-on-deployment-for-the-same-reason-hr-raw-did-pre-band-law-the-trai
+hypothesis_id: hrv-raw-fails-on-deployment-for-the-624895
 id: rb-e3-hrv-band-20260813
+notes: []
 priority: 1
-problem_id: phase-c-arms-fail-on-the-deployment-distribution-optihealth-supabase-hr-raw-floor-atom-at-30-0-plus-unlearned-sparsity-handling
+problem_id: phase-c-arms-fail-on-the-deployment-9217e0
 status: done
 topic_tags: []
 updated_at: '2026-08-13T22:08:24+00:00'
@@ -21,7 +23,7 @@ E3: train lora_proxy_12ch_wl_band04_hrv (v10hrv, seed 42, single variable vs bas
 GPU free (one 4-bit medgemma job at a time); PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True; check *_RC= markers not wrapper exit codes; captures batch_size=1 only (batched generate ruled out 2026-08-13).
 
 ## Links
-Queued for problem [[phase-c-arms-fail-on-the-deployment-distribution-optihealth-supabase-hr-raw-floor-atom-at-30-0-plus-unlearned-sparsity-handling]].
-Run as [[hrv-raw-fails-on-deployment-for-the-same-reason-hr-raw-did-pre-band-law-the-trai]].
+Queued for problem [[phase-c-arms-fail-on-the-deployment-9217e0]].
+Run as [[hrv-raw-fails-on-deployment-for-the-624895]].
 Intended gates: `g1-supabase-hrv-raw-mae-below-trivial-8-31`, `g2-hrv-collapse-breaks-top1-below-0-5-and-stdratio-above-0-3`, `g3-BLOCKING-hr-preserved-supa-le-3-45-dense-le-4-73`, `g4-dense-hrv-skill-ge-1-5`.
 This is a PLAN, not a preregistration — the prediction is committed via propose_hypothesis at run time.

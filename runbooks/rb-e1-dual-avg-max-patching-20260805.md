@@ -1,11 +1,13 @@
 ---
 created_at: '2026-08-05T15:47:14+00:00'
+former_ids: []
 gates:
 - gate-peak-excursion-increment
 - gate-null-delta-sign
 - gate-bucket-dose-slope
 hypothesis_id: null
 id: rb-e1-dual-avg-max-patching-20260805
+notes: []
 priority: 20
 problem_id: phase-c-hr-peak-saturated-prior-20260805
 status: abandoned

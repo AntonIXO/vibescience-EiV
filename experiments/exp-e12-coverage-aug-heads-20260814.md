@@ -23,7 +23,9 @@ diagnostics_measured:
 - after: 3.018
   before: 4.521
   diagnostic_id: eiv_gen_peak_donor_gap_bpm
+do_not_retry: []
 external_run: ''
+former_ids: []
 gate_results:
 - evidence: 'FAIL. Plain E11-recipe heads on paired eval-150 dense rows: hrv skill
     eval_plain +6.467 CI[3.628,9.336] vs eval_aug +4.110 CI[1.754,6.43] — drop 2.357
@@ -55,8 +57,9 @@ gate_results:
   gate_id: g4-controls
   passed: false
 git_ref: ''
-hypothesis_id: e11-s-supabase-transfer-failure-is-caused-by-coverage-covariate-shift-and-is-fix
+hypothesis_id: e11-s-supabase-transfer-failure-is-5472c8
 id: exp-e12-coverage-aug-heads-20260814
+key_numbers: {}
 observed_effects:
 - delta: 3.686
   diagnostic_id: eiv_nonhr_channel_grouped_r2
@@ -78,7 +81,7 @@ verdict: directional_only
 ---
 
 ## Summary
-Tests hypothesis [[e11-s-supabase-transfer-failure-is-caused-by-coverage-covariate-shift-and-is-fix]].
+Tests hypothesis [[e11-s-supabase-transfer-failure-is-5472c8]].
 Branches from [[exp-e11-linear-head-20260814]].
 
 ## Measurements

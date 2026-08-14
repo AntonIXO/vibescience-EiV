@@ -18,7 +18,9 @@ diagnostics_measured:
 - after: 7.605
   before: 18.44
   diagnostic_id: eiv_digit_readout_decoded_mae
+do_not_retry: []
 external_run: ''
+former_ids: []
 gate_results:
 - evidence: 'FAILED -- MY PREDICTION WAS BACKWARDS. hr_peak''s rendered target carries
     MORE character entropy than hr_raw''s, not less: 11.3474 vs 8.4353 bits coverage-weighted
@@ -71,8 +73,9 @@ gate_results:
   gate_id: gate-mean-confound-increment
   passed: true
 git_ref: ''
-hypothesis_id: the-hr-peak-failure-is-an-objective-side-defect-in-the-rendered-target-not-a-rep
+hypothesis_id: the-hr-peak-failure-is-an-objective-cb1111
 id: exp-e32-target-encoding-20260805
+key_numbers: {}
 observed_effects:
 - delta: -10.835
   diagnostic_id: eiv_digit_readout_decoded_mae
@@ -87,7 +90,7 @@ verdict: refutes
 ---
 
 ## Summary
-Tests hypothesis [[the-hr-peak-failure-is-an-objective-side-defect-in-the-rendered-target-not-a-rep]].
+Tests hypothesis [[the-hr-peak-failure-is-an-objective-cb1111]].
 Branches from [[exp-e31-vocab-subspace-20260805]].
 
 ## Measurements

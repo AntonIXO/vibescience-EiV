@@ -1,5 +1,6 @@
 ---
 created_at: '2026-08-05T16:49:16+00:00'
+former_ids: []
 gates:
 - blocking: true
   description: eiv_peak_excursion_increment_r2 on REAL trained encoder features must
@@ -9,13 +10,17 @@ gates:
     is mis-aimed, do NOT spend the training run. FAIL => the encoder does discard
     within-patch extremes in practice, the recorded premise stands on outcome, E1
     STEP 2 proceeds.
+  diagnostic_id: null
   id: gate-peak-excursion-increment-real-encoder
+  mde: null
 - blocking: true
   description: 'SANITY/REIMPLEMENTATION CHECK: arm A (avg-pooled raw 24ch patches)
     must reproduce the recorded control R2(max | true mean alone) = 0.4371 to within
     +/-0.05, and n must be ~4010. If this fails the probe does not reproduce the prior
     measurement and NO conclusion may be drawn from any arm.'
+  diagnostic_id: null
   id: gate-reproduces-recorded-control
+  mde: null
 id: hyp-eiv-patching-is-linear-not-average-20260805
 interventions:
 - eiv-dual-avg-max-patching

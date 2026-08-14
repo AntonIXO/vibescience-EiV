@@ -15,7 +15,9 @@ diagnostics_measured:
 - after: 0.685
   before: 0.0665
   diagnostic_id: eiv_lm_hidden_peak_r2
+do_not_retry: []
 external_run: ''
+former_ids: []
 gate_results:
 - evidence: 'PASSED, but the number that satisfied it is NOT the number that should
     be credited, and the honest value is the leakage-controlled one.
@@ -77,13 +79,14 @@ gate_results:
   gate_id: gate-shuffle-null
   passed: true
 git_ref: ''
-hypothesis_id: the-hr-peak-failure-is-a-readout-failure-not-a-representation-failure-and-not-a-
+hypothesis_id: the-hr-peak-failure-is-a-readout-965f58
 id: exp-e24-lm-hidden-peak-20260805
+key_numbers: {}
 observed_effects:
 - delta: 0.6185
   diagnostic_id: eiv_lm_hidden_peak_r2
   direction: up
-parent_experiment_id: hyp-eiv-patching-is-linear-not-average-20260805-exp-2026-08-05t16-54-54
+parent_experiment_id: exp-021-hyp-eiv-patching-is-linear-f6191d
 prediction_match:
   overall: true
   per_diagnostic:
@@ -94,8 +97,8 @@ verdict: supports
 ---
 
 ## Summary
-Tests hypothesis [[the-hr-peak-failure-is-a-readout-failure-not-a-representation-failure-and-not-a-]].
-Branches from [[hyp-eiv-patching-is-linear-not-average-20260805-exp-2026-08-05t16-54-54]].
+Tests hypothesis [[the-hr-peak-failure-is-a-readout-965f58]].
+Branches from [[exp-021-hyp-eiv-patching-is-linear-f6191d]].
 
 ## Measurements
 - [[eiv_lm_hidden_peak_r2]]: before 0.0665 → after 0.685  (Δ +0.6185, up ✓ predicted up)

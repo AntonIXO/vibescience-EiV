@@ -6,6 +6,6 @@ id: kernel-alignment
 ---
 
 ## Description
-
+Kernel-target alignment (KTA): aligning a representation's kernel matrix with a target kernel. Distinct from the `kernel` tag, which covers RBF/HSIC dependence. Kept separate on purpose; do not merge.
 
 *Axis:* `topic`

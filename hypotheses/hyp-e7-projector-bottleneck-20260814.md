@@ -1,5 +1,6 @@
 ---
 created_at: '2026-08-14T08:01:25+00:00'
+former_ids: []
 gates:
 - blocking: true
   description: 'BLOCKING decision gate, two-sided by design: increment(best soft-token
@@ -7,13 +8,17 @@ gates:
     the lossy stage (encoder-side same-pool reference 0.5004). If instead it lands
     >= 0.35, the hypothesis is REFUTED and the lever moves to the LM readout — also
     a decisive, useful outcome. 0.15-0.35 = partial loss, report as such.'
+  diagnostic_id: null
   id: g1-projector-lossy
+  mde: null
 - blocking: false
   description: 'Informational: increment at the PRE-pooling per-slot representation
     (slot-mean+max concat over 96 soft tokens) vs the POST _masked_mean_soft_tokens
     pooled vector, to separate ''projector cross-attention destroys it'' from ''the
     final mean-over-slots pooling destroys it''.'
+  diagnostic_id: null
   id: g2-pool-vs-slots
+  mde: null
 id: hyp-e7-projector-bottleneck-20260814
 interventions: []
 paper_refs: []

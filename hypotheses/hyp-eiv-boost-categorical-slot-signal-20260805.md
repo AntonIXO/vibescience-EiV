@@ -1,27 +1,36 @@
 ---
 created_at: '2026-08-05T11:21:10+00:00'
+former_ids: []
 gates:
 - blocking: true
   description: 'eiv_gen_pred_bucket_entropy >= 0.50 normalized, label-stratified,
     coverage-split at 0.5. Current 0.000 (91/91 tachycardic). This is the behavioural
     bar: the model must actually emit different buckets.'
+  diagnostic_id: null
   id: gate-entropy-recovered
+  mde: null
 - blocking: true
   description: Paired prefix-swap delta at the bucket slot must rise from +0.418 to
     >= +2.5 nats (mean, length-controlled, n>=40). This is the MECHANISM bar and is
     checkable per-arm without a full eval - it directly tests whether the intervention
     delivered the required signal gain. Prior spread to beat is ~5.08 nats.
+  diagnostic_id: null
   id: gate-effect-size-gain
+  mde: null
 - blocking: true
   description: eiv_gen_peak_corr >= 0.30 overall, reported split by HR coverage at
     0.5, on the zero-HR-filtered corpus so the metric cannot be inflated by a bimodal
     0-vs-120 distribution. Current honest value +0.159.
+  diagnostic_id: null
   id: gate-peak-corr-honest
+  mde: null
 - blocking: false
   description: hr_raw full-coverage generation corr must not fall below +0.55 (current
     +0.604). Guards against buying bucket conditioning by damaging the slot that already
     works.
+  diagnostic_id: null
   id: gate-no-hr-raw-regression-2
+  mde: null
 id: hyp-eiv-boost-categorical-slot-signal-20260805
 interventions: []
 paper_refs: []

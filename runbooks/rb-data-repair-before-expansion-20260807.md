@@ -1,13 +1,15 @@
 ---
 created_at: '2026-08-07T12:14:18+00:00'
+former_ids: []
 gates:
 - gate-strict-clean-population
 - gate-powered-n-and-ci
 - gate-donor-prefix-null
 hypothesis_id: null
 id: rb-data-repair-before-expansion-20260807
+notes: []
 priority: 5
-problem_id: lifesnaps-hourly-hr-splits-train-and-eval-populations-20260807
+problem_id: lifesnaps-hr-is-hourly-so-the-strict-15550c
 status: queued
 topic_tags: []
 updated_at: '2026-08-07T12:14:18+00:00'
@@ -57,6 +59,6 @@ would repeat the E24-E33 pattern of chasing an unpowered number.
 No GPU needed for the repairs themselves. Raw LifeSnaps CSVs are NOT currently on disk; the BSON intraday claim is UNVERIFIED and must be checked before it is relied on. Re-merge required after any schema/mask change, per CLAUDE.md.
 
 ## Links
-Queued for problem [[lifesnaps-hourly-hr-splits-train-and-eval-populations-20260807]].
+Queued for problem [[lifesnaps-hr-is-hourly-so-the-strict-15550c]].
 Intended gates: `gate-strict-clean-population`, `gate-powered-n-and-ci`, `gate-donor-prefix-null`.
 This is a PLAN, not a preregistration — the prediction is committed via propose_hypothesis at run time.

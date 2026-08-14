@@ -22,11 +22,14 @@ diagnostics_measured:
 - after: 5.22265625
   before: 5.20703125
   diagnostic_id: eiv_peak_vram_gib
+do_not_retry: []
 external_run: outputs/experiments/contrastive_losses_20260727/runs
+former_ids: []
 gate_results: []
 git_ref: fix/soft-token-norm-scale@955c1b5d19b4+manifest-4d905abd9f7e
 hypothesis_id: hyp-eiv-vicreg-20260727
 id: exp-eiv-vicreg-20260727
+key_numbers: {}
 observed_effects:
 - delta: -0.014512644955
   diagnostic_id: eiv_heldout_hr_r2
@@ -70,7 +73,5 @@ External run: outputs/experiments/contrastive_losses_20260727/runs
 
 ## Notes
 Closed after all three pilots failed collapse screening (effective rank 2.356-3.416; cosine 0.940-0.989). Logged after is literature default covariance weight 1.0. R2 delta -0.01451 is within the magnitude-note +/-0.02 null band, but rank and Recall@5 worsened as predicted for retrieval; no full confirmation was allowed.
-
-#vicreg #control #collapse #contrastive #hsic #cca #wearable-ml #decorrelation #contrastive-loss #subject-heldout #optihealth-eiv #representation-learning
 
 #vicreg #control #collapse #contrastive #hsic #cca #wearable-ml #decorrelation #contrastive-loss #subject-heldout #optihealth-eiv #representation-learning

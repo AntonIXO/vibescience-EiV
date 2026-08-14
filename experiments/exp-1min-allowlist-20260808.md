@@ -14,11 +14,14 @@ diagnostics_measured:
 - after: 859.47
   before: 902.32
   diagnostic_id: eiv_training_runtime_sec
+do_not_retry: []
 external_run: ''
+former_ids: []
 gate_results: []
 git_ref: ''
-hypothesis_id: h1-dataset-allowlist-repairing-the-per-phase-dataset-filter-for-the-1-minute-gri
+hypothesis_id: h1-dataset-allowlist-repairing-the-per-93cde5
 id: exp-1min-allowlist-20260808
+key_numbers: {}
 observed_effects:
 - delta: -0.0708
   diagnostic_id: eiv_peak_excursion_increment_r2
@@ -41,7 +44,7 @@ verdict: refutes
 ---
 
 ## Summary
-Tests hypothesis [[h1-dataset-allowlist-repairing-the-per-phase-dataset-filter-for-the-1-minute-gri]].
+Tests hypothesis [[h1-dataset-allowlist-repairing-the-per-93cde5]].
 
 ## Measurements
 - [[eiv_peak_excursion_increment_r2]]: before 0.4086 → after 0.3378  (Δ -0.0708, down ✗ predicted up)

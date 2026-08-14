@@ -23,7 +23,9 @@ diagnostics_measured:
 - after: 10.27
   before: 7.605
   diagnostic_id: eiv_digit_readout_decoded_mae
+do_not_retry: []
 external_run: ''
+former_ids: []
 gate_results:
 - evidence: 'FAILED as specified, and the failure is informative. I committed to branch
     (b): S0 alignment >0.30 declining monotonically to S3 <0.30. Observed alignment
@@ -104,8 +106,9 @@ gate_results:
   gate_id: gate-scope-alignment-is-descriptive
   passed: true
 git_ref: ''
-hypothesis_id: the-hr-peak-signal-enters-the-lm-well-aligned-with-the-residual-stream-s-dominan
+hypothesis_id: the-hr-peak-signal-enters-the-lm-well-ba9dd9
 id: exp-e30-variance-localisation-20260805
+key_numbers: {}
 observed_effects:
 - delta: 2.665
   diagnostic_id: eiv_digit_readout_decoded_mae
@@ -120,7 +123,7 @@ verdict: inconclusive
 ---
 
 ## Summary
-Tests hypothesis [[the-hr-peak-signal-enters-the-lm-well-aligned-with-the-residual-stream-s-dominan]].
+Tests hypothesis [[the-hr-peak-signal-enters-the-lm-well-ba9dd9]].
 Branches from [[exp-e29-prefix-rank-20260805]].
 
 ## Measurements

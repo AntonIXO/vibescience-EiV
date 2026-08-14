@@ -19,7 +19,9 @@ diagnostics_measured:
 - after: 4.521
   before: 0.0
   diagnostic_id: eiv_gen_peak_donor_gap_bpm
+do_not_retry: []
 external_run: ''
+former_ids: []
 gate_results:
 - evidence: n_train=700 self-generated dense prefixes. Dense-128 hr_peak head MAE
     15.198 < min(always-median 16.946, hr_raw-derived 17.168) — MAE condition met
@@ -50,8 +52,9 @@ gate_results:
   gate_id: g4-hrv-and-raw-controls
   passed: false
 git_ref: ''
-hypothesis_id: e11-a-linear-scalar-regression-head-ridgecv-2560-1-reading-the-frozen-v9band04-l
+hypothesis_id: e11-a-linear-scalar-regression-head-127ffe
 id: exp-e11-linear-head-20260814
+key_numbers: {}
 observed_effects:
 - delta: 4.628
   diagnostic_id: eiv_gen_peak_skill_bpm
@@ -70,7 +73,7 @@ verdict: directional_only
 ---
 
 ## Summary
-Tests hypothesis [[e11-a-linear-scalar-regression-head-ridgecv-2560-1-reading-the-frozen-v9band04-l]].
+Tests hypothesis [[e11-a-linear-scalar-regression-head-127ffe]].
 Branches from [[exp-e9-lmhead-lora-20260814]].
 
 ## Measurements

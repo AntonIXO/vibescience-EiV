@@ -1,11 +1,13 @@
 ---
 created_at: '2026-08-05T15:47:15+00:00'
+former_ids: []
 gates:
 - gate-prediction-entropy
 - gate-null-delta-sign
 - gate-bucket-dose-slope
 hypothesis_id: null
 id: rb-e2-schema-reorder-20260805
+notes: []
 priority: 30
 problem_id: phase-c-hr-peak-saturated-prior-20260805
 status: queued

@@ -1,5 +1,6 @@
 ---
 created_at: '2026-07-31T08:22:48+00:00'
+former_ids: []
 gates: []
 id: hyp-eiv-dcl-vs-hard-infonce-medgemma-cachev2-20260731
 interventions:

@@ -12,7 +12,9 @@ diagnostics_measured:
 - after: -0.0278
   before: 0.0
   diagnostic_id: eiv_affect_multichannel_increment
+do_not_retry: []
 external_run: ''
+former_ids: []
 gate_results:
 - evidence: 'FAIL. delta = 0.4538 - 0.4816 = -0.0278 (bar >= +0.03), within-subject
     perm p = 0.84 (24 perms, null mean -0.0038, std 0.0271, z = -0.88). Direction
@@ -39,6 +41,7 @@ gate_results:
 git_ref: ''
 hypothesis_id: hyp-affect-multichannel-supply-20260814
 id: exp-e5-affect-supply-20260814
+key_numbers: {}
 observed_effects:
 - delta: -0.0278
   diagnostic_id: eiv_affect_multichannel_increment

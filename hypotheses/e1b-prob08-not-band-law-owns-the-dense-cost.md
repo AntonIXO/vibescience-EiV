@@ -1,18 +1,25 @@
 ---
 created_at: '2026-08-13T16:53:30+00:00'
+former_ids: []
 gates:
 - blocking: true
   description: 'BLOCKING: dense-128 MAE <= 3.89 (within 1 bpm of v7noatom''s 2.89)
     on EVERY seed.'
+  diagnostic_id: null
   id: g1-dense-recovered-all-seeds
+  mde: null
 - blocking: true
   description: 'BLOCKING: median supabase MAE over seeds 42/43/44 < 4.5 on the frozen
     200-row draw (holds most of E1''s win).'
+  diagnostic_id: null
   id: g2-supabase-median-below-4.5
+  mde: null
 - blocking: false
   description: Floor 0 and P(emit<45) < 0.10 on all seeds; seed band reported (v9band
     was 1.31; snap-back toward 6.29 indicts augment intensity as the band stabilizer).
+  diagnostic_id: null
   id: g3-structural-invariants-and-band
+  mde: null
 id: e1b-prob08-not-band-law-owns-the-dense-cost
 interventions:
 - eiv-hr-augment-deployment-band-mixture
@@ -32,7 +39,7 @@ predicted_effects:
   direction: up
   magnitude_note: may widen 1.31 -> <= 3.0 at lower supply; snap-back toward 6.29
     would mean intensity (not law shape) stabilizes the seed lottery
-problem_id: phase-c-arms-fail-on-the-deployment-distribution-optihealth-supabase-hr-raw-floor-atom-at-30-0-plus-unlearned-sparsity-handling
+problem_id: phase-c-arms-fail-on-the-deployment-9217e0
 problem_tags: []
 status: inconclusive
 supersedes: null
@@ -53,7 +60,7 @@ E1 changed three things at once; the win (supabase 3.89 median, band 1.31) and t
 Profiles lora_proxy_12ch_wl_band04{,_s43,_s44} (v9band04, seeds 42/43/44; yaml-diff vs v9band = hr_augment_prob only, verified). Init outputs/checkpoints/v5c/phase_b, Phase C 2600 steps. Same frozen supabase 200 + dense 128 scoring. Pipeline scratch/run_e1b_band04.sh -> logs/e1b_band04.log, *_RC= markers. Measured E1 wall time: ~60 min/seed (39 train + 21 capture) -> ~3h total. Decision rule preregistered in rb-e1b-prob-confound-20260813.
 
 ## Links
-Tests problem [[phase-c-arms-fail-on-the-deployment-distribution-optihealth-supabase-hr-raw-floor-atom-at-30-0-plus-unlearned-sparsity-handling]].
+Tests problem [[phase-c-arms-fail-on-the-deployment-9217e0]].
 Applies [[eiv-hr-augment-deployment-band-mixture]].
 Predicts [[eiv_dense128_hr_raw_mae_bpm]] (down).
 Predicts [[eiv_supabase_hr_raw_mae_bpm]] (up).

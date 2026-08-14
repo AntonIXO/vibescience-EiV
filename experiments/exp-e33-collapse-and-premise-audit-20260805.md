@@ -17,7 +17,9 @@ diagnostics_measured:
 - after: 14.263
   before: 25.609
   diagnostic_id: eiv_digit_readout_decoded_mae
+do_not_retry: []
 external_run: ''
+former_ids: []
 gate_results:
 - evidence: "REFUTED -- MY PREDICTION WAS WRONG, AND THE REFUTATION IS EMPHATIC. The
     adapter is NOT a mode-collapse draw:\n  std(emitted)/std(true)                       0.9999
@@ -96,8 +98,9 @@ gate_results:
   gate_id: gate-pairing-and-provenance-audit
   passed: true
 git_ref: ''
-hypothesis_id: the-hr-peak-emission-failure-is-a-training-stability-artifact-the-adapter-under-
+hypothesis_id: the-hr-peak-emission-failure-is-a-723466
 id: exp-e33-collapse-and-premise-audit-20260805
+key_numbers: {}
 observed_effects:
 - delta: -11.346
   diagnostic_id: eiv_digit_readout_decoded_mae
@@ -112,7 +115,7 @@ verdict: refutes
 ---
 
 ## Summary
-Tests hypothesis [[the-hr-peak-emission-failure-is-a-training-stability-artifact-the-adapter-under-]].
+Tests hypothesis [[the-hr-peak-emission-failure-is-a-723466]].
 Branches from [[exp-e32-target-encoding-20260805]].
 
 ## Measurements

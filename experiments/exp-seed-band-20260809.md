@@ -51,7 +51,9 @@ diagnostics_measured:
 - after: 7.0
   before: 0.0
   diagnostic_id: eiv_gen_between_sample_std
+do_not_retry: []
 external_run: ''
+former_ids: []
 gate_results:
 - evidence: 'All three seeds completed RC=0 on every stage: v6s43_PHASE_C_RC=0 / v6s43_PROBE_RC=0
     / v6s43_EMIT_RC=0 and v6s44_PHASE_C_RC=0 / v6s44_PROBE_RC=0 / v6s44_EMIT_RC=0;
@@ -93,8 +95,9 @@ gate_results:
   gate_id: gate-no-post-hoc-best-seed
   passed: true
 git_ref: ''
-hypothesis_id: with-phase-c-now-seeded-0b5aff2-three-runs-of-the-identical-control-configuratio
+hypothesis_id: with-phase-c-now-seeded-0b5aff2-three-fae38a
 id: exp-seed-band-20260809
+key_numbers: {}
 observed_effects:
 - delta: 2.4238
   diagnostic_id: eiv_phase_c_seed_band_range_bpm
@@ -117,7 +120,7 @@ verdict: supports
 ---
 
 ## Summary
-Tests hypothesis [[with-phase-c-now-seeded-0b5aff2-three-runs-of-the-identical-control-configuratio]].
+Tests hypothesis [[with-phase-c-now-seeded-0b5aff2-three-fae38a]].
 
 ## Measurements
 - [[eiv_phase_c_seed_band_range_bpm]]: before 0.0 → after 2.4238  (Δ +2.4238, up ✓ predicted up)

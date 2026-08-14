@@ -14,11 +14,14 @@ diagnostics_measured:
 - after: 2822.0
   before: 902.32
   diagnostic_id: eiv_training_runtime_sec
+do_not_retry: []
 external_run: ''
+former_ids: []
 gate_results: []
 git_ref: ''
-hypothesis_id: training-the-encoder-on-the-1-minute-canonical-tensor-n-23-patches-and-the-2-hou
+hypothesis_id: training-the-encoder-on-the-1-minute-031c19
 id: exp-1min-end-to-end-20260808
+key_numbers: {}
 observed_effects:
 - delta: 0.0096
   diagnostic_id: eiv_peak_excursion_increment_r2
@@ -40,7 +43,7 @@ verdict: supports
 ---
 
 ## Summary
-Tests hypothesis [[training-the-encoder-on-the-1-minute-canonical-tensor-n-23-patches-and-the-2-hou]].
+Tests hypothesis [[training-the-encoder-on-the-1-minute-031c19]].
 
 ## Measurements
 - [[eiv_peak_excursion_increment_r2]]: before 0.4086 → after 0.4182  (Δ +0.0096, up ✓ predicted up)

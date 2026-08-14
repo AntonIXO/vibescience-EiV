@@ -8,11 +8,14 @@ diagnostics_measured:
 - after: 0.782
   before: 0.796
   diagnostic_id: anomaly_auroc
+do_not_retry: []
 external_run: local:/root/vibe-experiments/exp_mcd_masking.py
+former_ids: []
 gate_results: []
 git_ref: optihealth_analysis@day_vector.py
 hypothesis_id: mcd-improves-auroc-allregimes
 id: mcd-fullsweep-real-prod
+key_numbers: {}
 observed_effects:
 - delta: -0.014
   diagnostic_id: anomaly_auroc
@@ -38,7 +41,5 @@ External run: local:/root/vibe-experiments/exp_mcd_masking.py
 
 ## Notes
 Full sweep incl eps=15%: mean dAUROC=-0.014. MCD REGRESSES ranking at high contamination on n=189 (subsampling variance). Blanket swap REFUTED; only the guarded moderate-contamination precision@k win stands.
-
-#robust-covariance #anomaly-detection #masking #covariance-contamination
 
 #robust-covariance #anomaly-detection #masking #covariance-contamination

@@ -11,11 +11,14 @@ crash_reason: nonfinite loss — both smoke arms (dcl, multi_positive_dcl) retur
   nonfinite loss; no scientific run was ever produced for this pilot
 created_at: '2026-07-28T08:39:49+00:00'
 diagnostics_measured: []
+do_not_retry: []
 external_run: /root/optiHealth-EiV/outputs/experiments/multi_positive_dcl_20260728
+former_ids: []
 gate_results: []
 git_ref: fix/soft-token-norm-scale@955c1b5+dirty-manifest-4329c98f7231
 hypothesis_id: hyp-eiv-multipositive-dcl-20260728
 id: exp-eiv-multipositive-dcl-pilot-20260728
+key_numbers: {}
 observed_effects: []
 parent_experiment_id: null
 prediction_match: null

@@ -16,11 +16,14 @@ diagnostics_measured:
 - after: 0.6890278160572052
   before: 1.0000004768371582
   diagnostic_id: eiv_text_cache_batch_invariance_cosine
+do_not_retry: []
 external_run: /root/optiHealth-EiV/outputs/experiments/infonce_vs_dcl_softtoken_20260728_v2
+former_ids: []
 gate_results: []
 git_ref: fix/soft-token-norm-scale@955c1b5+frozen-bca2dfa3df312bb0
 hypothesis_id: hyp-eiv-dcl-vs-hard-infonce-fp32-cached-20260728
 id: exp-eiv-dcl-vs-hard-infonce-fp32-cached-pilot-20260728
+key_numbers: {}
 observed_effects:
 - delta: -0.31097266078
   diagnostic_id: eiv_text_cache_batch_invariance_cosine
@@ -53,7 +56,5 @@ External run: /root/optiHealth-EiV/outputs/experiments/infonce_vs_dcl_softtoken_
 
 ## Notes
 Scientifically invalidated before confirmation. Ten fixed cache vectors reproduced at cosine ~1.0 and identical norms with genuine google/medgemma-1.5-4b-it only when their original precompute groups of four were reconstructed, proving there was no FrozenHash fallback. The actual legacy hash norms were 0.40-0.61 versus cached norms 85.5-113.8. But MedGemma's tokenizer left-pads while the old hidden_states_last_token code gathered sum(mask)-1, a right-padding assumption. Under changed batching, cached-vs-fresh cosine median fell to 0.6890 and minimum to 0.0276. Thus all v2 objective metrics, the pilot gate, and seed31 InfoNCE confirmation are inconclusive and excluded; test stayed locked. Code is being superseded by padding-agnostic final-attended-token pooling, cache version 2/content hashes, and fail-loud MedGemma loading with FrozenHash removed.
-
-#contrastive #dcl #infonce #cross-modal #float32 #authenticated-cache #rtx-5070 #hsic #cca #vicreg #wearable-ml #optihealth-eiv #matched-baseline #denominator #optihealth-eiv #matched-baseline #historical-pipeline #contrastive-loss #subject-heldout #representation-learning
 
 #contrastive #dcl #infonce #cross-modal #float32 #authenticated-cache #rtx-5070 #hsic #cca #vicreg #wearable-ml #optihealth-eiv #matched-baseline #denominator #optihealth-eiv #matched-baseline #historical-pipeline #contrastive-loss #subject-heldout #representation-learning

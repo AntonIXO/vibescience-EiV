@@ -1,5 +1,6 @@
 ---
 created_at: '2026-08-12T09:00:56+00:00'
+former_ids: []
 gates:
 - 'T1 gate (blocking): after coverage-augmented Phase C retrain, hr_raw MAE on a synthetic
   sparse eval (dense lifesnaps days cropped to 2-6h contiguous windows, truth = window
@@ -15,8 +16,9 @@ gates:
   10313), not by supabase.'
 hypothesis_id: null
 id: rb-dynamic-window-20260812
+notes: []
 priority: 2
-problem_id: phase-c-arms-fail-on-the-deployment-distribution-optihealth-supabase-hr-raw-floor-atom-at-30-0-plus-unlearned-sparsity-handling
+problem_id: phase-c-arms-fail-on-the-deployment-9217e0
 status: queued
 topic_tags:
 - deployment-distribution
@@ -32,7 +34,7 @@ DYNAMIC CONTEXT WINDOW (Anton, 2026-08-12): make the pipeline handle few-hour re
 exp-atomfix-retrain-20260812 closed first: the floor atom dominates supabase error, so window work scored before the atom fix would be confounded. GPU free. Present-mean counterfactual results (outputs/probes/{v4w,v5c}_emissions_supabase_presentmean.json) read and recorded.
 
 ## Links
-Queued for problem [[phase-c-arms-fail-on-the-deployment-distribution-optihealth-supabase-hr-raw-floor-atom-at-30-0-plus-unlearned-sparsity-handling]].
+Queued for problem [[phase-c-arms-fail-on-the-deployment-9217e0]].
 Intended gates: `T1 gate (blocking): after coverage-augmented Phase C retrain, hr_raw MAE on a synthetic sparse eval (dense lifesnaps days cropped to 2-6h contiguous windows, truth = window mean) improves >2x over the same checkpoint without coverage augmentation, AND the supabase 200-row capture does not regress vs the atom-fix arm.`, `T0 gate — MEASURED 2026-08-12, commit 1e2e2b9 (scratch/score_presentmean_counterfactual.py, paired n=200, ids+truth verified): present-mean fill does NOT rescue supabase, exactly as preregistered. v4w MAE 16.72->16.56 (-0.16 bpm), v5c 20.83->21.07 (+0.24); floor rate v4w 0.595->0.585, v5c 0.750->0.760; 133 and 154 of 200 rows byte-identical emissions. Of v5c's 150 floored rows only 8 escaped and 10 new rows floored. Inference-time de-dilution is DEAD as a supabase lever; the atom fix (exp-atomfix-retrain-20260812) carries the load. T1 remains motivated by the ultra-low-coverage regime (sample 10313), not by supabase.`.
 This is a PLAN, not a preregistration — the prediction is committed via propose_hypothesis at run time.
 

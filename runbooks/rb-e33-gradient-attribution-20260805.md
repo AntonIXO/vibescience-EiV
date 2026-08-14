@@ -1,13 +1,15 @@
 ---
 created_at: '2026-08-05T22:11:08+00:00'
+former_ids: []
 gates:
 - gate-grad-norm-peak-vs-raw
 - gate-grad-alignment-trajectory
 - gate-donor-prefix-null
 - gate-scale-free-reporting
 - gate-vram-ceiling
-hypothesis_id: the-template-is-already-learned-so-completion-only-template-masked-loss-will-buy
+hypothesis_id: the-template-is-already-learned-so-eb13d1
 id: rb-e33-gradient-attribution-20260805
+notes: []
 priority: 50
 problem_id: phase-c-hr-peak-saturated-prior-20260805
 status: done
@@ -99,7 +101,7 @@ Repo /root/optiHealth-EiV. GPU RTX 5070, 12227 MiB, ceiling 11.25 GiB, always ex
 
 ## Links
 Queued for problem [[phase-c-hr-peak-saturated-prior-20260805]].
-Run as [[the-template-is-already-learned-so-completion-only-template-masked-loss-will-buy]].
+Run as [[the-template-is-already-learned-so-eb13d1]].
 Intended gates: `gate-grad-norm-peak-vs-raw`, `gate-grad-alignment-trajectory`, `gate-donor-prefix-null`, `gate-scale-free-reporting`, `gate-vram-ceiling`.
 This is a PLAN, not a preregistration — the prediction is committed via propose_hypothesis at run time.
 

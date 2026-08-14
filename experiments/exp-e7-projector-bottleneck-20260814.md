@@ -13,7 +13,9 @@ diagnostics_measured:
 - after: 0.5263
   before: 0.5004
   diagnostic_id: eiv_peak_excursion_increment_r2
+do_not_retry: []
 external_run: ''
+former_ids: []
 gate_results:
 - evidence: REFUTE zone. Best soft-token readout increment 0.5263 >= 0.35 (confirm
     required < 0.15). The projector output carries AT LEAST as much peak-excursion
@@ -31,6 +33,7 @@ gate_results:
 git_ref: ''
 hypothesis_id: hyp-e7-projector-bottleneck-20260814
 id: exp-e7-projector-bottleneck-20260814
+key_numbers: {}
 observed_effects:
 - delta: 0.0259
   diagnostic_id: eiv_peak_excursion_increment_r2

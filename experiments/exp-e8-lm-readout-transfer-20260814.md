@@ -11,7 +11,9 @@ diagnostics_measured:
 - after: 0.5032
   before: 0.7476
   diagnostic_id: eiv_lm_hidden_peak_r2
+do_not_retry: []
 external_run: ''
+former_ids: []
 gate_results:
 - evidence: PASS. hr_raw-position final-layer R2 = 0.9981 >= 0.60. Apparatus sound;
     calibrates what 'enough to drive generation' looks like at this position (hr_raw
@@ -29,6 +31,7 @@ gate_results:
 git_ref: ''
 hypothesis_id: hyp-e8-lm-readout-transfer-20260814
 id: exp-e8-lm-readout-transfer-20260814
+key_numbers: {}
 observed_effects:
 - delta: -0.2444
   diagnostic_id: eiv_lm_hidden_peak_r2

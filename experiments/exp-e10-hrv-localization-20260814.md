@@ -13,7 +13,9 @@ diagnostics_measured:
 - after: 0.9692
   before: 0.6
   diagnostic_id: eiv_nonhr_channel_grouped_r2
+do_not_retry: []
 external_run: ''
+former_ids: []
 gate_results:
 - evidence: PASS — readout-limited zone, decisively. Best arm slot mean+max OOF R2
     0.9692 >= 0.35 (pooled 0.9007). MAE 2.77 ms vs trivial 17.64 ms. The prefix carries
@@ -28,6 +30,7 @@ gate_results:
 git_ref: ''
 hypothesis_id: hyp-e10-hrv-localization-20260814
 id: exp-e10-hrv-localization-20260814
+key_numbers: {}
 observed_effects:
 - delta: 0.3692
   diagnostic_id: eiv_nonhr_channel_grouped_r2

@@ -23,11 +23,14 @@ diagnostics_measured:
 - after: 5.23046875
   before: 5.22265625
   diagnostic_id: eiv_peak_vram_gib
+do_not_retry: []
 external_run: outputs/experiments/native_rbf_kta_vicreg_20260727/runs
+former_ids: []
 gate_results: []
 git_ref: fix/soft-token-norm-scale@955c1b5d19b4+manifest-d2ff7c52c049
 hypothesis_id: hyp-eiv-native-kta-vicreg-20260727
 id: exp-eiv-native-kta-vicreg-20260727
+key_numbers: {}
 observed_effects:
 - delta: 2.250099393659
   diagnostic_id: eiv_effective_rank
@@ -73,7 +76,5 @@ External run: outputs/experiments/native_rbf_kta_vicreg_20260727/runs
 
 ## Notes
 Closed at the preregistered seed17 pilot gate. Values use projected VICReg default as before and closest native follow-up lambda=0.3 as after. Direction-only primary effective-rank delta is positive, but the committed absolute rank>=6.0 prediction failed (observed 4.9097), the original rank>=5 gate also failed, and no configuration passed all R2/retrieval/alignment/geometry gates. Lambda 1 and 3 worsened rank and HR R2. Therefore no confirmation lock or 8-seed run was permitted; any computed 'supports' verdict must not be interpreted as confirmation of the magnitude claim.
-
-#contrastive #hsic #cca #vicreg #wearable-ml #kernel-alignment #cross-modal #anti-collapse #contrastive-loss #subject-heldout #representation-learning #optihealth-eiv
 
 #contrastive #hsic #cca #vicreg #wearable-ml #kernel-alignment #cross-modal #anti-collapse #contrastive-loss #subject-heldout #representation-learning #optihealth-eiv

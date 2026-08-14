@@ -13,7 +13,9 @@ diagnostics_measured:
 - after: 0.2326
   before: 0.1858
   diagnostic_id: eiv_peak_excursion_increment_r2
+do_not_retry: []
 external_run: ''
+former_ids: []
 gate_results:
 - evidence: 'FAIL. increment(avgmax over hr-channel tokens) = 0.2326 < 0.25 bar. (Level
     control on this pool: r2(peak|true mean) = -0.0113, so the increment is essentially
@@ -34,6 +36,7 @@ gate_results:
 git_ref: ''
 hypothesis_id: hyp-e6-peak-maxpool-readout-20260814
 id: exp-e6-peak-maxpool-20260814
+key_numbers: {}
 observed_effects:
 - delta: 0.0468
   diagnostic_id: eiv_peak_excursion_increment_r2

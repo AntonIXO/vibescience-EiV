@@ -1,33 +1,52 @@
 ---
 created_at: '2026-08-01T08:23:27+00:00'
+former_ids: []
 gates:
 - blocking: true
   description: mean paired dRecall@5 >= +0.010 across five seeds
+  diagnostic_id: null
   id: mean_recall_delta
+  mde: null
 - blocking: true
   description: exact one-sided sign-flip p < 0.05
+  diagnostic_id: null
   id: exact_signflip_p
+  mde: null
 - blocking: true
   description: paired bootstrap CI95 lower bound > 0
+  diagnostic_id: null
   id: bootstrap_ci95_lower
+  mde: null
 - blocking: true
   description: mean d effective rank no worse than -0.25
+  diagnostic_id: null
   id: mean_effective_rank_delta
+  mde: null
 - blocking: true
   description: no per-seed median-rank regression worse than +2
+  diagnostic_id: null
   id: per_seed_median_rank_delta
+  mde: null
 - blocking: true
   description: every DCL sensor median cosine <= 0.90 (no directional collapse)
+  diagnostic_id: null
   id: dcl_cosine
+  mde: null
 - blocking: true
   description: peak VRAM below 11.25 GiB on RTX 5070, no OOM
+  diagnostic_id: null
   id: vram
+  mde: null
 - blocking: true
   description: DCL runtime no more than 1.10x paired InfoNCE
+  diagnostic_id: null
   id: runtime
+  mde: null
 - blocking: false
   description: 'deployment: every DCL effective rank >= 5'
+  diagnostic_id: null
   id: deployment_gate_every_dcl_rank_at_least_5
+  mde: null
 id: hyp-eiv-dcl-vs-hard-infonce-medgemma-cachev2-gated-20260801
 interventions:
 - eiv-dcl-denominator-only

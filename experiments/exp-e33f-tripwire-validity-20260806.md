@@ -18,7 +18,9 @@ diagnostics_measured:
 - after: 0.194
   before: 1.0
   diagnostic_id: eiv_lm_hidden_peak_r2
+do_not_retry: []
 external_run: ''
+former_ids: []
 gate_results:
 - evidence: "CONFIRMED, AND WORSE THAN PREDICTED. On the strict-clean population (n=1546)
     the p6 eval label and the trained label AGREE ON ONLY 19.40% of samples -- DISAGREEMENT
@@ -74,8 +76,9 @@ gate_results:
   gate_id: gate-verdict-consistent-with-sibling-metrics
   passed: false
 git_ref: ''
-hypothesis_id: the-stage-c-collapse-tripwires-are-defective-and-seed-1-s-collapsed-yes-swap-0-3
+hypothesis_id: the-stage-c-collapse-tripwires-are-2211e6
 id: exp-e33f-tripwire-validity-20260806
+key_numbers: {}
 observed_effects:
 - delta: -0.806
   diagnostic_id: eiv_lm_hidden_peak_r2
@@ -90,7 +93,7 @@ verdict: inconclusive
 ---
 
 ## Summary
-Tests hypothesis [[the-stage-c-collapse-tripwires-are-defective-and-seed-1-s-collapsed-yes-swap-0-3]].
+Tests hypothesis [[the-stage-c-collapse-tripwires-are-2211e6]].
 Branches from [[exp-e33-collapse-and-premise-audit-20260805]].
 
 ## Measurements

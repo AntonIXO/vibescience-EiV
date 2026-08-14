@@ -1,5 +1,6 @@
 ---
 created_at: '2026-08-05T17:51:01+00:00'
+former_ids: []
 id: ro-dual-avg-max-pooling-downstream-20260805
 problem_id: phase-c-hr-peak-saturated-prior-20260805
 retracted: false

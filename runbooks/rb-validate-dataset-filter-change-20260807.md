@@ -1,13 +1,15 @@
 ---
 created_at: '2026-08-07T12:35:40+00:00'
+former_ids: []
 gates:
 - gate-powered-n-and-ci
 - gate-donor-prefix-null
 - gate-strict-clean-population
 hypothesis_id: null
 id: rb-validate-dataset-filter-change-20260807
+notes: []
 priority: 7
-problem_id: canonical-mask-marks-degenerate-zero-channels-as-present-20260805
+problem_id: canonical-m-mask-marks-all-zero-889451
 status: abandoned
 topic_tags: []
 updated_at: '2026-08-07T20:56:06+00:00'
@@ -40,6 +42,6 @@ state is dataset-confounded anyway (pmdata 72.8% stress vs lifesnaps 68.8% neutr
 GPU needs ~11.7 GiB free. ASK ANTON before relying on supabase inclusion: it is the production app's own user data and no privacy/leakage rationale is recorded either way.
 
 ## Links
-Queued for problem [[canonical-mask-marks-degenerate-zero-channels-as-present-20260805]].
+Queued for problem [[canonical-m-mask-marks-all-zero-889451]].
 Intended gates: `gate-powered-n-and-ci`, `gate-donor-prefix-null`, `gate-strict-clean-population`.
 This is a PLAN, not a preregistration — the prediction is committed via propose_hypothesis at run time.

@@ -1,13 +1,15 @@
 ---
 created_at: '2026-08-05T22:32:35+00:00'
+former_ids: []
 gates:
 - gate-strict-clean-population
 - gate-powered-n-and-ci
 - gate-donor-prefix-null
 - gate-scored-vs-max-baseline
 - gate-seed-selection-honest
-hypothesis_id: the-hr-peak-native-emission-deficit-that-e24-e33-spent-ten-experiments-explainin
+hypothesis_id: the-hr-peak-native-emission-deficit-264f4f
 id: rb-e34-powered-native-emission-eval-20260805
+notes: []
 priority: 10
 problem_id: phase-c-hr-peak-saturated-prior-20260805
 status: done
@@ -80,7 +82,7 @@ Stage C retrain launched 2026-08-05 22:22 UTC: 'STAGES=c N_SEEDS_C=3 LORA_DIR=ou
 
 ## Links
 Queued for problem [[phase-c-hr-peak-saturated-prior-20260805]].
-Run as [[the-hr-peak-native-emission-deficit-that-e24-e33-spent-ten-experiments-explainin]].
+Run as [[the-hr-peak-native-emission-deficit-264f4f]].
 Intended gates: `gate-strict-clean-population`, `gate-powered-n-and-ci`, `gate-donor-prefix-null`, `gate-scored-vs-max-baseline`, `gate-seed-selection-honest`.
 This is a PLAN, not a preregistration — the prediction is committed via propose_hypothesis at run time.
 

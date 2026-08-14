@@ -23,7 +23,9 @@ diagnostics_measured:
 - after: 0.0003
   before: 0.0
   diagnostic_id: eiv_affect_multichannel_increment
+do_not_retry: []
 external_run: ''
+former_ids: []
 gate_results:
 - evidence: 'FAIL. PRIMARY lifesnaps pooled delta = 0.6136 - 0.6133 = +0.0003, perm
     p = 0.6471 (50 perms, null mean +0.0048, std 0.0168) — indistinguishable from
@@ -63,6 +65,7 @@ gate_results:
 git_ref: main@d3f379f
 hypothesis_id: hyp-e14-within-subject-affect-supply-20260814
 id: exp-e14-within-subject-affect-20260814
+key_numbers: {}
 observed_effects:
 - delta: 0.0003
   diagnostic_id: eiv_affect_multichannel_increment

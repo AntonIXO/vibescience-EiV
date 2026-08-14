@@ -20,7 +20,9 @@ diagnostics_measured:
 - after: 12.529
   before: 14.263
   diagnostic_id: eiv_digit_readout_decoded_mae
+do_not_retry: []
 external_run: ''
+former_ids: []
 gate_results:
 - evidence: 'PASS. ARM BIN 12.529 bpm vs ARM DIGIT (E26 free-running) 14.263 bpm,
     paired on the same 300 test samples. Bootstrap CI95 (5000 resamples) of the difference
@@ -75,8 +77,9 @@ gate_results:
   gate_id: gate-k-selected-on-train-only
   passed: true
 git_ref: ''
-hypothesis_id: the-hr-peak-readout-is-limited-by-the-digit-string-target-encoding-not-by-the-in
+hypothesis_id: the-hr-peak-readout-is-limited-by-the-0d4b48
 id: exp-e27-bin-encoding-20260805
+key_numbers: {}
 observed_effects:
 - delta: -1.734
   diagnostic_id: eiv_digit_readout_decoded_mae
@@ -91,7 +94,7 @@ verdict: supports
 ---
 
 ## Summary
-Tests hypothesis [[the-hr-peak-readout-is-limited-by-the-digit-string-target-encoding-not-by-the-in]].
+Tests hypothesis [[the-hr-peak-readout-is-limited-by-the-0d4b48]].
 Branches from [[exp-e26-digit-ceiling-20260805]].
 
 ## Measurements

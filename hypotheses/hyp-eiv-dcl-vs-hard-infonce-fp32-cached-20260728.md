@@ -1,5 +1,6 @@
 ---
 created_at: '2026-07-28T11:19:35+00:00'
+former_ids: []
 gates: []
 id: hyp-eiv-dcl-vs-hard-infonce-fp32-cached-20260728
 interventions:

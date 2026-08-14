@@ -15,7 +15,9 @@ diagnostics_measured:
 - after: 0.0
   before: 0.75
   diagnostic_id: eiv_supabase_floor_emission_rate
+do_not_retry: []
 external_run: ''
+former_ids: []
 gate_results:
 - evidence: 'Exact-30 emissions on the frozen 200-row supabase draw: seed 42 0/200,
     seed 43 0/200, seed 44 0/200. Worst floor rate 0.000 < 0.05. Structural claim
@@ -34,8 +36,9 @@ gate_results:
   gate_id: g3-no-best-seed-promotion
   passed: true
 git_ref: 1d4c663
-hypothesis_id: the-atom-fix-a71034c-removed-the-dominant-source-of-phase-c-seed-bistability-on-
+hypothesis_id: the-atom-fix-a71034c-removed-the-d96b6e
 id: exp-v7noatom-seed-band-20260813
+key_numbers: {}
 observed_effects:
 - delta: -5.08
   diagnostic_id: eiv_supabase_seed_band_mae_bpm
@@ -54,7 +57,7 @@ verdict: supports
 ---
 
 ## Summary
-Tests hypothesis [[the-atom-fix-a71034c-removed-the-dominant-source-of-phase-c-seed-bistability-on-]].
+Tests hypothesis [[the-atom-fix-a71034c-removed-the-d96b6e]].
 At commit `1d4c663`.
 
 ## Measurements

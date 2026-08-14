@@ -1,5 +1,6 @@
 ---
 created_at: '2026-08-13T08:02:20+00:00'
+former_ids: []
 gates:
 - g1-median-supabase-mae-beats-v7noatom-band-blocking
 - g2-floor-rate-below-0.05-all-seeds
@@ -7,8 +8,9 @@ gates:
 - g4-band-scored-not-point
 hypothesis_id: e1-band-mass-starvation-drives-supabase-mae-and-seed-band
 id: rb-deployment-band-mass-20260813
+notes: []
 priority: 2
-problem_id: phase-c-arms-fail-on-the-deployment-distribution-optihealth-supabase-hr-raw-floor-atom-at-30-0-plus-unlearned-sparsity-handling
+problem_id: phase-c-arms-fail-on-the-deployment-9217e0
 status: done
 topic_tags: []
 updated_at: '2026-08-13T13:55:49+00:00'
@@ -35,7 +37,7 @@ Predicted effects at run time: eiv_supabase_hr_raw_mae_bpm DOWN (median <8), eiv
 rb-v7noatom-seed-band-20260813 DONE (the band is the yardstick). CPU design probe first: measure current training-target hr_raw density in 45-65 bpm from the production dataset path before writing the augmentation.
 
 ## Links
-Queued for problem [[phase-c-arms-fail-on-the-deployment-distribution-optihealth-supabase-hr-raw-floor-atom-at-30-0-plus-unlearned-sparsity-handling]].
+Queued for problem [[phase-c-arms-fail-on-the-deployment-9217e0]].
 Run as [[e1-band-mass-starvation-drives-supabase-mae-and-seed-band]].
 Intended gates: `g1-median-supabase-mae-beats-v7noatom-band-blocking`, `g2-floor-rate-below-0.05-all-seeds`, `g3-dense-128-mae-within-1bpm-of-v7noatom-2.89`, `g4-band-scored-not-point`.
 This is a PLAN, not a preregistration — the prediction is committed via propose_hypothesis at run time.

@@ -18,7 +18,9 @@ diagnostics_measured:
 - after: 10.27
   before: 12.529
   diagnostic_id: eiv_digit_readout_decoded_mae
+do_not_retry: []
 external_run: ''
+former_ids: []
 gate_results:
 - evidence: 'FAILED, which CONFIRMS the preregistered null and is the intended informative
     outcome. Best linear = LIN_SCALAR 10.270 bpm; best non-linear = GBT_SCALAR 11.776
@@ -72,8 +74,9 @@ gate_results:
   gate_id: gate-two-nonlinear-families
   passed: true
 git_ref: ''
-hypothesis_id: the-hr-peak-readout-cap-is-an-information-limit-not-a-function-class-limit-widen
+hypothesis_id: the-hr-peak-readout-cap-is-an-a61025
 id: exp-e28-function-class-20260805
+key_numbers: {}
 observed_effects:
 - delta: -2.259
   diagnostic_id: eiv_digit_readout_decoded_mae
@@ -88,7 +91,7 @@ verdict: refutes
 ---
 
 ## Summary
-Tests hypothesis [[the-hr-peak-readout-cap-is-an-information-limit-not-a-function-class-limit-widen]].
+Tests hypothesis [[the-hr-peak-readout-cap-is-an-a61025]].
 Branches from [[exp-e27-bin-encoding-20260805]].
 
 ## Measurements

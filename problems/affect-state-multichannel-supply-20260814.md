@@ -1,5 +1,6 @@
 ---
 created_at: '2026-08-14T07:47:01+00:00'
+former_ids: []
 id: affect-state-multichannel-supply-20260814
 paper_refs: []
 problem_tags:
@@ -13,6 +14,7 @@ topic_tags:
 - wearables
 - optihealth
 updated_at: '2026-08-14T19:25:48+00:00'
+updates: []
 ---
 
 ## Description

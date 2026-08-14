@@ -1,31 +1,42 @@
 ---
 created_at: '2026-08-05T09:29:20+00:00'
+former_ids: []
 gates:
 - blocking: true
   description: 'eiv_train_label_marginal_max <= 0.35. The mechanism gate: no single
     HR label may exceed 35% of the sampler-weighted training marginal. Measured on
     the production get_sampler_weights() path before training. Old value 0.500, post-fix
     measured 0.270.'
+  diagnostic_id: null
   id: gate-marginal-not-saturated
+  mde: null
 - blocking: true
   description: eiv_gen_pred_bucket_entropy >= 0.50 (normalized). Predictions must
     be spread across buckets rather than pinned to one. The prior run was ~0 (every
     true class -> tachycardic). This is the gate that directly falsifies the saturated-prior
     story.
+  diagnostic_id: null
   id: gate-prediction-entropy
+  mde: null
 - blocking: true
   description: 'eiv_gen_peak_corr >= 0.30 overall, reported SPLIT BY HR COVERAGE AT
     0.5 (never on cand_full alone, per the E22 lesson). Prior run: -0.013 overall.'
+  diagnostic_id: null
   id: gate-peak-corr-positive
+  mde: null
 - blocking: false
   description: hr_raw generation correlation must not regress below +0.60 full-coverage
     (E22 fresh-adapter baseline was +0.795). Guards against fixing hr_peak by breaking
     what already worked.
+  diagnostic_id: null
   id: gate-no-hr-raw-regression
+  mde: null
 - blocking: false
   description: P2 ablation output_diff_rate_zero and _random stay >= 0.90 (E22 measured
     1.00 both). Confirms the prefix remains causally live after the sampler change.
+  diagnostic_id: null
   id: gate-p2-conditioning-preserved
+  mde: null
 id: hyp-eiv-label-consistent-sampler-20260805
 interventions:
 - eiv-label-consistent-sampler

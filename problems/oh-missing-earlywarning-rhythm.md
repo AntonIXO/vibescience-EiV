@@ -1,5 +1,6 @@
 ---
 created_at: '2026-07-11T04:03:50+00:00'
+former_ids: []
 id: oh-missing-earlywarning-rhythm
 paper_refs:
 - mishra-2020-presymptomatic
@@ -17,6 +18,7 @@ topic_tags:
 - wearables
 - n-of-1
 updated_at: '2026-07-11T04:03:50+00:00'
+updates: []
 ---
 
 ## Description

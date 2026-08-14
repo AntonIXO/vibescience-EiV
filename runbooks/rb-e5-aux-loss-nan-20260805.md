@@ -1,8 +1,10 @@
 ---
 created_at: '2026-08-05T15:47:15+00:00'
+former_ids: []
 gates: []
 hypothesis_id: null
 id: rb-e5-aux-loss-nan-20260805
+notes: []
 priority: 60
 problem_id: phase-c-hr-peak-saturated-prior-20260805
 status: abandoned

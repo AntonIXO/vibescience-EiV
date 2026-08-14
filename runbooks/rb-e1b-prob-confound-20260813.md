@@ -1,13 +1,15 @@
 ---
 created_at: '2026-08-13T13:56:27+00:00'
+former_ids: []
 gates:
 - g1-dense-recovered-within-1bpm-of-2.89-all-seeds-blocking
 - g2-supabase-median-below-4.5-blocking
 - g3-floor-0-and-sub45-below-0.10-band-reported
 hypothesis_id: e1b-prob08-not-band-law-owns-the-dense-cost
 id: rb-e1b-prob-confound-20260813
+notes: []
 priority: 2
-problem_id: phase-c-arms-fail-on-the-deployment-distribution-optihealth-supabase-hr-raw-floor-atom-at-30-0-plus-unlearned-sparsity-handling
+problem_id: phase-c-arms-fail-on-the-deployment-9217e0
 status: done
 topic_tags:
 - deployment-distribution
@@ -30,7 +32,7 @@ DECISION RULE: if dense recovers (within 1 bpm of 2.89 all seeds) AND supabase m
 rb-deployment-band-mass-20260813 DONE. No code change needed — profiles only.
 
 ## Links
-Queued for problem [[phase-c-arms-fail-on-the-deployment-distribution-optihealth-supabase-hr-raw-floor-atom-at-30-0-plus-unlearned-sparsity-handling]].
+Queued for problem [[phase-c-arms-fail-on-the-deployment-9217e0]].
 Run as [[e1b-prob08-not-band-law-owns-the-dense-cost]].
 Intended gates: `g1-dense-recovered-within-1bpm-of-2.89-all-seeds-blocking`, `g2-supabase-median-below-4.5-blocking`, `g3-floor-0-and-sub45-below-0.10-band-reported`.
 This is a PLAN, not a preregistration — the prediction is committed via propose_hypothesis at run time.

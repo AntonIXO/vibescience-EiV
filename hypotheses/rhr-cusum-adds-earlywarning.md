@@ -1,5 +1,6 @@
 ---
 created_at: '2026-07-11T04:03:50+00:00'
+former_ids: []
 gates: []
 id: rhr-cusum-adds-earlywarning
 interventions:

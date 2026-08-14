@@ -1,20 +1,27 @@
 ---
 created_at: '2026-08-14T08:31:20+00:00'
+former_ids: []
 gates:
 - blocking: true
   description: 'BLOCKING apparatus gate, read FIRST: hr_raw-position R2 >= 0.60 (E24
     reference 0.9905). If it fails the apparatus is broken and nothing may be concluded.'
+  diagnostic_id: null
   id: g0-hr-raw-positive-control
+  mde: null
 - blocking: true
   description: 'BLOCKING primary: final-layer hr_peak-position increment over R2(peak|true
     mean) > +0.25 => readout failure confirmed on the current recipe; rb-e4-lora-lm-head
     stays targeted (with its E26 ~4bpm scoping). <= +0.25 => forward-pass destruction
     ON THE NEW RECIPE (divergence from E24) => demote E4, lever moves to prefix geometry/gated
     cross-attention.'
+  diagnostic_id: null
   id: g1-final-layer-increment
+  mde: null
 - blocking: true
   description: 'BLOCKING negative control: shuffled-target |R2| < 0.05.'
+  diagnostic_id: null
   id: g2-shuffle-null
+  mde: null
 id: hyp-e8-lm-readout-transfer-20260814
 interventions: []
 paper_refs: []

@@ -22,11 +22,14 @@ diagnostics_measured:
 - after: 5.20703125
   before: 0.0
   diagnostic_id: eiv_peak_vram_gib
+do_not_retry: []
 external_run: outputs/experiments/contrastive_losses_20260727/runs
+former_ids: []
 gate_results: []
 git_ref: fix/soft-token-norm-scale@955c1b5d19b4+manifest-4d905abd9f7e
 hypothesis_id: hyp-eiv-dcl-baseline-20260727
 id: exp-eiv-dcl-20260727
+key_numbers: {}
 observed_effects:
 - delta: -0.007471297681
   diagnostic_id: eiv_heldout_hr_r2
@@ -70,7 +73,5 @@ External run: outputs/experiments/contrastive_losses_20260727/runs
 
 ## Notes
 Closed on preregistered seed-17 500-step pilot because effective rank 4.2995 failed the rank>=5 go/no-go gate; no 8-seed confirmation was permitted. Primary R2 changed -0.00747, far below the committed +0.20. Retrieval improved materially but does not rescue the primary prediction.
-
-#dcl #baseline #contrastive #hsic #cca #vicreg #wearable-ml #contrastive-loss #subject-heldout #optihealth-eiv #representation-learning
 
 #dcl #baseline #contrastive #hsic #cca #vicreg #wearable-ml #contrastive-loss #subject-heldout #optihealth-eiv #representation-learning

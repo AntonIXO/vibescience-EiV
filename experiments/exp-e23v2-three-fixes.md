@@ -19,7 +19,9 @@ diagnostics_measured:
 - after: 0.159
   before: 0.68
   diagnostic_id: eiv_gen_peak_corr
+do_not_retry: []
 external_run: local:outputs/adapters/medgemma_12ch_e23v2
+former_ids: []
 gate_results:
 - evidence: ''
   gate_id: gate-marginal-not-saturated
@@ -39,6 +41,7 @@ gate_results:
 git_ref: ''
 hypothesis_id: hyp-eiv-label-consistent-sampler-20260805
 id: exp-e23v2-three-fixes
+key_numbers: {}
 observed_effects:
 - delta: -0.191
   diagnostic_id: eiv_train_label_marginal_max

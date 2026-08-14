@@ -18,7 +18,9 @@ diagnostics_measured:
 - after: 0.0
   before: 0.75
   diagnostic_id: eiv_supabase_floor_emission_rate
+do_not_retry: []
 external_run: ''
+former_ids: []
 gate_results:
 - evidence: 0/200 supabase rows emit exactly 30 (was 150/200 on v5c). Top emitted
     values now 38.9 (n=111), 54.6 (n=42); the exact-30 atom is gone. outputs/probes/v7noatom_emissions_supabase.json,
@@ -47,8 +49,9 @@ gate_results:
   gate_id: gate-single-variable
   passed: true
 git_ref: ''
-hypothesis_id: the-hr-raw-floor-emissions-on-the-deployment-distribution-are-caused-by-the-augm
+hypothesis_id: the-hr-raw-floor-emissions-on-the-87cd26
 id: exp-atomfix-retrain-20260812
+key_numbers: {}
 observed_effects:
 - delta: -9.29
   diagnostic_id: eiv_supabase_hr_raw_mae_bpm
@@ -68,7 +71,7 @@ verdict: directional_only
 ---
 
 ## Summary
-Tests hypothesis [[the-hr-raw-floor-emissions-on-the-deployment-distribution-are-caused-by-the-augm]].
+Tests hypothesis [[the-hr-raw-floor-emissions-on-the-87cd26]].
 
 ## Measurements
 - [[eiv_supabase_hr_raw_mae_bpm]]: before 20.83 → after 11.54  (Δ -9.29, down ✓ predicted down)

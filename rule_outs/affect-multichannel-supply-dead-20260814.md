@@ -1,5 +1,6 @@
 ---
 created_at: '2026-08-14T07:53:33+00:00'
+former_ids: []
 id: affect-multichannel-supply-dead-20260814
 problem_id: affect-state-multichannel-supply-20260814
 retracted: false

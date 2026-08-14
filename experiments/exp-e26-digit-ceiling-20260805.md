@@ -19,7 +19,9 @@ diagnostics_measured:
 - after: 14.263
   before: 18.492
   diagnostic_id: eiv_digit_readout_decoded_mae
+do_not_retry: []
 external_run: ''
+former_ids: []
 gate_results:
 - evidence: 'PASS, and it survives the adversarial control. Free-running decoded MAE
     14.263 bpm vs always-predict-median 18.492 bpm; bootstrap CI95 (5000 resamples)
@@ -72,8 +74,9 @@ gate_results:
   gate_id: gate-donor-null-fr
   passed: true
 git_ref: ''
-hypothesis_id: measured-in-lm-head-s-actual-function-class-a-per-digit-position-linear-classifi
+hypothesis_id: measured-in-lm-head-s-actual-function-b096c6
 id: exp-e26-digit-ceiling-20260805
+key_numbers: {}
 observed_effects:
 - delta: -4.229
   diagnostic_id: eiv_digit_readout_decoded_mae
@@ -88,7 +91,7 @@ verdict: refutes
 ---
 
 ## Summary
-Tests hypothesis [[measured-in-lm-head-s-actual-function-class-a-per-digit-position-linear-classifi]].
+Tests hypothesis [[measured-in-lm-head-s-actual-function-b096c6]].
 Branches from [[exp-e25-readout-ceiling-20260805]].
 
 ## Measurements

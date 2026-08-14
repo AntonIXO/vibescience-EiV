@@ -21,7 +21,9 @@ diagnostics_measured:
 - after: 0.0
   before: 0.0
   diagnostic_id: eiv_supabase_floor_emission_rate
+do_not_retry: []
 external_run: ''
+former_ids: []
 gate_results:
 - evidence: 'Per-seed supabase MAE 42/43/44 = 4.16/2.86/3.89, median 3.89 < 9.49.
     Row identity 200/200 vs the v7noatom capture on all three seeds. Paired sign test
@@ -57,6 +59,7 @@ gate_results:
 git_ref: 14e2ee4
 hypothesis_id: e1-band-mass-starvation-drives-supabase-mae-and-seed-band
 id: exp-e1-band-mass-20260813
+key_numbers: {}
 observed_effects:
 - delta: -7.65
   diagnostic_id: eiv_supabase_hr_raw_mae_bpm

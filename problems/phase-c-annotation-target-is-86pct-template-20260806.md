@@ -1,19 +1,26 @@
 ---
 created_at: '2026-08-06T13:50:59+00:00'
+former_ids: []
 id: phase-c-annotation-target-is-86pct-template-20260806
 paper_refs: []
 problem_tags:
 - optihealth-eiv
 - data-contract-violation
 - conditioning-collapse
-status: open
+status: resolved
 title: The json_slots annotation target is 86% fixed template and omits 5 of the 13
   prompted slots
 topic_tags:
 - cross-modal
 - medgemma
 - sensor-text
-updated_at: '2026-08-06T15:19:56+00:00'
+updated_at: '2026-08-14T20:23:19+00:00'
+updates:
+- at: '2026-08-14T20:23:19+00:00'
+  text: 'Resolved by the confirmed hypothesis [[the-template-is-already-learned-so-eb13d1]]:
+    the template is already learned, so completion-only / template-masked loss buys
+    far less than the 7.2x headline suggested. Closed during the 2026-08-14 vault
+    hygiene pass.'
 ---
 
 ## Description
@@ -150,6 +157,7 @@ It does NOT explain why hr_peak fails while hr_raw partially works, since both s
 --- 7. PROPOSED FIXES, CHEAPEST FIRST ---
 (a) delete the 5 phantom slots from the prompt OR render them in the target -- and stop scoring hrv_acc until one of those happens; (b) drop or fix the three sleep percentages and hr_pct rather than training the model to emit constants and then crediting itself for them (P4 deep_sleep_acc 1.0); (c) re-weight the token loss toward the sensor-dependent spans, which is runbook rb-e3-bucket-token-loss-weight, still queued and now much better motivated; (d) re-measure the CLM/probe loss balance.
 
-#cross-modal #medgemma #sensor-text #optihealth-eiv #data-contract-violation #conditioning-collapse
+## Updates
+- **2026-08-14T20:23:19+00:00** — Resolved by the confirmed hypothesis [[the-template-is-already-learned-so-eb13d1]]: the template is already learned, so completion-only / template-masked loss buys far less than the 7.2x headline suggested. Closed during the 2026-08-14 vault hygiene pass.
 
 #cross-modal #medgemma #sensor-text #optihealth-eiv #data-contract-violation #conditioning-collapse

@@ -18,11 +18,14 @@ diagnostics_measured:
 - after: 0.0
   before: 0.0
   diagnostic_id: new_deps
+do_not_retry: []
 external_run: local:/opt/optihealth_analysis/src/test_resting_anomaly_realdata.py
+former_ids: []
 gate_results: []
 git_ref: AntonIXO/optihealth_analysis@resting_anomaly-v1
 hypothesis_id: rhr-cusum-adds-earlywarning
 id: rhr-cusum-realdata-2026-07
+key_numbers: {}
 observed_effects:
 - delta: 2.0
   diagnostic_id: insights_yield
@@ -63,7 +66,5 @@ External run: local:/opt/optihealth_analysis/src/test_resting_anomaly_realdata.p
 
 ## Notes
 Dec 13-17 episode = clean illness signature: resting HR +10.1 robust-SD x5d WITH respiratory_rate +3.0 SD. Second episode Jan 9-24 (16d) corroborated by hrv_rmssd. First-cut count-based null gave fp=1.27 (prediction on fp_rate_null REFUTED); redesigned FP control to a corroboration-shuffle null -> fp=0.24. Magnitude floor min_max_resid_sd=3.0 added. 0 new deps. Method is additive: no existing module reports resting-physiology early-warning episodes.
-
-#anomaly-detection #resting-hr #illness-early-warning #optihealth #wearables #n-of-1 #missing-early-warning #missing-circadian #missing-directionality
 
 #anomaly-detection #resting-hr #illness-early-warning #optihealth #wearables #n-of-1 #missing-early-warning #missing-circadian #missing-directionality

@@ -1,31 +1,40 @@
 ---
 created_at: '2026-08-14T17:12:03+00:00'
+former_ids: []
 gates:
 - blocking: true
   description: 'g1 BLOCKING: pooled within-subject delta (multichannel minus rich-HR-only),
     computed over walk-forward OOS folds pooled across powered subjects, > 0 with
     within-subject permutation p < 0.05 (>=50 perms, same permuted labels applied
     to both arms).'
+  diagnostic_id: null
   id: g1-pooled-delta-perm
+  mde: null
 - blocking: true
   description: 'g2 BLOCKING: absolute within-subject multichannel skill beats BOTH
     trivial baselines (train-label median-forward AND day-persistence) with bootstrap
     CI95 excluding zero on the pooled OOS folds. A significant delta on top of chance-level
     absolute skill fails this gate.'
+  diagnostic_id: null
   id: g2-absolute-skill-vs-trivials
+  mde: null
 - blocking: false
   description: 'g3 informational: per-family attribution (sleep / rr / temp / hrv
     / time added to rich-HR separately). Name the winning family; if one family carries
     the entire delta, the engineering lever is captioning THAT channel, not generic
     fusion.'
+  diagnostic_id: null
   id: g3-family-attribution
+  mde: null
 - blocking: false
   description: 'g0 informational (power precondition): per-subject minimum detectable
     delta from the census; subjects entering the pool must individually support detection
     (lifesnaps: n>=30 labeled days, pos_rate in [0.15,0.85], label_std>0; pmdata:
     n>=60, >=3 distinct labels). If the pooled powered cohort cannot detect delta
     >= 0.05, record supply-infeasible and stop.'
+  diagnostic_id: null
   id: g0-power-precondition
+  mde: null
 id: hyp-e14-within-subject-affect-supply-20260814
 interventions: []
 paper_refs: []

@@ -1,5 +1,6 @@
 ---
 created_at: '2026-08-14T08:45:01+00:00'
+former_ids: []
 gates:
 - blocking: true
   description: 'BLOCKING primary (sign flip): dense-128 hr_peak skill vs the STRONGEST
@@ -8,21 +9,29 @@ gates:
     -3.16 (s44) vs median alone. If it passes, a donor-prefix capture must run BEFORE
     any claim stronger than ''sign flipped'' (eiv_gen_peak_skill_bpm requires the
     donor control).'
+  diagnostic_id: null
   id: g1-peak-sign-flip
+  mde: null
 - blocking: true
   description: 'BLOCKING regression guard (same bars as E3): supabase hr_raw MAE <=
     3.45 AND dense-128 hr_raw MAE <= 4.73 (worst v9band04 seed values). The lm_head
     arm must not buy peak at the cost of the working hr axes.'
+  diagnostic_id: null
   id: g2-hr-axes-preserved
+  mde: null
 - blocking: true
   description: 'BLOCKING operational: training completes RC=0 with peak VRAM < 11.25
     GiB (the untied bf16 lm_head clone adds ~1.34 GB; eiv_peak_vram_gib gate).'
+  diagnostic_id: null
   id: g3-vram-ceiling
+  mde: null
 - blocking: false
   description: 'Informational: supabase hr_peak MAE vs its own trivial (17.84 on the
     200-row draw; v9band04_s42 was -2.28 skill) and emitted-peak std ratio / top-atom
     mass (attractor check). Also hrv_raw and bucket entropy for completeness.'
+  diagnostic_id: null
   id: g4-deployment-and-attractors
+  mde: null
 id: hyp-e9-lmhead-lora-20260814
 interventions: []
 paper_refs: []

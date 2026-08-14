@@ -6,6 +6,6 @@ id: kernel
 ---
 
 ## Description
-
+Kernel methods used as a DEPENDENCE measure — RBF/HSIC statistical dependence between representations. NOT the same as kernel-alignment: that one is kernel-TARGET alignment (KTA). Kept separate on purpose; do not merge them.
 
 *Axis:* `topic`

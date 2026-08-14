@@ -18,7 +18,9 @@ diagnostics_measured:
 - after: 7.604
   before: 7.605
   diagnostic_id: eiv_digit_readout_decoded_mae
+do_not_retry: []
 external_run: ''
+former_ids: []
 gate_results:
 - evidence: 'PASS, decisively. Projecting onto the top-256 vocab principal directions
     and DISCARDING everything orthogonal gives MAE 7.604 -- reproducing the unprojected
@@ -78,8 +80,9 @@ gate_results:
   gate_id: gate-norm-scale-descriptive
   passed: true
 git_ref: ''
-hypothesis_id: the-hr-peak-signal-at-the-projector-output-s0-lies-inside-the-subspace-spanned-b
+hypothesis_id: the-hr-peak-signal-at-the-projector-4aa472
 id: exp-e31-vocab-subspace-20260805
+key_numbers: {}
 observed_effects:
 - delta: -0.001
   diagnostic_id: eiv_digit_readout_decoded_mae
@@ -94,7 +97,7 @@ verdict: refutes
 ---
 
 ## Summary
-Tests hypothesis [[the-hr-peak-signal-at-the-projector-output-s0-lies-inside-the-subspace-spanned-b]].
+Tests hypothesis [[the-hr-peak-signal-at-the-projector-4aa472]].
 Branches from [[exp-e30-variance-localisation-20260805]].
 
 ## Measurements

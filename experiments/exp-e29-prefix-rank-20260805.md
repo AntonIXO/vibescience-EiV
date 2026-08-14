@@ -18,7 +18,9 @@ diagnostics_measured:
 - after: 18.407
   before: 10.27
   diagnostic_id: eiv_digit_readout_decoded_mae
+do_not_retry: []
 external_run: ''
+former_ids: []
 gate_results:
 - evidence: 'FAILED, decisively, and this refutes my preregistered hypothesis. Ridge
     on the top 3 PCs gives 18.407 bpm against full-dimensional Ridge at 10.270 --
@@ -78,8 +80,9 @@ gate_results:
   gate_id: gate-theory-scope-stated
   passed: true
 git_ref: ''
-hypothesis_id: the-soft-token-prefix-influences-the-lm-as-a-low-rank-bias-on-the-residual-strea
+hypothesis_id: the-soft-token-prefix-influences-the-lm-82bbde
 id: exp-e29-prefix-rank-20260805
+key_numbers: {}
 observed_effects:
 - delta: 8.137
   diagnostic_id: eiv_digit_readout_decoded_mae
@@ -94,7 +97,7 @@ verdict: refutes
 ---
 
 ## Summary
-Tests hypothesis [[the-soft-token-prefix-influences-the-lm-as-a-low-rank-bias-on-the-residual-strea]].
+Tests hypothesis [[the-soft-token-prefix-influences-the-lm-82bbde]].
 Branches from [[exp-e28-function-class-20260805]].
 
 ## Measurements

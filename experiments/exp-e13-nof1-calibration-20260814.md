@@ -20,7 +20,9 @@ diagnostics_measured:
 - after: 2.689
   before: 2.85
   diagnostic_id: eiv_supabase_hr_raw_mae_bpm
+do_not_retry: []
 external_run: ''
+former_ids: []
 gate_results:
 - evidence: 'PASS numerically but fragile: hrv_raw walk-forward 5-fold OOS MAE 5.709
     vs best trivial (persistence 7.031; median 8.847), skill +1.322 CI95[0.179, 2.483],
@@ -51,8 +53,9 @@ gate_results:
   gate_id: g4-peak-recovery
   passed: true
 git_ref: ''
-hypothesis_id: n-of-1-head-calibration-linear-ridgecv-heads-fit-on-the-deployment-user-s-own-su
+hypothesis_id: n-of-1-head-calibration-linear-ridgecv-a45392
 id: exp-e13-nof1-calibration-20260814
+key_numbers: {}
 observed_effects:
 - delta: 2.998
   diagnostic_id: eiv_nonhr_channel_grouped_r2
@@ -71,7 +74,7 @@ verdict: directional_only
 ---
 
 ## Summary
-Tests hypothesis [[n-of-1-head-calibration-linear-ridgecv-heads-fit-on-the-deployment-user-s-own-su]].
+Tests hypothesis [[n-of-1-head-calibration-linear-ridgecv-a45392]].
 Branches from [[exp-e12-coverage-aug-heads-20260814]].
 
 ## Measurements

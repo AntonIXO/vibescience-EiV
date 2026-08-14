@@ -1,26 +1,37 @@
 ---
 created_at: '2026-08-13T10:50:41+00:00'
+former_ids: []
 gates:
 - blocking: true
   description: 'BLOCKING: median supabase hr_raw MAE over band-arm seeds 42/43/44
     < 9.49 bpm (the BEST v7noatom-family seed) on the frozen 200-row draw — beats
     the whole baseline band, not the 11.54 point.'
+  diagnostic_id: null
   id: g1-median-mae-beats-best-baseline-seed
+  mde: null
 - blocking: true
   description: 'BLOCKING: floor-emission rate (exact-30) < 0.05 on ALL three seeds.'
+  diagnostic_id: null
   id: g2-floor-below-0.05-all-seeds
+  mde: null
 - blocking: false
   description: dense-128 hr_raw MAE within 1.0 bpm of v7noatom's 2.89 on every seed
     (no dense regression).
+  diagnostic_id: null
   id: g3-dense128-within-1bpm
+  mde: null
 - blocking: false
   description: 'P(emit < 45 bpm) < 0.10 on ALL seeds on the frozen supabase draw (v7noatom
     family: 0.575/0.595/0.335; truth is never <45).'
+  diagnostic_id: null
   id: g4-sub45-emission-below-0.10-all-seeds
+  mde: null
 - blocking: false
   description: Seed band (max-min supabase MAE) reported regardless of size; shared-root-cause
     test keys off whether it lands < 6.29.
+  diagnostic_id: null
   id: g5-band-reported
+  mde: null
 id: e1-band-mass-starvation-drives-supabase-mae-and-seed-band
 interventions:
 - eiv-hr-augment-deployment-band-mixture
@@ -39,7 +50,7 @@ predicted_effects:
   direction: none
   magnitude_note: stays 0.000; the atom fix is structural and the band change must
     not resurrect it
-problem_id: phase-c-arms-fail-on-the-deployment-distribution-optihealth-supabase-hr-raw-floor-atom-at-30-0-plus-unlearned-sparsity-handling
+problem_id: phase-c-arms-fail-on-the-deployment-9217e0
 problem_tags: []
 status: confirmed
 supersedes: null
@@ -60,7 +71,7 @@ E0 (exp-v7noatom-seed-band-20260813) measured: post-fix seeds crystallize arbitr
 Profiles lora_proxy_12ch_wl_band{,_s43,_s44} (v9band, seeds 42/43/44), init outputs/checkpoints/v5c/phase_b, Phase C 2600 steps each (~2.5h on the 5070). Score each on the frozen 200-row supabase draw + dense 128 via scratch/emission_diversity_audit.py. Pipeline scratch/run_e1_band.sh -> logs/e1_band.log with per-stage *_RC= markers. Compare band-vs-band against v7noatom family {9.49, 11.54, 15.78}.
 
 ## Links
-Tests problem [[phase-c-arms-fail-on-the-deployment-distribution-optihealth-supabase-hr-raw-floor-atom-at-30-0-plus-unlearned-sparsity-handling]].
+Tests problem [[phase-c-arms-fail-on-the-deployment-9217e0]].
 Applies [[eiv-hr-augment-deployment-band-mixture]].
 Predicts [[eiv_supabase_hr_raw_mae_bpm]] (down).
 Predicts [[eiv_supabase_seed_band_mae_bpm]] (down).
