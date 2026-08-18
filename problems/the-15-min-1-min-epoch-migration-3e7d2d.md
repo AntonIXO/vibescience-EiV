@@ -15,7 +15,7 @@ topic_tags:
 - dataset-whitelist
 - wearables
 - baseline
-updated_at: '2026-08-18T20:52:08+00:00'
+updated_at: '2026-08-18T21:11:40+00:00'
 updates: []
 ---
 
@@ -477,8 +477,12 @@ recipe-level property.
 
 WHAT WE NOW BELIEVE.
 - The 1-min grid carries a large genuinely incremental hr_peak signal:
-  eiv_peak_excursion_increment_r2 0.0 -> 0.4104 in exp-1min-control-20260808,
-  holding end-to-end at 0.4182 (exp-1min-end-to-end-20260808).
+  eiv_peak_excursion_increment_r2 0.0 -> 0.4104 in exp-1min-control-20260808
+  (~9x the 0.0457 band), holding end-to-end at 0.4182
+  (exp-1min-end-to-end-20260808). The end-to-end run is an EQUIVALENCE
+  result and must not be read as a further gain: its +0.0096 increment is
+  INSIDE the band, and under the floor now registered it would compute
+  weak_signal rather than supports.
 - MAX-pooling beats AVG-pooling on the encoder readout, and this is now a
   RECIPE-level claim, not a single-basin observation. exp-e19 measured +0.4042
   on one checkpoint; exp-e19b re-ran the identical probe across every available

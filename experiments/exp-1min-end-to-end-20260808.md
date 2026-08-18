@@ -23,13 +23,20 @@ git_ref: ''
 hypothesis_id: training-the-encoder-on-the-1-minute-031c19
 id: exp-1min-end-to-end-20260808
 interpretation:
-  at: '2026-08-18T20:56:52+00:00'
+  at: '2026-08-18T21:11:40+00:00'
   failure_mode: null
   lesson: 'The 1-minute peak gain SURVIVES end-to-end training rather than being an
-    artifact of the isolated control: incremental peak-excursion R2 0.4086 -> 0.4182
-    and held-out hr R2 0.9713 -> 0.9777, at 3.1x the runtime (902 -> 2822 s). Both
-    the peak gain and the saturated mean readout hold, so the migration is safe to
-    build on — the cost is wall-clock, not representation quality.'
+    artifact of the isolated control — but read this as an EQUIVALENCE result, not
+    a further improvement. Incremental peak-excursion R2 went 0.4086 -> 0.4182, and
+    that +0.0096 increment is INSIDE the 0.0457 recipe-level band later measured on
+    this diagnostic (exp-e19b), i.e. indistinguishable from zero; under the noise
+    floor now registered it would compute weak_signal, not supports. The load-bearing
+    fact is the LEVEL holding at ~0.41 after full end-to-end training, with held-out
+    hr R2 0.9713 -> 0.9777, at 3.1x the runtime (902 -> 2822 s). The actual gain is
+    carried by exp-1min-control-20260808 (0.0 -> 0.4104, ~9x the band). Conclusion
+    unchanged: the migration is safe to build on and the cost is wall-clock, not representation
+    quality — just never cite the +0.0096 as evidence that end-to-end training ADDS
+    anything.'
   transfers_to: []
 key_numbers: {}
 observed_effects:
@@ -64,6 +71,6 @@ Tests hypothesis [[training-the-encoder-on-the-1-minute-031c19]].
 **Verdict:** supports
 
 ## Interpretation
-The 1-minute peak gain SURVIVES end-to-end training rather than being an artifact of the isolated control: incremental peak-excursion R2 0.4086 -> 0.4182 and held-out hr R2 0.9713 -> 0.9777, at 3.1x the runtime (902 -> 2822 s). Both the peak gain and the saturated mean readout hold, so the migration is safe to build on — the cost is wall-clock, not representation quality.
+The 1-minute peak gain SURVIVES end-to-end training rather than being an artifact of the isolated control — but read this as an EQUIVALENCE result, not a further improvement. Incremental peak-excursion R2 went 0.4086 -> 0.4182, and that +0.0096 increment is INSIDE the 0.0457 recipe-level band later measured on this diagnostic (exp-e19b), i.e. indistinguishable from zero; under the noise floor now registered it would compute weak_signal, not supports. The load-bearing fact is the LEVEL holding at ~0.41 after full end-to-end training, with held-out hr R2 0.9713 -> 0.9777, at 3.1x the runtime (902 -> 2822 s). The actual gain is carried by exp-1min-control-20260808 (0.0 -> 0.4104, ~9x the band). Conclusion unchanged: the migration is safe to build on and the cost is wall-clock, not representation quality — just never cite the +0.0096 as evidence that end-to-end training ADDS anything.
 
 #epoch-resolution #wearables #baseline #dataset-whitelist
