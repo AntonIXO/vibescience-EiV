@@ -6,6 +6,7 @@ id: the-15-min-1-min-epoch-migration-3e7d2d
 paper_refs: []
 problem_tags: []
 status: open
+target: null
 title: The 15-min -> 1-min epoch migration recovers a large, genuinely incremental
   hr_peak signal, and silently invalidates the dataset allowlist and coverage gates
   tuned for the 15-min grid
@@ -14,7 +15,7 @@ topic_tags:
 - dataset-whitelist
 - wearables
 - baseline
-updated_at: '2026-08-08T08:57:24+00:00'
+updated_at: '2026-08-18T20:52:08+00:00'
 updates: []
 ---
 
@@ -468,5 +469,49 @@ does NOT cover the caption builder's content. Consequences, both verified empiri
     fresh ~50 min precompute rather than reusing the control's.
 Practical rule: a caption-content change costs a full precompute but cannot corrupt another arm; a
 dataset_filter change costs a full precompute in a separate directory.
+
+## Synthesis
+STATE: the migration delivered its headline, and the durable finding is a
+POOLING result that was promoted from one-checkpoint observation to
+recipe-level property.
+
+WHAT WE NOW BELIEVE.
+- The 1-min grid carries a large genuinely incremental hr_peak signal:
+  eiv_peak_excursion_increment_r2 0.0 -> 0.4104 in exp-1min-control-20260808,
+  holding end-to-end at 0.4182 (exp-1min-end-to-end-20260808).
+- MAX-pooling beats AVG-pooling on the encoder readout, and this is now a
+  RECIPE-level claim, not a single-basin observation. exp-e19 measured +0.4042
+  on one checkpoint; exp-e19b re-ran the identical probe across every available
+  Phase-B checkpoint (same rows, split and control, only the checkpoint varying)
+  and got gap min +0.3963 / median +0.4059 / max +0.4420 => BAND 0.0457, i.e.
+  the effect is 8.9x the noise floor. Both arms are individually stable
+  (avg +0.2441..+0.2807 band 0.0366; max +0.6674..+0.6860 band 0.0186), so the
+  GAP is the reproducible quantity.
+- The shuffle control is DEAD (-0.0001..+0.0018 across all 10 fits), which
+  eliminates the serious alternative that a higher-dimensional RidgeCV
+  manufactures skill from a higher-variance max-pooled feature set. That control
+  did not exist in exp-e19 and now does.
+- That 0.0457 band is registered as the noise floor on
+  eiv_peak_excursion_increment_r2 (sigma 0.02285, k=2). This is the rare case in
+  this vault where the floor sits comfortably BELOW the signal — the inverse of
+  the Phase-C predicament.
+
+WHAT IS RULED OUT.
+- The "A/B-vs-C cohort split" does not exist on the *_wl chain: measured
+  A n=6151/216 subjects, B n=5621/215, C n=6151/216; subjects in A but not C =
+  0, and in C but not A = 0. H-2 as written is refuted — there is no variable to
+  manipulate. Any future "cohort unification" arm must first demonstrate a
+  cohort difference EXISTS on the chain it targets.
+- Caption-std conditioning (exp-e15-h4b, refutes; 0.4086 -> 0.3130), and H4 by
+  supersession through H4b (exp-h4-resolved-via-h4b-supersession-20260815).
+
+SCOPE LIMIT, STATED NOT HIDDEN. The pooling claim is verified on 5 of 6
+checkpoints, all sharing the 23-token geometry. 12ch_v2 (legacy patch_len=8 /
+stride=4 => 359 tokens over the 1440-min grid, ~24.7 GiB) was OOM-SKIPPED and
+recorded as skipped, not measured. The gap at 359 tokens is UNTESTED.
+
+OPEN QUESTION. Whether the +0.40 encoder-side pooling gap survives end-to-end
+into the projector and the emitted slot — the readout-side win has never been
+shown to reach the deliverable metric.
 
 #epoch-resolution #dataset-whitelist #wearables #baseline

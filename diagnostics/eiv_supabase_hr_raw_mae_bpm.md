@@ -2,6 +2,17 @@
 direction: lower_better
 id: eiv_supabase_hr_raw_mae_bpm
 name: Deployment-distribution (optihealth_supabase) native-emission hr_raw MAE
+noise_k: 2.0
+noise_n: 3
+noise_note: 'Phase-C seed band on the deployment (supabase) hr_raw MAE, v7noatom family
+  seeds 42/43/44 = 11.54 / 15.78 / 9.49 bpm, RANGE 6.29 bpm (= eiv_supabase_seed_band_mae_bpm
+  after the atom fix; pre-fix family band was 11.37). sigma = range/2 = 3.145 so k=2
+  reproduces the measured 6.29 band. Source: exp-v7noatom-seed-band-20260813 gate
+  g2-band-reported-with-per-seed-values (PASS). Context: the trivial always-median
+  baseline on the same 200-row draw is 4.02 bpm, i.e. the seed band alone exceeds
+  the trivial baseline — single-seed arm comparisons on this diagnostic are not interpretable.'
+noise_sigma: 3.145
+noise_source: measured
 requires_control: null
 topic_tags:
 - deployment-distribution

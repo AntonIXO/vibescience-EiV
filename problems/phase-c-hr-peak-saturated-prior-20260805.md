@@ -8,6 +8,7 @@ problem_tags:
 - conditioning-collapse
 - data-contract-violation
 status: open
+target: null
 title: 'Phase C: bucket/hr_peak conditioning is ~12x too weak to beat the template
   prior (not a dead slot)'
 topic_tags:
@@ -15,7 +16,7 @@ topic_tags:
 - medgemma
 - collapse
 - sensor-text
-updated_at: '2026-08-09T06:40:00+00:00'
+updated_at: '2026-08-18T20:52:08+00:00'
 updates: []
 ---
 
@@ -699,5 +700,55 @@ STILL RULED OUT BY DIRECT MEASUREMENT (do not re-litigate): training marginal (e
 LEVER STATUS: (c) unfreeze projector = REFUTED as a route to categorical conditioning, but a genuine win for the NUMERIC slots (hr_raw, peak) and worth keeping for that alone. UNTESTED: (a) value_loss_weight concentrated on the bucket token; (b) LoRA on the LM head / final layers, currently not targeted; (e) shorten/reorder the JSON schema so the bucket is not slot 1, cutting the prior it must beat; (f) NEW, now top-ranked: eiv-dual-avg-max-patching. Next arm should target the FULL-coverage regime specifically, since that is where the attractor survived. Zero-init gated cross-attention (arXiv:2303.16199) remains a candidate; architecture inadequacy remains NOT established.
 
 GATING LESSON: eiv_gen_pred_bucket_entropy caught the original collapse while eiv_gen_peak_corr reported a false PASS (zero-HR contamination). Now extended: BOTH generation gates can move favourably while the underlying conditioning inverts. Pair distributional + correlation gates with a MECHANISM gate (swap delta sign, null_delta sign, dose slope), evaluate label-stratified, and split by HR coverage at 0.5. FOURTH-REVISION EXTENSION: the same false-PASS pattern exists for REPRESENTATION metrics -- always report an incremental-over-trivial-predictor control (eiv_peak_excursion_increment_r2) rather than a bare R2, because a config change can raise raw R2 while driving the incremental signal to exactly zero.
+
+## Synthesis
+STATE: the most heavily worked problem in the vault (27 experiments, 23
+hypotheses, 13 refutes) and the one where the accumulated value is the EXCLUSION
+LIST, not a fix. 15 rule-outs; read them before proposing anything.
+
+WHAT WE NOW BELIEVE.
+- hr_peak conditioning fails while hr_raw conditioning WORKS, and that
+  asymmetry is seed-robust: across seeds 42/43/44 hr_peak skill is NEGATIVE on
+  all three (-3.260 / -1.6723 / -0.8362 bpm) while hr_raw skill is POSITIVE on
+  all three (+1.618 / +2.8542 / +3.8804, corr 0.780/0.833/0.918)
+  (exp-seed-band-20260809). This is the single most reliable fact here and the
+  signal any future arm should build on.
+- The information IS present upstream and does NOT survive to the output. A
+  Ridge probe on the production projector output scores R2 0.81 with an
+  incremental-over-mean of +0.72, yet the emitted slot is worse than a constant.
+
+WHAT IS RULED OUT (15 rule-outs — the expensive, load-bearing ones).
+- Non-linear/MLP readout heads on the frozen final hidden state: the cap is
+  INFORMATION, not readout capacity.
+- Fixing it via projector GEOMETRY or SCALE (whitening / variance matching).
+- Blaming the RENDERED TARGET (prior domination / tokenisation).
+- "A 4B LLM cannot compute max" as the explanation.
+- Window shortening (24h -> 12/6/2/1h) as a route to hr_peak conditioning.
+- Unfreezing the projector as the route to the CATEGORICAL bucket slot.
+- Teacher-forced paired-swap delta as a slot-ranking or optimisation surrogate.
+- The bucket-before-digits schema order as a decode-side defect.
+- Quoting "-5.88 bpm vs always-predict-median" as a stable property — it was an
+  unpowered n=96 estimate whose sign and magnitude moved 3.8 bpm with the filter.
+
+THE MEASUREMENT LAW THIS PROBLEM PRODUCED, AND WHY IT MATTERS MOST.
+exp-seed-band-20260809 measured a pure-seed band of 2.4238 bpm on emitted
+hr_peak skill and 0.0781 on p4 hr_acc, off an identical Phase-B init with pinned
+cut points. That band is now registered as the noise floor on
+eiv_gen_peak_skill_bpm (sigma 1.2119, k=2) and eiv_gen_bucket_acc_over_majority
+(sigma 0.03905, k=2). It RETIRED the legacy 0.066 figure and re-labelled a
+family of prior conclusions UNDERPOWERED rather than refuted — including the H-1
+dryad delta 0.0078 (10x smaller than the band), the allowlist A/B +0.0249, the
+v4w-vs-v4c hr_acc gap 0.0781 (EQUALS the band exactly) and the v4w-vs-v5c "basin
+gap" of 2.673 bpm (~90% of the band). The three-draw range UNDERSTATES the true
+spread, so these are lower bounds.
+
+OPEN QUESTIONS.
+- Where exactly is the peak destroyed inside the frozen LM's forward pass?
+  eiv_lm_hidden_peak_r2 was registered to localise it (READOUT defect vs
+  destroyed-in-transit) and only 3 evaluations ride on it. HIGH final-layer R2
+  implies head-targeted LoRA is precise; LOW implies the lever must move earlier.
+  That is the single decision-relevant measurement still outstanding.
+- Whether ANY single-seed Phase-C comparison in this problem's history can be
+  trusted. Given the band, most cannot; future arms must report per-seed.
 
 #cross-modal #medgemma #collapse #sensor-text #optihealth-eiv #conditioning-collapse #data-contract-violation

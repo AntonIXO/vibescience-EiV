@@ -43,7 +43,7 @@ predicted_effects:
   magnitude_note: must stay <= 3.45 (worst v9band04 seed); floor rate 0
 problem_id: phase-c-arms-fail-on-the-deployment-9217e0
 problem_tags: []
-status: proposed
+status: testing
 supersedes: null
 topic_tags:
 - cross-modal

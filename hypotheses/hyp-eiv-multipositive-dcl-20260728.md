@@ -1,11 +1,14 @@
 ---
+ambition_class: null
 created_at: '2026-07-28T08:19:06+00:00'
 former_ids: []
+gap_closure_estimate: null
 gates: []
 id: hyp-eiv-multipositive-dcl-20260728
 interventions:
 - eiv-dcl-package
 - eiv-multi-positive-dcl
+override_reason: ''
 paper_refs:
 - paper-dcl-2110-06848
 - paper-supcon-2004-11362
@@ -41,7 +44,9 @@ problem_tags:
 - representation-collapse
 - subject-heldout
 - optihealth-eiv
-status: testing
+reopen_reason: ''
+reopened_from: null
+status: inconclusive
 supersedes: null
 topic_tags:
 - dcl

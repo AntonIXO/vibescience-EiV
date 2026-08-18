@@ -2,6 +2,20 @@
 direction: higher_better
 id: eiv_peak_excursion_increment_r2
 name: EiV peak-excursion incremental R2
+noise_k: 2.0
+noise_n: 5
+noise_note: 'RECIPE-level band (not seed): the identical avg-vs-max pooling probe
+  re-run across every available Phase-B checkpoint, same rows/split/control, only
+  the checkpoint varying: gap min +0.3963, median +0.4059, max +0.4420 => BAND WIDTH
+  0.0457 over 5 checkpoints. sigma = range/2 = 0.02285 so k=2 reproduces the band.
+  Source: exp-e19b-pooling-recipe-level-20260815 gate g3_report_gap_band (PASS), key_numbers.gap_band_width=0.0457.
+  The shuffle control on the same fits scored -0.0001..+0.0018 (g2_shuffle_control_is_dead
+  PASS), so this band is genuine checkpoint spread and not readout-manufactured variance.
+  SCOPE: verified on 5 of 6 checkpoints, all sharing the 23-token geometry; 12ch_v2
+  at 359 tokens was OOM-skipped and is UNTESTED.'
+noise_sigma: 0.02285
+noise_source: measured
+requires_control: null
 topic_tags:
 - cross-modal
 - sensor-text

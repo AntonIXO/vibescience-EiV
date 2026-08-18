@@ -16,7 +16,7 @@ predicted_effects:
   magnitude_note: ''
 problem_id: canonical-merge-defaults-to-rolling-per-253051
 problem_tags: []
-status: proposed
+status: refuted
 supersedes: null
 topic_tags: []
 ---

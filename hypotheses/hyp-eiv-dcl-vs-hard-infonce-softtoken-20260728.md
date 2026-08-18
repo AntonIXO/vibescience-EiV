@@ -1,10 +1,13 @@
 ---
+ambition_class: null
 created_at: '2026-07-28T10:34:37+00:00'
 former_ids: []
+gap_closure_estimate: null
 gates: []
 id: hyp-eiv-dcl-vs-hard-infonce-softtoken-20260728
 interventions:
 - eiv-dcl-denominator-only
+override_reason: ''
 paper_refs:
 - paper-dcl-2110-06848
 predicted_effects:
@@ -34,7 +37,9 @@ problem_tags:
 - contrastive-loss
 - subject-heldout
 - representation-learning
-status: proposed
+reopen_reason: ''
+reopened_from: null
+status: inconclusive
 supersedes: hyp-eiv-dcl-baseline-20260727
 topic_tags:
 - infonce

@@ -2,6 +2,16 @@
 direction: lower_better
 id: eiv_supabase_floor_emission_rate
 name: Deployment-distribution hr_raw floor-emission rate (exact "30")
+noise_k: 2.0
+noise_n: 3
+noise_note: 'Exact-30 floor emission rate on the frozen 200-row supabase draw, v7noatom
+  seeds 42/43/44 = 0/200, 0/200, 0/200. The band is EXACTLY zero across seeds: this
+  is a structural (present/absent) property, not a noisy scalar, which is why the
+  baseline designation was made on it rather than on a point score. sigma=0 means
+  any non-zero movement is signal — appropriate here and NOT a placeholder. Source:
+  exp-v7noatom-seed-band-20260813 gate g1-all-seeds-floor-rate-below-0.05 (PASS).'
+noise_sigma: 0.0
+noise_source: measured
 requires_control: null
 topic_tags:
 - deployment-distribution

@@ -2,6 +2,18 @@
 direction: neutral
 id: eiv_gen_bucket_acc_over_majority
 name: Generated HR-bucket accuracy over the majority-class baseline
+noise_k: 2.0
+noise_n: 3
+noise_note: 'Phase-C seed band on p4 hr_acc over an identical majority baseline (0.4453
+  on all three arms), seeds 42/43/44 = 0.5234 (67/128) / 0.4453 (57/128) / 0.5000
+  (64/128), RANGE 0.0781 = 10 of 128 samples. sigma = range/2 = 0.03905 so k=2 reproduces
+  the 0.0781 band the experiment preregistered as the MDE (''>0.0781 on p4 hr_acc
+  for a single-seed comparison''). This band RETIRED the legacy 0.066 figure in writing
+  and re-labelled several prior findings underpowered — notably the v4w-vs-v4c rescored
+  hr_acc gap of 0.0781, which EQUALS the band exactly. Source: exp-seed-band-20260809
+  gate gate-band-vs-legacy-spread (PASS).'
+noise_sigma: 0.03905
+noise_source: measured
 requires_control: null
 topic_tags: []
 unit: accuracy_delta

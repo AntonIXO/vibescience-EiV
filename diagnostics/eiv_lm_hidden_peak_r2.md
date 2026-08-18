@@ -2,6 +2,11 @@
 direction: higher_better
 id: eiv_lm_hidden_peak_r2
 name: EiV frozen-LM hidden-state peak R2
+noise_k: 2.0
+noise_n: null
+noise_note: ''
+noise_sigma: null
+noise_source: null
 requires_control: null
 topic_tags:
 - cross-modal
@@ -22,10 +27,6 @@ This localises the loss to one of two places, which imply OPPOSITE next moves:
 MANDATORY CONTROL, same rule as eiv_peak_excursion_increment_r2: report the increment over R2(peak | true daily mean alone, 1 feature) alongside the raw value. 'peak ~ level + constant' otherwise scores a high raw R2 while carrying no peak information. Also report the same probe at the hr_raw position as a WITHIN-MODEL POSITIVE CONTROL: hr_raw is the slot that demonstrably conditions at generation (corr +0.740 full coverage, +4.27 bpm skill), so it calibrates what 'enough to drive generation' looks like at this exact measurement point.
 
 Population must be the STRICT clean filter (no zero-bpm present steps, daily mean > 40 bpm), never the legacy coverage>0.9 & mean>20 filter, which is 59.1% zero-contaminated.
-
-*Unit:* `r2` - *higher_better*
-
-#cross-modal #sensor-text #medgemma
 
 *Unit:* `r2` — *higher_better*
 

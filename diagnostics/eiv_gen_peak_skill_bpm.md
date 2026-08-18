@@ -2,6 +2,19 @@
 direction: higher_better
 id: eiv_gen_peak_skill_bpm
 name: EiV native-emission hr_peak skill vs strongest trivial baseline
+noise_k: 2.0
+noise_n: 3
+noise_note: 'Phase-C SEED band on emitted hr_peak skill, seeds 42/43/44 off the identical
+  Phase-B init with the only variable being the Phase-C seed: -3.260 / -1.6723 / -0.8362
+  bpm, RANGE 2.4238 bpm (= eiv_phase_c_seed_band_range_bpm). sigma taken as range/2
+  = 1.2119, so k=2 reproduces the full measured band as the detection bar — which
+  is exactly the rule exp-seed-band-20260809 preregistered: ''minimum detectable effect
+  for all future Phase-C arms must be derived from THIS band: >2.42 bpm on emitted
+  hr_peak skill for a single-seed comparison''. NOTE the experiment states the 3-draw
+  range UNDERSTATES true spread, so this floor is a LOWER BOUND. Source: exp-seed-band-20260809
+  gate gate-band-vs-legacy-spread (PASS).'
+noise_sigma: 1.2119
+noise_source: measured
 requires_control: eiv_gen_peak_donor_gap_bpm
 topic_tags: []
 unit: bpm

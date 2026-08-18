@@ -15,7 +15,7 @@ predicted_effects:
   magnitude_note: ''
 problem_id: the-15-min-1-min-epoch-migration-3e7d2d
 problem_tags: []
-status: proposed
+status: refuted
 supersedes: null
 topic_tags:
 - cross-modal

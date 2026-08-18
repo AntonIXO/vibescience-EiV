@@ -2,6 +2,7 @@
 artifacts: []
 closed: true
 config_note: ''
+cost: null
 crash_reason: ''
 created_at: '2026-08-08T06:59:59+00:00'
 diagnostics_measured:
@@ -21,6 +22,15 @@ gate_results: []
 git_ref: ''
 hypothesis_id: training-the-encoder-on-the-1-minute-031c19
 id: exp-1min-end-to-end-20260808
+interpretation:
+  at: '2026-08-18T20:56:52+00:00'
+  failure_mode: null
+  lesson: 'The 1-minute peak gain SURVIVES end-to-end training rather than being an
+    artifact of the isolated control: incremental peak-excursion R2 0.4086 -> 0.4182
+    and held-out hr R2 0.9713 -> 0.9777, at 3.1x the runtime (902 -> 2822 s). Both
+    the peak gain and the saturated mean readout hold, so the migration is safe to
+    build on — the cost is wall-clock, not representation quality.'
+  transfers_to: []
 key_numbers: {}
 observed_effects:
 - delta: 0.0096
@@ -39,6 +49,7 @@ prediction_match:
     eiv_heldout_hr_r2: false
     eiv_peak_excursion_increment_r2: true
 provenance: {}
+recipe_fingerprint: {}
 verdict: supports
 ---
 
@@ -51,5 +62,8 @@ Tests hypothesis [[training-the-encoder-on-the-1-minute-031c19]].
 - [[eiv_training_runtime_sec]]: before 902.32 → after 2822.0  (Δ +1919.68, up)
 
 **Verdict:** supports
+
+## Interpretation
+The 1-minute peak gain SURVIVES end-to-end training rather than being an artifact of the isolated control: incremental peak-excursion R2 0.4086 -> 0.4182 and held-out hr R2 0.9713 -> 0.9777, at 3.1x the runtime (902 -> 2822 s). Both the peak gain and the saturated mean readout hold, so the migration is safe to build on — the cost is wall-clock, not representation quality.
 
 #epoch-resolution #wearables #baseline #dataset-whitelist
