@@ -5,6 +5,7 @@ config_note: 'E8 = diag_e24_lm_hidden_peak.py unchanged, --adapter outputs/check
   -n 900, --out outputs/probes/e8_lm_hidden_peak_v9band04.json. 4-bit load, layers
   {0,8,17,25,34}, strict-clean train-corpus pool. systemd-run scope MemoryMax=14G.
   Gates: g0 hr_raw R2>=0.60, g1 final-layer increment >+0.25, g2 |shuffle|<0.05.'
+cost: null
 crash_reason: ''
 created_at: '2026-08-14T08:31:28+00:00'
 diagnostics_measured:
@@ -31,6 +32,30 @@ gate_results:
 git_ref: ''
 hypothesis_id: hyp-e8-lm-readout-transfer-20260814
 id: exp-e8-lm-readout-transfer-20260814
+interpretation:
+  at: '2026-08-18T21:08:44+00:00'
+  failure_mode: execution_bug
+  lesson: 'READ THE HEADLINE, NOT THE VERDICT: all three preregistered gates PASSED
+    and the readout-failure localization TRANSFERS to the current v9band04_s42 recipe;
+    the mechanical ''refutes'' label is a bookkeeping artifact of setting `before`
+    to E24''s e23v2 cross-adapter value (+0.7476), which makes the delta read as -0.2444
+    ''down''. The preregistered question was whether the final-layer increment at
+    the hr_peak emission position clears +0.25, and it does with 2x margin: +0.5032
+    (R2 0.5440, level control 0.0408), with hr_raw positive control R2 0.9981 (gate
+    >=0.60) and shuffled-target R2 -0.0041 (gate |.|<0.05), n=900 strict-clean, 0
+    skipped, ~3.5 min GPU at 4-bit. The layer profile is flat-high from L8 (0.4909)
+    to L34 (0.5032) — the peak neither builds nor decays in flight, consistent with
+    the prefix being copied forward unread — so ~100% of the encoder''s peak surplus
+    arrives at the emitting token and the frozen lm_head/decode path is the sole failure
+    stage. Do not re-run this localization; spend GPU on readout-side or numeric-head
+    arms instead.'
+  transfers_to:
+  - hyp-e7-projector-bottleneck-20260814
+  - hyp-e9-lmhead-lora-20260814
+  - hyp-e10-hrv-localization-20260814
+  - the-hr-peak-failure-is-a-readout-965f58
+  - the-hr-peak-signal-enters-the-lm-well-ba9dd9
+  - e11-a-linear-scalar-regression-head-127ffe
 key_numbers: {}
 observed_effects:
 - delta: -0.2444
@@ -42,6 +67,7 @@ prediction_match:
   per_diagnostic:
     eiv_lm_hidden_peak_r2: false
 provenance: {}
+recipe_fingerprint: {}
 verdict: refutes
 ---
 
@@ -58,6 +84,13 @@ Branches from [[exp-e7-projector-bottleneck-20260814]].
 - `g2-shuffle-null`: PASS — PASS. Shuffled-target R2 = -0.0041, |.| < 0.05.
 
 **Verdict:** refutes
+
+## Interpretation
+**Failure mode:** `execution_bug`
+
+READ THE HEADLINE, NOT THE VERDICT: all three preregistered gates PASSED and the readout-failure localization TRANSFERS to the current v9band04_s42 recipe; the mechanical 'refutes' label is a bookkeeping artifact of setting `before` to E24's e23v2 cross-adapter value (+0.7476), which makes the delta read as -0.2444 'down'. The preregistered question was whether the final-layer increment at the hr_peak emission position clears +0.25, and it does with 2x margin: +0.5032 (R2 0.5440, level control 0.0408), with hr_raw positive control R2 0.9981 (gate >=0.60) and shuffled-target R2 -0.0041 (gate |.|<0.05), n=900 strict-clean, 0 skipped, ~3.5 min GPU at 4-bit. The layer profile is flat-high from L8 (0.4909) to L34 (0.5032) — the peak neither builds nor decays in flight, consistent with the prefix being copied forward unread — so ~100% of the encoder's peak surplus arrives at the emitting token and the frozen lm_head/decode path is the sole failure stage. Do not re-run this localization; spend GPU on readout-side or numeric-head arms instead.
+
+Transfers to: [[hyp-e7-projector-bottleneck-20260814]], [[hyp-e9-lmhead-lora-20260814]], [[hyp-e10-hrv-localization-20260814]], [[the-hr-peak-failure-is-a-readout-965f58]], [[the-hr-peak-signal-enters-the-lm-well-ba9dd9]], [[e11-a-linear-scalar-regression-head-127ffe]]
 
 ## Notes
 ALL THREE PREREGISTERED GATES PASS: the readout-failure localization TRANSFERS to the current baseline. Final-layer increment +0.5032 (R2 0.5440, level control 0.0408), hr_raw positive control 0.9981, shuffle null -0.0041, n=900 strict-clean, 0 skipped, ~3.5 min GPU. CAVEAT ON THE RECORDED DELTA: 'before' was set to E24's e23v2 value (+0.7476) for cross-adapter reference, so the observed_effects direction reads 'down' — that 0.24 drop is a real cross-adapter difference (v9band04 carries less peak surplus than e23v2 did) but the preregistered question was whether the increment stays above +0.25, and it does with 2x margin. THE CHAIN IS NOW CLOSED ON ONE RECIPE, all same-family measurements: raw supply 0.4847 -> encoder+fusion 0.5004 -> projector 0.5263 -> LM final layer at emission position 0.5032 -> generated output corr 0.17-0.35, negative skill. ~100% of the encoder's peak surplus arrives at the token that emits the first digit; the frozen lm_head/decode path is the sole failure stage. DECISION: rb-e4-lora-lm-head is now precisely targeted and is the next GPU arm — with the E26 scoping honored (expect ~4 bpm coarse magnitude correction, NOT accurate peaks; teacher-forcing trap; untie lm_head from input embeddings BEFORE attaching LoRA, assert sensor-sentinel embeddings bit-identical). The alternative (numeric scalar head) remains the architecture escape if E4's ~4 bpm ceiling is confirmed. Layer profile note: increment is already 0.49 at L8 and flat through L34 — the signal neither builds nor decays in-flight, consistent with the prefix being copied forward unread by the decode path.

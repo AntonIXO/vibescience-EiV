@@ -12,6 +12,7 @@ config_note: 'PURE CPU instrumentation audit, no GPU, no model, seconds. Ran CON
   had completed and while seed 2''s probe was already running with its modules loaded,
   so the in-flight run is unaffected and seeds remain comparable; imports verified
   clean.'
+cost: null
 crash_reason: ''
 created_at: '2026-08-06T01:27:58+00:00'
 diagnostics_measured:
@@ -78,6 +79,37 @@ gate_results:
 git_ref: ''
 hypothesis_id: the-stage-c-collapse-tripwires-are-2211e6
 id: exp-e33f-tripwire-validity-20260806
+interpretation:
+  at: '2026-08-18T21:08:43+00:00'
+  failure_mode: test_invalid
+  lesson: 'THIS RECORD INVALIDATES AN INSTRUMENT, NOT A HYPOTHESIS: two Stage C tripwires
+    cannot measure what they are read as measuring, so every ''collapsed'' verdict
+    gated on them is now UNSUPPORTED rather than refuted. Defect 1 - the p6 shuffle
+    control (shuffle_control.py:79-87) derives ground truth from hardcoded thresholds
+    on the daily MEAN while the model is trained on datasets.hr_label_bucket keyed
+    on the daily PEAK; on the strict-clean population n=1546 they AGREE ON ONLY 19.40%
+    of samples (disagreement 80.60%) and the tachycardic class, 40.88% of the mass
+    under the trained label, is 0.0000 and literally UNREACHABLE under p6 (it needs
+    daily mean >= 100 bpm, the trained label uses peak >= 120), so a model answering
+    exactly what it was trained to answer is marked wrong on ~81% of samples - which
+    is why bucket_acc_ordered = bucket_acc_shuffled = 0.0000 on a seed with parse_failure_rate
+    0.0000 and hr_acc 0.4297. Defect 2 - counterfactual.py:142 increments swap_total
+    only when bucket_a != bucket_b and :148 returns 0.0 when swap_total == 0, and
+    swap_total was NOT persisted, so ''never measured'' and ''failed every attempt''
+    are permanently indistinguishable in saved artifacts (data-side contrast is only
+    P(two random samples differ) = 0.6391, and the source at :100 already flags this
+    generate-based P3 as superseded by scratch/diag_swap_gap.py). Seed 1''s ''collapsed=yes:swap<0.3''
+    contradicts its own probe file (output_diff_rate_zero 1.0000, random 1.0000, permute
+    0.9219, monotonic_scale_response 0.8438, null_sensor_bucket_disagreement 0.6563)
+    and must not be used to discard it. ACT ON THIS: use p4 (hr_acc, parse_failure_rate),
+    the p2 ablation family and diag_swap_gap.py for seed selection; p2/p4 use the
+    trained label and are unaffected. This does NOT establish seed 1 is good - hr_acc
+    0.4297 clears its 0.40 bar narrowly and p1 hr_r2 0.9254 is a hidden-state probe
+    that proves presence, never usability.'
+  transfers_to:
+  - the-reported-phase-c-collapse-to-the-272801
+  - the-hr-peak-emission-failure-is-a-723466
+  - the-hr-peak-native-emission-deficit-264f4f
 key_numbers: {}
 observed_effects:
 - delta: -0.806
@@ -89,6 +121,7 @@ prediction_match:
   per_diagnostic:
     eiv_digit_readout_decoded_mae: false
 provenance: {}
+recipe_fingerprint: {}
 verdict: inconclusive
 ---
 
@@ -125,6 +158,13 @@ The decisive fact: 40.88% of the population is TACHYCARDIC under the label the m
 A model that ignores its prefix cannot change its output 100% of the time under sensor zeroing, nor respond monotonically to sensor scaling 84% of the time. The pipeline's OWN documented collapse signature is 'constant ~54-67 bpm output regardless of input', and exp-e33 measured this adapter family at std(emitted)/std(true) = 0.9999 with ZERO emissions in that band. The collapse verdict rested solely on swap=0.0000, which the source proves can mean 'not measured'. The gate FAILS: the verdict is not supported by the evidence in its own artifact.
 
 **Verdict:** inconclusive
+
+## Interpretation
+**Failure mode:** `test_invalid`
+
+THIS RECORD INVALIDATES AN INSTRUMENT, NOT A HYPOTHESIS: two Stage C tripwires cannot measure what they are read as measuring, so every 'collapsed' verdict gated on them is now UNSUPPORTED rather than refuted. Defect 1 - the p6 shuffle control (shuffle_control.py:79-87) derives ground truth from hardcoded thresholds on the daily MEAN while the model is trained on datasets.hr_label_bucket keyed on the daily PEAK; on the strict-clean population n=1546 they AGREE ON ONLY 19.40% of samples (disagreement 80.60%) and the tachycardic class, 40.88% of the mass under the trained label, is 0.0000 and literally UNREACHABLE under p6 (it needs daily mean >= 100 bpm, the trained label uses peak >= 120), so a model answering exactly what it was trained to answer is marked wrong on ~81% of samples - which is why bucket_acc_ordered = bucket_acc_shuffled = 0.0000 on a seed with parse_failure_rate 0.0000 and hr_acc 0.4297. Defect 2 - counterfactual.py:142 increments swap_total only when bucket_a != bucket_b and :148 returns 0.0 when swap_total == 0, and swap_total was NOT persisted, so 'never measured' and 'failed every attempt' are permanently indistinguishable in saved artifacts (data-side contrast is only P(two random samples differ) = 0.6391, and the source at :100 already flags this generate-based P3 as superseded by scratch/diag_swap_gap.py). Seed 1's 'collapsed=yes:swap<0.3' contradicts its own probe file (output_diff_rate_zero 1.0000, random 1.0000, permute 0.9219, monotonic_scale_response 0.8438, null_sensor_bucket_disagreement 0.6563) and must not be used to discard it. ACT ON THIS: use p4 (hr_acc, parse_failure_rate), the p2 ablation family and diag_swap_gap.py for seed selection; p2/p4 use the trained label and are unaffected. This does NOT establish seed 1 is good - hr_acc 0.4297 clears its 0.40 bar narrowly and p1 hr_r2 0.9254 is a hidden-state probe that proves presence, never usability.
+
+Transfers to: [[the-reported-phase-c-collapse-to-the-272801]], [[the-hr-peak-emission-failure-is-a-723466]], [[the-hr-peak-native-emission-deficit-264f4f]]
 
 ## Notes
 ALL THREE GATES FAILED -- THE TRIPWIRES ARE BROKEN, NOT THE SEED. This is the first hypothesis I have CONFIRMED in this series, and it was found by reading a contradiction inside a single artifact.

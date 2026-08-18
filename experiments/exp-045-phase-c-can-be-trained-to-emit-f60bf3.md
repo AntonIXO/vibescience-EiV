@@ -72,6 +72,7 @@ config_note: "exp-chat-coach-20260818. Driver scratch/run_chat_coach_ab.sh, log 
   +0.958 (MAE 3.057 vs trivial 4.015,\n    corr 0.767); hr_peak skill -8.141\n  This
   reproduces the shipped v9band04 pattern (positive hr_raw, negative hr_peak) on the\n
   \ new bundle, so the control is sound and g1's bar is +4.828 - 2.26 = +2.568 bpm."
+cost: null
 crash_reason: ''
 created_at: '2026-08-17T23:07:45+00:00'
 diagnostics_measured:
@@ -141,6 +142,33 @@ gate_results:
 git_ref: ''
 hypothesis_id: phase-c-can-be-trained-to-emit-conversational-0dcbc0
 id: exp-045-phase-c-can-be-trained-to-emit-f60bf3
+interpretation:
+  at: '2026-08-18T21:08:38+00:00'
+  failure_mode: noise
+  lesson: 'READ AGAINST THE VERDICT: this closed `refutes` only because all three
+    predicted effects were direction ''none'' and two diagnostics moved slightly —
+    but both moves are INSIDE their own preregistered seed bands (dense hr_raw MAE
+    2.761 -> 2.185, delta -0.576 vs a 2.26 bpm band; hr_peak skill -2.117 -> -1.095,
+    delta +1.022 vs a 2.42 bpm band) and all four gates PASSED, so the substantive
+    result is a powered null confirming the claim. Phase C can be trained on conversational
+    annotation + coaching targets instead of JSON slots with NO detectable numeric-grounding
+    cost: chat hr_raw skill +4.961/+5.428/+3.896 (median +4.961) vs the json control''s
+    +4.828 on a held-out 13-subject split, delta +0.134 bpm against a 2.568 bpm bar,
+    and grounding survived a measured 2.17x dilution of the value-token loss share
+    (chat 0.150 vs json 0.326). New and usable: prose parse rate 1.000 (128/128 on
+    all three seeds) vs json 0.930 — but the json prompt is truncated at 256 of 327
+    tokens and loses its ''output ONLY the JSON object'' instruction, so prose is
+    NOT proven inherently more parseable; and the model reproduces the target''s epistemics
+    seed-stably (abstains on ~64% of test rows, hedges on 98-99% of production supabase
+    rows, matching a census where rr is backed by 1-4 epochs on 213/223 rows). Residual
+    risk lives on deployment and on the encoder, not on the carrier: supabase chat
+    hr_raw +1.243/+1.570/-0.676 vs json +0.958 (seed 44 negative), hr_peak -8.1 to
+    -9.9 on BOTH styles, and coaching QUALITY is entirely unmeasured (production ''What
+    to do'' lines are a constant from a 4-entry state map).'
+  transfers_to:
+  - the-template-is-already-learned-so-eb13d1
+  - giving-the-clm-objective-the-gradient-9b4f55
+  - with-phase-c-now-seeded-0b5aff2-three-fae38a
 key_numbers:
   chat_hedge_rate_supabase_median: 0.98
   chat_parse_rate_min: 1.0
@@ -178,6 +206,7 @@ prediction_match:
     eiv_gen_peak_skill_bpm: false
     eiv_supabase_floor_emission_rate: true
 provenance: {}
+recipe_fingerprint: {}
 verdict: refutes
 ---
 
@@ -197,6 +226,13 @@ External run: local: logs/chat_coach_ab.log
 - `g4_hr_peak_stays_negative`: PASS — INFO / trap-check PASSES. chat hr_peak skill -0.487/-1.095/-2.528, json -2.117: all NEGATIVE, so the encoder excursion limit is intact and no instrument artifact is indicated. chat s42/s43 are nominally less negative than the control, but the 2.04 bpm spread sits inside the 2.42 bpm hr_peak seed band, so it is noise and must NOT be read as chat improving hr_peak.
 
 **Verdict:** refutes
+
+## Interpretation
+**Failure mode:** `noise`
+
+READ AGAINST THE VERDICT: this closed `refutes` only because all three predicted effects were direction 'none' and two diagnostics moved slightly — but both moves are INSIDE their own preregistered seed bands (dense hr_raw MAE 2.761 -> 2.185, delta -0.576 vs a 2.26 bpm band; hr_peak skill -2.117 -> -1.095, delta +1.022 vs a 2.42 bpm band) and all four gates PASSED, so the substantive result is a powered null confirming the claim. Phase C can be trained on conversational annotation + coaching targets instead of JSON slots with NO detectable numeric-grounding cost: chat hr_raw skill +4.961/+5.428/+3.896 (median +4.961) vs the json control's +4.828 on a held-out 13-subject split, delta +0.134 bpm against a 2.568 bpm bar, and grounding survived a measured 2.17x dilution of the value-token loss share (chat 0.150 vs json 0.326). New and usable: prose parse rate 1.000 (128/128 on all three seeds) vs json 0.930 — but the json prompt is truncated at 256 of 327 tokens and loses its 'output ONLY the JSON object' instruction, so prose is NOT proven inherently more parseable; and the model reproduces the target's epistemics seed-stably (abstains on ~64% of test rows, hedges on 98-99% of production supabase rows, matching a census where rr is backed by 1-4 epochs on 213/223 rows). Residual risk lives on deployment and on the encoder, not on the carrier: supabase chat hr_raw +1.243/+1.570/-0.676 vs json +0.958 (seed 44 negative), hr_peak -8.1 to -9.9 on BOTH styles, and coaching QUALITY is entirely unmeasured (production 'What to do' lines are a constant from a 4-entry state map).
+
+Transfers to: [[the-template-is-already-learned-so-eb13d1]], [[giving-the-clm-objective-the-gradient-9b4f55]], [[with-phase-c-now-seeded-0b5aff2-three-fae38a]]
 
 ## Key numbers
 - `chat_hedge_rate_supabase_median`: 0.98

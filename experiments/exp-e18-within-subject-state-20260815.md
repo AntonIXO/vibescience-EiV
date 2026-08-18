@@ -13,6 +13,7 @@ config_note: 'Runner: scratch/e18_within_subject_state.py (+ scratch/canon_utils
   subject on the same held-out tail: running positive rate, persistence, clock-only.
   Primary = AUC(HR/HRV+clock) minus max(those three), median over powered subjects
   with 2000-sample bootstrap CI95.'
+cost: null
 crash_reason: ''
 created_at: '2026-08-14T22:21:44+00:00'
 diagnostics_measured:
@@ -44,6 +45,30 @@ gate_results:
 git_ref: ''
 hypothesis_id: hyp-e18-within-subject-state-20260815
 id: exp-e18-within-subject-state-20260815
+interpretation:
+  at: '2026-08-18T21:08:40+00:00'
+  failure_mode: claim_false
+  lesson: 'The N-of-1 escape hatch for affect is SHUT, powered: across 12 arms (3
+    targets x 4 windows) of per-subject walk-forward against each subject''s own strongest
+    trivial (mean trivial AUC ~0.60 from base rate + persistence + clock), the best
+    median per-subject skill is +0.0037 (tired W=480, CI95[-0.0242,+0.0314], 13x under
+    the 0.05 MDE), best frac_positive 0.526 against a 0.60 bar, and 4 of 12 arms have
+    CI95 ENTIRELY below zero — adding peri-ping HR/HRV makes roughly two-thirds of
+    subjects worse. Short windows are the worst arms within-subject too, exactly opposite
+    to the predicted flattening (tense -0.0938@W30 -> -0.0455@W1440; tired -0.0751@W30
+    -> +0.0037@W480; dryad -0.1092@W30 -> -0.0174@W1440), making this the third independent
+    measurement against acute peri-ping autonomic reactivity on this corpus. Do not
+    re-run per-user affect heads on HR/HRV features here without NEW label supply
+    (supabase has zero state labels) or a NEW modality (EDA, accelerometry/context,
+    sleep-timing irregularity); this says nothing about hrv/rr/temp channel reporting
+    or the excursion axis, where E19 confirmed a large lever.'
+  transfers_to:
+  - hyp-e14-within-subject-affect-supply-20260814
+  - hyp-e16-peri-ema-window-20260815
+  - hyp-affect-multichannel-supply-20260814
+  - hyp-e22-encoder-representation-affect-20260815
+  - hyp-e24-lab-protocol-subdaily-state-20260815
+  - hyp-e26-within-window-transitions-20260815
 key_numbers:
   best_frac_positive: 0.526
   best_median_skill_tired_W480: 0.0037
@@ -67,6 +92,7 @@ prediction_match:
   per_diagnostic:
     eiv_affect_multichannel_increment: true
 provenance: {}
+recipe_fingerprint: {}
 verdict: 'null'
 ---
 
@@ -85,6 +111,13 @@ Branches from [[exp-e17-unified-readout-20260815]].
 **Verdict:** null
 
 > POWERED NULL: the observed effect is smaller than the minimum detectable effect this run preregistered. The direction is noise, not evidence — read this as a refutation of the lever at the committed scale.
+
+## Interpretation
+**Failure mode:** `claim_false`
+
+The N-of-1 escape hatch for affect is SHUT, powered: across 12 arms (3 targets x 4 windows) of per-subject walk-forward against each subject's own strongest trivial (mean trivial AUC ~0.60 from base rate + persistence + clock), the best median per-subject skill is +0.0037 (tired W=480, CI95[-0.0242,+0.0314], 13x under the 0.05 MDE), best frac_positive 0.526 against a 0.60 bar, and 4 of 12 arms have CI95 ENTIRELY below zero — adding peri-ping HR/HRV makes roughly two-thirds of subjects worse. Short windows are the worst arms within-subject too, exactly opposite to the predicted flattening (tense -0.0938@W30 -> -0.0455@W1440; tired -0.0751@W30 -> +0.0037@W480; dryad -0.1092@W30 -> -0.0174@W1440), making this the third independent measurement against acute peri-ping autonomic reactivity on this corpus. Do not re-run per-user affect heads on HR/HRV features here without NEW label supply (supabase has zero state labels) or a NEW modality (EDA, accelerometry/context, sleep-timing irregularity); this says nothing about hrv/rr/temp channel reporting or the excursion axis, where E19 confirmed a large lever.
+
+Transfers to: [[hyp-e14-within-subject-affect-supply-20260814]], [[hyp-e16-peri-ema-window-20260815]], [[hyp-affect-multichannel-supply-20260814]], [[hyp-e22-encoder-representation-affect-20260815]], [[hyp-e24-lab-protocol-subdaily-state-20260815]], [[hyp-e26-within-window-transitions-20260815]]
 
 ## Key numbers
 - `best_frac_positive`: 0.526

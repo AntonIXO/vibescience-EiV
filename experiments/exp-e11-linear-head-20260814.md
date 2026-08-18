@@ -10,6 +10,7 @@ config_note: 'E11 arm A (offline linear head probe), zero training. Checkpoint o
   LINEAR ONLY per E28 rule-out. Controls: donor-prefix permutation on eval rows (g2),
   shuffled-target refit. Script scratch/e11_linear_head_probe.py -> logs/e11_linear_head_probe.json;
   GPU ~15-25 min in systemd-run scope MemoryMax=20G.'
+cost: null
 crash_reason: ''
 created_at: '2026-08-14T10:01:59+00:00'
 diagnostics_measured:
@@ -54,6 +55,34 @@ gate_results:
 git_ref: ''
 hypothesis_id: e11-a-linear-scalar-regression-head-127ffe
 id: exp-e11-linear-head-20260814
+interpretation:
+  at: '2026-08-18T21:08:39+00:00'
+  failure_mode: recipe_conditional
+  lesson: 'A linear RidgeCV head on L34 self-prefix features reads real per-sample
+    signal on the DENSE population but is dead as a deployment lever: dense hr_peak
+    MAE 15.198 beats both trivials (always-median 16.946, hr_raw-derived 17.168) yet
+    its paired bootstrap CI95 [-0.135, +3.643] includes zero (mean skill +1.748, prereg
+    FAIL); hrv dense is decisively positive (MAE 10.753 vs trivial 18.216, skill +7.462
+    CI [3.73,10.927], corr 0.7175 beating the emission path''s 0.592); hr_raw dense
+    is near-perfect (MAE 1.842, corr 0.9523, R2 0.8997 missing the 0.90 bar by 0.0003);
+    and donor-prefix permutation gaps of +4.521 (peak), +4.593 (hr_raw), +8.713 (hrv)
+    with a clean shuffle control (17.00) prove the conditioning is per-sample, not
+    a population prior. What kills it is deployment transfer, and the mechanism is
+    measured, not guessed: supabase hr_peak skill -6.967 CI [-9.67,-4.172] and hrv
+    -5.362, and MORE dense training data made deployment WORSE (n_train=40 gives -1.737,
+    n_train=700 gives -6.967) — monotone evidence of coverage covariate shift in the
+    L34 feature manifold rather than a data-volume problem. Only hr_raw transfers
+    at all (supabase skill +1.007 CI [0.538,1.533], corr 0.716) and it still loses
+    to the existing emission path (MAE 3.008 vs 2.85), so do not re-run dense-only
+    head fitting; the direct successor is coverage-augmented head training (mask dense
+    rows to supabase-like coverage before generation), still with zero LM training.'
+  transfers_to:
+  - e11-s-supabase-transfer-failure-is-5472c8
+  - n-of-1-head-calibration-linear-ridgecv-a45392
+  - hyp-e9-lmhead-lora-20260814
+  - hyp-e10-hrv-localization-20260814
+  - the-hr-peak-readout-cap-is-an-a61025
+  - hrv-raw-fails-on-deployment-for-the-624895
 key_numbers: {}
 observed_effects:
 - delta: 4.628
@@ -69,6 +98,7 @@ prediction_match:
     eiv_gen_peak_donor_gap_bpm: true
     eiv_gen_peak_skill_bpm: true
 provenance: {}
+recipe_fingerprint: {}
 verdict: directional_only
 ---
 
@@ -89,6 +119,13 @@ Branches from [[exp-e9-lmhead-lora-20260814]].
 **Verdict:** directional_only
 
 > Direction matched, but a preregistered blocking gate did NOT pass. This does not establish the claim.
+
+## Interpretation
+**Failure mode:** `recipe_conditional`
+
+A linear RidgeCV head on L34 self-prefix features reads real per-sample signal on the DENSE population but is dead as a deployment lever: dense hr_peak MAE 15.198 beats both trivials (always-median 16.946, hr_raw-derived 17.168) yet its paired bootstrap CI95 [-0.135, +3.643] includes zero (mean skill +1.748, prereg FAIL); hrv dense is decisively positive (MAE 10.753 vs trivial 18.216, skill +7.462 CI [3.73,10.927], corr 0.7175 beating the emission path's 0.592); hr_raw dense is near-perfect (MAE 1.842, corr 0.9523, R2 0.8997 missing the 0.90 bar by 0.0003); and donor-prefix permutation gaps of +4.521 (peak), +4.593 (hr_raw), +8.713 (hrv) with a clean shuffle control (17.00) prove the conditioning is per-sample, not a population prior. What kills it is deployment transfer, and the mechanism is measured, not guessed: supabase hr_peak skill -6.967 CI [-9.67,-4.172] and hrv -5.362, and MORE dense training data made deployment WORSE (n_train=40 gives -1.737, n_train=700 gives -6.967) — monotone evidence of coverage covariate shift in the L34 feature manifold rather than a data-volume problem. Only hr_raw transfers at all (supabase skill +1.007 CI [0.538,1.533], corr 0.716) and it still loses to the existing emission path (MAE 3.008 vs 2.85), so do not re-run dense-only head fitting; the direct successor is coverage-augmented head training (mask dense rows to supabase-like coverage before generation), still with zero LM training.
+
+Transfers to: [[e11-s-supabase-transfer-failure-is-5472c8]], [[n-of-1-head-calibration-linear-ridgecv-a45392]], [[hyp-e9-lmhead-lora-20260814]], [[hyp-e10-hrv-localization-20260814]], [[the-hr-peak-readout-cap-is-an-a61025]], [[hrv-raw-fails-on-deployment-for-the-624895]]
 
 ## Notes
 REFUTED as preregistered (blocking g1 fails: dense peak skill CI95 [-0.135,+3.643] includes zero), but the most informative refutation of the campaign. WHAT SURVIVED: (1) linear heads on L34 self-prefix features carry real per-sample signal — donor gaps +4.5..+8.7, shuffle destroys everything; (2) hrv_raw dense head decisively positive: MAE 10.75 vs trivial 18.22, skill +7.46 CI [3.73,10.93], corr 0.7175 > emission 0.592; (3) hr_raw head near-perfect dense (MAE 1.84, corr 0.952). WHAT KILLED IT: deployment transfer. Supabase skill: peak -6.97, hrv -5.36; and scaling dense training data made supa WORSE (n40 -1.74 -> n700 -6.97) — monotone evidence of covariate shift between dense-row and sparse-row L34 features, NOT a data-volume problem. This is the 'unlearned sparsity handling' clause of the problem title now localized to the feature manifold: sparse-coverage prefixes put L34 states somewhere dense-fit heads have never seen. hr_raw transfers (supa skill +1.007 CI-positive) but does not beat the existing emission path (3.008 vs 2.85), so no deployment win anywhere. PROVENANCE CORRECTION: config_note said TRAIN features oracle teacher-forced; implemented script SELF-GENERATES train prefixes (batch 1) — train/eval feature distributions matched, strictly cleaner than prereg. Successor: coverage-augmentation head training (mask dense train rows to supabase-like coverage before generation, mix sparse-adjacent datasets) — attacks the measured covariate shift directly, still zero LM training. Artifacts: scratch/e11_linear_head_probe.py, logs/e11_linear_head_probe.json, logs/e11_smoke.json, commit f89e36d.

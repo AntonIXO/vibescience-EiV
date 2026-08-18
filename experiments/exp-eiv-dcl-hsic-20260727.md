@@ -4,6 +4,7 @@ closed: true
 config_note: Frozen manifest SHA256 4d905abd9f7e4a5d1b961383a5310df252296c0a34746bdd27eec1920c7b24f5.
   Validation-only pilot grid weight {0.03,0.1,0.3} x RBF bandwidth multiplier {0.5,1,2},
   seed 17, 500 steps; then immutable selected config and 8 paired 2000-step seeds.
+cost: null
 crash_reason: ''
 created_at: '2026-07-27T21:34:09+00:00'
 diagnostics_measured:
@@ -29,6 +30,29 @@ gate_results: []
 git_ref: fix/soft-token-norm-scale@955c1b5d19b4+manifest-4d905abd9f7e
 hypothesis_id: hyp-eiv-dcl-hsic-20260727
 id: exp-eiv-dcl-hsic-20260727
+interpretation:
+  at: '2026-08-18T21:08:44+00:00'
+  failure_mode: null
+  lesson: 'TREAT THIS ''supports'' AS DIRECTIONAL-ONLY — the campaign actually failed:
+    all nine preregistered pilots (weight {0.03,0.1,0.3} x RBF bandwidth {0.5,1,2},
+    seed 17, 500 steps) missed the absolute rank>=5 gate with ranks spanning only
+    4.386-4.544, so no configuration was selected and no confirmation lock was created.
+    The logged arm is the exploratory best-raw-R2 candidate w=0.1/bw=0.5, whose R2
+    gain of +0.01046 (0.9526 -> 0.9631) missed the committed +0.02, and whose held-out
+    cross-modal HSIC moved the WRONG WAY (0.00657 -> 0.00552) — i.e. the proposed
+    nonlinear-dependence mechanism was not even engaged, so any R2 movement here is
+    unexplained by HSIC. On the objective bake-off ordering for the primary retrieval
+    diagnostic, DCL+HSIC is nominally the best arm (eiv_duplicate_recall5 0.112219
+    vs DCL 0.107232) but the gap is only +0.00499 on a single seed — far too small
+    to trust as a ranking, and bought for +0.245 effective rank that still leaves
+    the collapse gate unmet. Do not spend confirmation GPU on HSIC weight/bandwidth
+    search; the binding constraint is rank<5, not the dependence term.'
+  transfers_to:
+  - hyp-eiv-dcl-baseline-20260727
+  - hyp-eiv-native-kta-vicreg-20260727
+  - hyp-eiv-vicreg-20260727
+  - hyp-eiv-soft-cca-20260727
+  - hyp-eiv-multipositive-spectral-entropy-20260728
 key_numbers: {}
 observed_effects:
 - delta: 0.010455034328
@@ -54,6 +78,7 @@ prediction_match:
     eiv_duplicate_recall5: false
     eiv_heldout_hr_r2: true
 provenance: {}
+recipe_fingerprint: {}
 verdict: supports
 ---
 
@@ -70,6 +95,11 @@ External run: outputs/experiments/contrastive_losses_20260727/runs
 - [[eiv_peak_vram_gib]]: before 5.20703125 → after 5.21484375  (Δ +0.0078125, up)
 
 **Verdict:** supports
+
+## Interpretation
+TREAT THIS 'supports' AS DIRECTIONAL-ONLY — the campaign actually failed: all nine preregistered pilots (weight {0.03,0.1,0.3} x RBF bandwidth {0.5,1,2}, seed 17, 500 steps) missed the absolute rank>=5 gate with ranks spanning only 4.386-4.544, so no configuration was selected and no confirmation lock was created. The logged arm is the exploratory best-raw-R2 candidate w=0.1/bw=0.5, whose R2 gain of +0.01046 (0.9526 -> 0.9631) missed the committed +0.02, and whose held-out cross-modal HSIC moved the WRONG WAY (0.00657 -> 0.00552) — i.e. the proposed nonlinear-dependence mechanism was not even engaged, so any R2 movement here is unexplained by HSIC. On the objective bake-off ordering for the primary retrieval diagnostic, DCL+HSIC is nominally the best arm (eiv_duplicate_recall5 0.112219 vs DCL 0.107232) but the gap is only +0.00499 on a single seed — far too small to trust as a ranking, and bought for +0.245 effective rank that still leaves the collapse gate unmet. Do not spend confirmation GPU on HSIC weight/bandwidth search; the binding constraint is rank<5, not the dependence term.
+
+Transfers to: [[hyp-eiv-dcl-baseline-20260727]], [[hyp-eiv-native-kta-vicreg-20260727]], [[hyp-eiv-vicreg-20260727]], [[hyp-eiv-soft-cca-20260727]], [[hyp-eiv-multipositive-spectral-entropy-20260728]]
 
 ## Notes
 Closed after all nine preregistered pilots failed rank>=5 (range 4.386-4.544), so no configuration was selected and no confirmation lock was created. Logged after values are the exploratory best raw-R2 candidate w=0.1,bw=0.5; its +0.01046 R2 missed the committed +0.02, HSIC moved down, and rank remained below gate.

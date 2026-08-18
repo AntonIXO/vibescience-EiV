@@ -11,6 +11,7 @@ config_note: 'E12 coverage-augmentation head arm, zero LM training. Base: v9band
   ≈ 25 min GPU. Heads: RidgeCV linear only (E28). Score: (a) E11 plain heads on aug-eval
   dense (g1 mechanism), (b) mix-trained heads on aug-eval dense (g2) and frozen supa-200
   captures (g3), controls (g4). Script scratch/e12_coverage_aug_heads.py -> logs/e12_coverage_aug_heads.json.'
+cost: null
 crash_reason: ''
 created_at: '2026-08-14T10:58:44+00:00'
 diagnostics_measured:
@@ -59,6 +60,24 @@ gate_results:
 git_ref: ''
 hypothesis_id: e11-s-supabase-transfer-failure-is-5472c8
 id: exp-e12-coverage-aug-heads-20260814
+interpretation:
+  at: '2026-08-18T21:08:39+00:00'
+  failure_mode: mechanism_wrong
+  lesson: 'Coverage covariate shift is NOT the mechanism behind the dense->supabase
+    head transfer failure: replaying supabase-law block masks onto paired dense eval-150
+    rows cost hrv skill only 2.357 units (+6.467 CI[3.628,9.336] -> +4.110 CI[1.754,6.43],
+    both still CI-positive), under the preregistered 3.0 bar, i.e. ~20% of the ~11.8-unit
+    dense->supa hrv gap; the residual is population/device/target-variance shift (supa
+    hrv trivial 8.314 vs dense 13.4-17.6). Coverage augmentation is still worth keeping
+    ONLY for hrv and is not free: mix-training (700 plain + 300 aug) moved supa hrv
+    MAE 13.675->9.990 (69% of gap-to-trivial closed, still worse than always-median
+    8.314) while supa hr_peak skill degraded -6.967 -> -10.585 and hr_raw lost CI-positivity
+    (+1.007 CI[0.516,1.542] -> -0.197 CI[-0.758,0.38]). Do not spend more effort on
+    synthetic-coverage domain matching from public dense corpora; the remaining lever
+    is supervision fit ON the deployment distribution itself (per-user/few-shot calibration).'
+  transfers_to:
+  - n-of-1-head-calibration-linear-ridgecv-a45392
+  - e11-a-linear-scalar-regression-head-127ffe
 key_numbers: {}
 observed_effects:
 - delta: 3.686
@@ -77,6 +96,7 @@ prediction_match:
     eiv_gen_peak_skill_bpm: false
     eiv_nonhr_channel_grouped_r2: true
 provenance: {}
+recipe_fingerprint: {}
 verdict: directional_only
 ---
 
@@ -98,6 +118,13 @@ Branches from [[exp-e11-linear-head-20260814]].
 **Verdict:** directional_only
 
 > Direction matched, but a preregistered blocking gate did NOT pass. This does not establish the claim.
+
+## Interpretation
+**Failure mode:** `mechanism_wrong`
+
+Coverage covariate shift is NOT the mechanism behind the dense->supabase head transfer failure: replaying supabase-law block masks onto paired dense eval-150 rows cost hrv skill only 2.357 units (+6.467 CI[3.628,9.336] -> +4.110 CI[1.754,6.43], both still CI-positive), under the preregistered 3.0 bar, i.e. ~20% of the ~11.8-unit dense->supa hrv gap; the residual is population/device/target-variance shift (supa hrv trivial 8.314 vs dense 13.4-17.6). Coverage augmentation is still worth keeping ONLY for hrv and is not free: mix-training (700 plain + 300 aug) moved supa hrv MAE 13.675->9.990 (69% of gap-to-trivial closed, still worse than always-median 8.314) while supa hr_peak skill degraded -6.967 -> -10.585 and hr_raw lost CI-positivity (+1.007 CI[0.516,1.542] -> -0.197 CI[-0.758,0.38]). Do not spend more effort on synthetic-coverage domain matching from public dense corpora; the remaining lever is supervision fit ON the deployment distribution itself (per-user/few-shot calibration).
+
+Transfers to: [[n-of-1-head-calibration-linear-ridgecv-a45392]], [[e11-a-linear-scalar-regression-head-127ffe]]
 
 ## Notes
 COVERAGE HYPOTHESIS LARGELY REFUTED as *the* mechanism; augmentation partially helpful for hrv only. (1) Mechanism test g1 FAILED: supabase-law block masks on paired dense rows cost hrv heads only 2.36 skill-units (6.47→4.11, both CI-positive) — coverage explains ~20% of the ~11.8-unit dense→supa gap. Only hr_peak collapsed under masking (1.69→0.08), consistent with peak deletion by absence blocks. (2) Aug-mix training moved supa hrv MAE 13.675→9.990 (69% of gap-to-trivial closed, still worse than always-median 8.314) — MORE than the dense mechanism test predicts, suggesting the aug helps via feature-scale regularization rather than manifold matching. (3) Costs: supa hr_peak −6.97→−10.59, hr_raw lost CI-positivity — aug training is NOT free. (4) Residual dense→supa failure is population/device/context shift beyond coverage: supabase rows differ in ways synthetic masking of lifesnaps/pmdata days cannot reproduce (different subjects, device (optihealth pipeline), value distributions — e.g. supa hrv trivial 8.31 vs dense 13.4-17.6 implies compressed target variance). IMPLICATION: no head trained purely on public dense corpora will transfer; the lever that remains is supervision ON supabase-adjacent distribution itself — e.g. per-user calibration / few-shot head fitting on the 23 non-frozen supa rows, or collecting labels on deployment. Artifacts: scratch/e12_coverage_aug_heads.py (commit e6c3853), logs/e12_coverage_aug_heads.json, logs/e12_full.log, caches scratch/tmp_e12_*.

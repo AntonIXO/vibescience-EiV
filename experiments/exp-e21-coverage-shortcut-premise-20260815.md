@@ -19,6 +19,7 @@ config_note: 'Runner: scratch/e21_coverage_shortcut_premise.py -> logs/e21_cover
   Three feature sets, exactly as H5 specified: per-channel coverage (12), HR hourly
   presence pattern (24), physiology only (HR mean+std, 2). Two populations: incumbent
   all-datasets and the 6-dataset repaired allowlist.'
+cost: null
 crash_reason: ''
 created_at: '2026-08-15T06:58:17+00:00'
 diagnostics_measured:
@@ -36,6 +37,26 @@ gate_results: []
 git_ref: ''
 hypothesis_id: h5-the-shortcut-is-the-coverage-2aaaa0
 id: exp-e21-coverage-shortcut-premise-20260815
+interpretation:
+  at: '2026-08-18T21:08:40+00:00'
+  failure_mode: test_invalid
+  lesson: 'The coverage-shortcut MECHANISM survives on the live corpus but its magnitude
+    does not, and the intervention was never run — so treat this as re-priced, not
+    answered. Subject-grouped GroupKFold(5), n=6000, RF(300): dataset provenance is
+    decodable from per-channel coverage alone at bal-acc 0.8278 (acc 0.9381 vs 0.3952
+    majority) versus 0.2150 from physiology alone, a 3.85x gap, and curating the allowlist
+    barely moves it (repaired list 0.8055), which keeps ''suppress the signature,
+    do not curate the list'' as the right framing. But the headline H5 was written
+    against — bal-acc 0.9675 incumbent / 0.9800 repaired, and HR hourly presence 0.6416/0.6050
+    — collapsed to 0.8278/0.8055 and 0.4977/0.4411 after commit 6d13a66 changed the
+    coverage denominator and e849eb7 re-anchored the window grid. A Phase-A signature-suppression
+    arm is still justifiable but must be preregistered against 0.8278/0.8055 with
+    correspondingly smaller expected headroom; H5 itself carries no gates and an empty
+    plan, so nothing here was scored.'
+  transfers_to:
+  - h1-dataset-allowlist-repairing-the-per-93cde5
+  - h1b-reopened-and-this-time-it-tests-the-98f8db
+  - unnormalised-encoder-input-not-data-8ef2be
 key_numbers:
   incumbent_coverage_acc_now: 0.9381
   incumbent_coverage_bal_now: 0.8278
@@ -61,6 +82,7 @@ prediction_match:
     eiv_effective_rank: false
     eiv_peak_excursion_increment_r2: false
 provenance: {}
+recipe_fingerprint: {}
 verdict: inconclusive
 ---
 
@@ -73,6 +95,13 @@ External run: logs/e21_coverage_shortcut_premise.json
 - [[eiv-dataset-provenance-shortcut-balacc]]: before 0.9675 → after 0.8278  (Δ -0.1397, down)
 
 **Verdict:** inconclusive
+
+## Interpretation
+**Failure mode:** `test_invalid`
+
+The coverage-shortcut MECHANISM survives on the live corpus but its magnitude does not, and the intervention was never run — so treat this as re-priced, not answered. Subject-grouped GroupKFold(5), n=6000, RF(300): dataset provenance is decodable from per-channel coverage alone at bal-acc 0.8278 (acc 0.9381 vs 0.3952 majority) versus 0.2150 from physiology alone, a 3.85x gap, and curating the allowlist barely moves it (repaired list 0.8055), which keeps 'suppress the signature, do not curate the list' as the right framing. But the headline H5 was written against — bal-acc 0.9675 incumbent / 0.9800 repaired, and HR hourly presence 0.6416/0.6050 — collapsed to 0.8278/0.8055 and 0.4977/0.4411 after commit 6d13a66 changed the coverage denominator and e849eb7 re-anchored the window grid. A Phase-A signature-suppression arm is still justifiable but must be preregistered against 0.8278/0.8055 with correspondingly smaller expected headroom; H5 itself carries no gates and an empty plan, so nothing here was scored.
+
+Transfers to: [[h1-dataset-allowlist-repairing-the-per-93cde5]], [[h1b-reopened-and-this-time-it-tests-the-98f8db]], [[unnormalised-encoder-input-not-data-8ef2be]]
 
 ## Key numbers
 - `incumbent_coverage_acc_now`: 0.9381

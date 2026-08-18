@@ -5,6 +5,7 @@ config_note: 'Re-analysis of adapter outputs/adapters/medgemma_12ch_e23v2 (no re
   Corrected the E23j teacher-forced scoring bug and quantified effect size vs template
   prior. Evidence: outputs/probes/e23L_teacher_forced_fixed.json, outputs/probes/e23M_effect_vs_prior.json.
   Scripts: scratch/diag_e23L_teacher_forced_fixed.py, scratch/diag_e23M_effect_vs_prior.py.'
+cost: null
 crash_reason: ''
 created_at: '2026-08-05T11:17:42+00:00'
 diagnostics_measured:
@@ -33,6 +34,33 @@ gate_results:
 git_ref: ''
 hypothesis_id: hyp-eiv-label-consistent-sampler-20260805
 id: exp-e23LM-teacher-forced-corrected
+interpretation:
+  at: '2026-08-18T21:08:41+00:00'
+  failure_mode: recipe_conditional
+  lesson: 'The categorical bucket slot DOES read the sensor prefix — the earlier ''zero
+    prefix dependence'' finding was a scoring bug (E23j averaged logprob over ALL
+    tokens including ~10 shared prefix tokens, so differing candidate token lengths
+    decided the argmax) and is retracted. Corrected paired prefix swap holding the
+    emitted string fixed at the true label, n=40 label-stratified: mean +0.4181 nats,
+    median +0.5384, 72.5% positive, Wilcoxon p=4.51e-02. But it is quantitatively
+    hopeless as configured: the template/positional prior that decides the token is
+    mean 5.080 nats (median 6.428, max 9.523), a ratio of 0.0823, so roughly 12.2x
+    more per-sample logit influence is needed — which is exactly why gate-prediction-entropy
+    still FAILS at 0.000 while the paired test is significant. The norm-matched random-gaussian
+    null is independently informative: a random prefix costs 1.750 nats, 4.2x more
+    than swapping in another real sample''s prefix (0.418), so the learned prefix
+    subspace is mostly sample-INVARIANT ''valid sensor data'' mass with a small per-sample
+    component. Do not conclude ''the architecture cannot work''; the actionable target
+    is ~an order of magnitude more per-sample logit influence at the categorical slot
+    (bucket-token loss weight, LoRA on LM head/final layers, unfreezing the projector,
+    longer training, or shortening/reordering the JSON schema so the bucket is not
+    slot 1). Method rule: never compare candidate strings of differing token length
+    by mean logprob — use a paired swap that holds the string fixed and always run
+    a norm-matched random control.'
+  transfers_to:
+  - hyp-eiv-boost-categorical-slot-signal-20260805
+  - the-hr-peak-failure-is-a-readout-965f58
+  - hyp-e9-lmhead-lora-20260814
 key_numbers: {}
 observed_effects:
 - delta: 0.418
@@ -46,6 +74,7 @@ prediction_match:
     eiv_gen_pred_bucket_entropy: true
     eiv_train_label_marginal_max: false
 provenance: {}
+recipe_fingerprint: {}
 verdict: directional_only
 ---
 
@@ -67,6 +96,13 @@ External run: local:outputs/adapters/medgemma_12ch_e23v2
 **Verdict:** directional_only
 
 > Direction matched, but a preregistered blocking gate did NOT pass. This does not establish the claim.
+
+## Interpretation
+**Failure mode:** `recipe_conditional`
+
+The categorical bucket slot DOES read the sensor prefix — the earlier 'zero prefix dependence' finding was a scoring bug (E23j averaged logprob over ALL tokens including ~10 shared prefix tokens, so differing candidate token lengths decided the argmax) and is retracted. Corrected paired prefix swap holding the emitted string fixed at the true label, n=40 label-stratified: mean +0.4181 nats, median +0.5384, 72.5% positive, Wilcoxon p=4.51e-02. But it is quantitatively hopeless as configured: the template/positional prior that decides the token is mean 5.080 nats (median 6.428, max 9.523), a ratio of 0.0823, so roughly 12.2x more per-sample logit influence is needed — which is exactly why gate-prediction-entropy still FAILS at 0.000 while the paired test is significant. The norm-matched random-gaussian null is independently informative: a random prefix costs 1.750 nats, 4.2x more than swapping in another real sample's prefix (0.418), so the learned prefix subspace is mostly sample-INVARIANT 'valid sensor data' mass with a small per-sample component. Do not conclude 'the architecture cannot work'; the actionable target is ~an order of magnitude more per-sample logit influence at the categorical slot (bucket-token loss weight, LoRA on LM head/final layers, unfreezing the projector, longer training, or shortening/reordering the JSON schema so the bucket is not slot 1). Method rule: never compare candidate strings of differing token length by mean logprob — use a paired swap that holds the string fixed and always run a norm-matched random control.
+
+Transfers to: [[hyp-eiv-boost-categorical-slot-signal-20260805]], [[the-hr-peak-failure-is-a-readout-965f58]], [[hyp-e9-lmhead-lora-20260814]]
 
 ## Notes
 SELF-CORRECTION. Overturns my own E23j conclusion. No retraining - re-analysis of the same adapter.

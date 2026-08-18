@@ -13,6 +13,7 @@ config_note: 'Runner: `eiv train phase-b --profile phase_b_12ch_segtrip_s42` on 
 
 
   CRASH, not a result. No checkpoint was produced, so no gate can be evaluated.'
+cost: null
 crash_reason: 'CUDA OOM loading the MedGemma text encoder on an RTX 5070 (11.51 GiB).
   ''Tried to allocate 100.00 MiB. GPU 0 has a total capacity of 11.51 GiB of which
   34.94 MiB is free ... this process has 11.27 GiB in use'' -> ''RuntimeError: Could
@@ -33,11 +34,35 @@ gate_results: []
 git_ref: ''
 hypothesis_id: hyp-e28-segment-triplet-retrain-20260815
 id: exp-e28-segment-triplet-retrain-20260815
+interpretation:
+  at: '2026-08-18T21:08:42+00:00'
+  failure_mode: test_invalid
+  lesson: 'The segment-triplet retrain hypothesis is UNTESTED, not refuted: the process
+    died in CUDA OOM loading the MedGemma text encoder on an RTX 5070 (11.51 GiB total,
+    34.94 MiB free, 11.27 GiB already held by the sensor stack, tried to allocate
+    100.00 MiB) before any checkpoint or gate existed, and the unmodified control
+    profile phase_b_12ch_wl_dryad OOMs identically, so the failure is a pre-existing
+    host capacity limit that blocks both arms equally rather than anything about segment
+    triplets. The plumbing IS confirmed end-to-end — the miner logged ''49449 segments
+    over 5837 windows, 3 states {neutral 43881, flow 3017, stress 2551}, 1004 transition
+    windows, W=120'' inside the real training entrypoint (differing from the offline
+    audit''s 64005/6389/1129 only because the profile applies min_coverage=0.25 and
+    min_hr_coverage=0.05). Durable finding worth more than the crash: the frozen-embedding
+    cache CANNOT be pre-warmed across processes, because the key is {raw_index}_{sha1(caption)}
+    and captions are RNG-augmented, so 68712 warmed files and 58559 hardlinked embeddings
+    both still left ''10150 missing''; and reducing batch 25->8 with accum 2->6 cannot
+    help because the binding memory is MedGemma''s WEIGHTS, not activations. Unblock
+    via deterministic per-sample captions or a 4-bit precompute path (the latter is
+    what exp-e28b actually used).'
+  transfers_to:
+  - hyp-e27-encoder-on-transitions-20260815
+  - e29-state-geometry-innocent-weights-guilty-20260815
 key_numbers: {}
 observed_effects: []
 parent_experiment_id: null
 prediction_match: null
 provenance: {}
+recipe_fingerprint: {}
 verdict: crashed
 ---
 
@@ -50,6 +75,13 @@ External run: logs/e28_segtrip_train.log + logs/e28_control_probe.log
 **Crash:** CUDA OOM loading the MedGemma text encoder on an RTX 5070 (11.51 GiB). 'Tried to allocate 100.00 MiB. GPU 0 has a total capacity of 11.51 GiB of which 34.94 MiB is free ... this process has 11.27 GiB in use' -> 'RuntimeError: Could not load required MedGemma text encoder google/medgemma-1.5-4b-it. No synthetic/hash fallback is permitted.'
 
 NOT CAUSED BY THE SEGMENT-TRIPLET CHANGE. Verified by running the unmodified CONTROL profile (phase_b_12ch_wl_dryad, no segment_triplets key): it OOMs identically at the same point. This is a pre-existing capacity limit of this host for Phase B on this corpus and it blocks BOTH arms equally.
+
+## Interpretation
+**Failure mode:** `test_invalid`
+
+The segment-triplet retrain hypothesis is UNTESTED, not refuted: the process died in CUDA OOM loading the MedGemma text encoder on an RTX 5070 (11.51 GiB total, 34.94 MiB free, 11.27 GiB already held by the sensor stack, tried to allocate 100.00 MiB) before any checkpoint or gate existed, and the unmodified control profile phase_b_12ch_wl_dryad OOMs identically, so the failure is a pre-existing host capacity limit that blocks both arms equally rather than anything about segment triplets. The plumbing IS confirmed end-to-end — the miner logged '49449 segments over 5837 windows, 3 states {neutral 43881, flow 3017, stress 2551}, 1004 transition windows, W=120' inside the real training entrypoint (differing from the offline audit's 64005/6389/1129 only because the profile applies min_coverage=0.25 and min_hr_coverage=0.05). Durable finding worth more than the crash: the frozen-embedding cache CANNOT be pre-warmed across processes, because the key is {raw_index}_{sha1(caption)} and captions are RNG-augmented, so 68712 warmed files and 58559 hardlinked embeddings both still left '10150 missing'; and reducing batch 25->8 with accum 2->6 cannot help because the binding memory is MedGemma's WEIGHTS, not activations. Unblock via deterministic per-sample captions or a 4-bit precompute path (the latter is what exp-e28b actually used).
+
+Transfers to: [[hyp-e27-encoder-on-transitions-20260815]], [[e29-state-geometry-innocent-weights-guilty-20260815]]
 
 ## Notes
 THE HYPOTHESIS IS UNTESTED, NOT REFUTED. Code, profile pair and preregistered gates all stand and are committed; only the GPU capacity to execute them is missing on this host.

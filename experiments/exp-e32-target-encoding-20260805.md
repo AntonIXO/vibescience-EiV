@@ -12,6 +12,7 @@ config_note: 'PURE CPU, zero GPU, ~15 s total across three probes. No model weig
   A/B control throughout: hr_raw (succeeds end-to-end, +4.27 bpm skill) vs hr_peak
   (collapses, -6.48 bpm) in the SAME JSON target under the SAME objective, architecture
   and prefix.'
+cost: null
 crash_reason: ''
 created_at: '2026-08-05T22:08:02+00:00'
 diagnostics_measured:
@@ -75,6 +76,34 @@ gate_results:
 git_ref: ''
 hypothesis_id: the-hr-peak-failure-is-an-objective-cb1111
 id: exp-e32-target-encoding-20260805
+interpretation:
+  at: '2026-08-18T21:08:43+00:00'
+  failure_mode: claim_false
+  lesson: 'Target-side explanations for the hr_peak failure are dead, and the sign
+    of the evidence runs OPPOSITE to the prior-domination story. hr_peak''s rendered
+    target carries MORE coverage-weighted character entropy than hr_raw''s (11.3474
+    vs 8.4353 bits, +2.9121 the wrong way) and is far LESS prior-predictable (median
+    114.34, std 23.27, MAE-vs-own-median 18.703, only 3.3% of samples within 1 bpm
+    of the median, vs hr_raw 69.96 / 7.90 / 6.512 / 8.9%) - yet hr_raw is the slot
+    that SUCCEEDS (+4.27 bpm skill) and hr_peak the one that FAILS (-6.48 bpm) under
+    the identical objective, architecture and prefix. Place-alignment also fails as
+    a mechanism: hr_peak per-slot MI DROPS from 5.2115 to 4.2699 bits under place-alignment
+    (-0.9416), while the hr_raw control moves exactly +0.0000 bits as required, validating
+    the instrument - so FIXED-WIDTH TARGET PROPOSALS MUST STOP, and note that hr_peak''s
+    target carries MORE per-slot MI than hr_raw''s (5.2115 vs 3.7626) and still fails,
+    killing every ''the target lacks information'' framing. The mean-confound audit
+    PASSED and hardens the whole decoded-MAE series: peak given the TRUE daily mean
+    is 18.440 (isotonic) vs always-median 18.492, only 0.052 bpm, because corr(mean,peak)
+    is 0.2986 and the mean explains 0.1028 of peak variance (residual excursion std
+    21.563), so S0''s 7.605 is a genuine +10.835 increment and the emission position''s
+    10.270 is +8.170. Scope limit reported, not hidden: the MedGemma tokenizer repo
+    is gated (401), so the entropy/MI work is CHARACTER-level and transfers only if
+    Gemma tokenises digits individually.'
+  transfers_to:
+  - the-hr-peak-readout-is-limited-by-the-0d4b48
+  - the-hr-raw-hr-peak-asymmetry-is-507782
+  - the-hr-peak-emission-failure-is-a-723466
+  - giving-the-clm-objective-the-gradient-9b4f55
 key_numbers: {}
 observed_effects:
 - delta: -10.835
@@ -86,6 +115,7 @@ prediction_match:
   per_diagnostic:
     eiv_digit_readout_decoded_mae: false
 provenance: {}
+recipe_fingerprint: {}
 verdict: refutes
 ---
 
@@ -102,6 +132,13 @@ Branches from [[exp-e31-vocab-subspace-20260805]].
 - `gate-mean-confound-increment`: PASS — PASSED -- MY OWN HEADLINE SURVIVES ITS AUDIT. On the identical E26-E31 subsample and split (n=1000, 700/300, SEED 0), the true daily mean buys almost nothing for predicting the daily peak: always-predict-median 18.492; peak given TRUE daily mean 18.450 linear, 18.440 isotonic, 18.866 GBT. BEST mean-only 18.440, an improvement of only 0.052 bpm over the trivial baseline. Against that confound floor the projector output's 7.605 is an INCREMENT OF +10.835 bpm and the emission position's 10.270 is +8.170 bpm. The underlying reason is that corr(daily mean, daily peak) is only 0.2986 and the mean explains just 0.1028 of peak variance; the residual above-baseline excursion has std 21.563 bpm. So the decoded-MAE numbers this series is built on are NOT mean-recovery in disguise, and the capability hr_raw already demonstrates does not account for them. The standing increment rule had never been applied to the decoded-MAE series; applied now, the headline holds.
 
 **Verdict:** refutes
+
+## Interpretation
+**Failure mode:** `claim_false`
+
+Target-side explanations for the hr_peak failure are dead, and the sign of the evidence runs OPPOSITE to the prior-domination story. hr_peak's rendered target carries MORE coverage-weighted character entropy than hr_raw's (11.3474 vs 8.4353 bits, +2.9121 the wrong way) and is far LESS prior-predictable (median 114.34, std 23.27, MAE-vs-own-median 18.703, only 3.3% of samples within 1 bpm of the median, vs hr_raw 69.96 / 7.90 / 6.512 / 8.9%) - yet hr_raw is the slot that SUCCEEDS (+4.27 bpm skill) and hr_peak the one that FAILS (-6.48 bpm) under the identical objective, architecture and prefix. Place-alignment also fails as a mechanism: hr_peak per-slot MI DROPS from 5.2115 to 4.2699 bits under place-alignment (-0.9416), while the hr_raw control moves exactly +0.0000 bits as required, validating the instrument - so FIXED-WIDTH TARGET PROPOSALS MUST STOP, and note that hr_peak's target carries MORE per-slot MI than hr_raw's (5.2115 vs 3.7626) and still fails, killing every 'the target lacks information' framing. The mean-confound audit PASSED and hardens the whole decoded-MAE series: peak given the TRUE daily mean is 18.440 (isotonic) vs always-median 18.492, only 0.052 bpm, because corr(mean,peak) is 0.2986 and the mean explains 0.1028 of peak variance (residual excursion std 21.563), so S0's 7.605 is a genuine +10.835 increment and the emission position's 10.270 is +8.170. Scope limit reported, not hidden: the MedGemma tokenizer repo is gated (401), so the entropy/MI work is CHARACTER-level and transfers only if Gemma tokenises digits individually.
+
+Transfers to: [[the-hr-peak-readout-is-limited-by-the-0d4b48]], [[the-hr-raw-hr-peak-asymmetry-is-507782]], [[the-hr-peak-emission-failure-is-a-723466]], [[giving-the-clm-objective-the-gradient-9b4f55]]
 
 ## Notes
 TWO PREDICTIONS REFUTED, ONE AUDIT PASSED. My prior-domination story was BACKWARDS, and the built-in hr_raw control is what proved it. ~15 s of CPU, no GPU, no model.

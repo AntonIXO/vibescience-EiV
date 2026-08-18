@@ -12,6 +12,7 @@ config_note: 'ZERO GPU training and NO LM forward pass for the main arm -- S0 ne
   in the top-k vocab subspace measured against 4000 held-out real vocab rows as the
   ''what does ANY vector retain'' control. Scripts scratch/probe_e31_vocab_subspace.py
   and scratch/probe_e31b_norm_check.py. Smoke-tested at n=40 before the real run.'
+cost: null
 crash_reason: ''
 created_at: '2026-08-05T21:55:59+00:00'
 diagnostics_measured:
@@ -82,6 +83,32 @@ gate_results:
 git_ref: ''
 hypothesis_id: the-hr-peak-signal-at-the-projector-4aa472
 id: exp-e31-vocab-subspace-20260805
+interpretation:
+  at: '2026-08-18T21:08:43+00:00'
+  failure_mode: claim_false
+  lesson: 'The hr_peak signal at the projector output is NOT off-manifold w.r.t. the
+    LM, which kills two proposed levers outright. Projecting the S0 soft tokens onto
+    the top-256 principal directions of the LM''s own 262145x2560 vocabulary embedding
+    matrix and DISCARDING everything orthogonal gives MAE 7.604 vs the unprojected
+    7.605 (delta 0.001 bpm), i.e. the entire predictive signal lives in 10% of the
+    space; the sweep is k=8 15.178, 16 13.253, 32 11.266, 64 10.211, 128 8.104, 256
+    7.604, 512 7.831, 1024 7.657 against always-median 18.492. The RANDOM orthonormal
+    control of identical rank tracks it within ~1 bpm at every k and BEATS it at k=64
+    (9.470 vs 10.211) and k=512 (7.609 vs 7.831), with sign-alternating gaps (-0.853,-0.945,-1.144,+0.741,-0.419,-0.584,+0.222,-0.035):
+    there is no vocab-specific obstruction AND no vocab-specific advantage. DO NOT
+    SPEND on projector whitening / variance-matching / vocab-embedding-statistics
+    init. The norm-scale lever is also dead and the ''38x mismatch'' figure must never
+    be quoted - it compared raw emb.weight RMS 0.9928 (pre-scaling) against soft tokens,
+    but Gemma3TextScaledWordEmbedding multiplies by hidden_size**0.5 = 50.5964 at
+    forward time, so the correct comparison is emb(ids) fed-to-stack RMS 50.8363 vs
+    soft-token RMS 29.5202, an effective ratio of 0.581. With geometry, rank, function
+    class and scale all eliminated, the surviving untested target is whether END-TO-END
+    CROSS-ENTROPY TRAINING can find the readout at all - every E24-E31 number is a
+    fitted probe on frozen features.'
+  transfers_to:
+  - the-hr-peak-signal-enters-the-lm-well-ba9dd9
+  - the-hr-peak-failure-is-an-objective-cb1111
+  - hyp-e7-projector-bottleneck-20260814
 key_numbers: {}
 observed_effects:
 - delta: -0.001
@@ -93,6 +120,7 @@ prediction_match:
   per_diagnostic:
     eiv_digit_readout_decoded_mae: false
 provenance: {}
+recipe_fingerprint: {}
 verdict: refutes
 ---
 
@@ -111,6 +139,13 @@ Branches from [[exp-e30-variance-localisation-20260805]].
 - `gate-norm-scale-descriptive`: PASS — MEASUREMENT ERROR FOUND AND CORRECTED -- there is NO norm mismatch. The n=40 smoke test reported soft-token RMS 37.96 vs vocab-token RMS 0.9926, an apparent 38x gap that looked like a cheap standalone defect. It was my error. Gemma3 uses Gemma3TextScaledWordEmbedding, which multiplies the raw weight by hidden_size**0.5 = sqrt(2560) = 50.5964 at FORWARD time (modeling_gemma3.py:113 'return super().forward(input_ids) * self.embed_scale', :506 'embed_scale=self.config.hidden_size**0.5'). Verified empirically in probe_e31b_norm_check.py: embed_scale attribute reads 50.5. Soft tokens are injected as embeddings, i.e. AFTER that scaling is applied to real tokens, so the correct comparison is against emb(input_ids), not emb.weight. Measured on real text: raw emb.weight row RMS 0.9928; emb(ids) fed-to-stack RMS 50.8363; soft-token RMS 29.5202. Effective ratio soft/fed-to-stack = 0.581 -- same order of magnitude, NOT a 38x mismatch. Soft tokens are somewhat smaller than real token embeddings but well within normal range. THE NORM-SCALE LEVER IS DEAD and the 38x figure must never be quoted; it compares a pre-scaling quantity against a post-scaling one.
 
 **Verdict:** refutes
+
+## Interpretation
+**Failure mode:** `claim_false`
+
+The hr_peak signal at the projector output is NOT off-manifold w.r.t. the LM, which kills two proposed levers outright. Projecting the S0 soft tokens onto the top-256 principal directions of the LM's own 262145x2560 vocabulary embedding matrix and DISCARDING everything orthogonal gives MAE 7.604 vs the unprojected 7.605 (delta 0.001 bpm), i.e. the entire predictive signal lives in 10% of the space; the sweep is k=8 15.178, 16 13.253, 32 11.266, 64 10.211, 128 8.104, 256 7.604, 512 7.831, 1024 7.657 against always-median 18.492. The RANDOM orthonormal control of identical rank tracks it within ~1 bpm at every k and BEATS it at k=64 (9.470 vs 10.211) and k=512 (7.609 vs 7.831), with sign-alternating gaps (-0.853,-0.945,-1.144,+0.741,-0.419,-0.584,+0.222,-0.035): there is no vocab-specific obstruction AND no vocab-specific advantage. DO NOT SPEND on projector whitening / variance-matching / vocab-embedding-statistics init. The norm-scale lever is also dead and the '38x mismatch' figure must never be quoted - it compared raw emb.weight RMS 0.9928 (pre-scaling) against soft tokens, but Gemma3TextScaledWordEmbedding multiplies by hidden_size**0.5 = 50.5964 at forward time, so the correct comparison is emb(ids) fed-to-stack RMS 50.8363 vs soft-token RMS 29.5202, an effective ratio of 0.581. With geometry, rank, function class and scale all eliminated, the surviving untested target is whether END-TO-END CROSS-ENTROPY TRAINING can find the readout at all - every E24-E31 number is a fitted probe on frozen features.
+
+Transfers to: [[the-hr-peak-signal-enters-the-lm-well-ba9dd9]], [[the-hr-peak-failure-is-an-objective-cb1111]], [[hyp-e7-projector-bottleneck-20260814]]
 
 ## Notes
 PREDICTION CONFIRMED, AND IT KILLS THE FIX I PROPOSED ONE EXPERIMENT AGO. Two levers die here; one of them dies because I made a measurement error and checked it before reporting it.

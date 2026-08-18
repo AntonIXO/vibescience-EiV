@@ -5,6 +5,7 @@ config_note: New immutable follow-up manifest SHA256 d2ff7c52c049f2336f223f53e03
   Engineering smoke seed9201 excluded. Scientific pilot seed17, 500 steps, lambda
   {0.3,1,3}, bandwidth multiplier1. Raw tensors, corrected HR-zero mask, population
   normalization disabled. Confirmation only if strict committed go gates pass.
+cost: null
 crash_reason: ''
 created_at: '2026-07-27T22:36:39+00:00'
 diagnostics_measured:
@@ -30,6 +31,27 @@ gate_results: []
 git_ref: fix/soft-token-norm-scale@955c1b5d19b4+manifest-d2ff7c52c049
 hypothesis_id: hyp-eiv-native-kta-vicreg-20260727
 id: exp-eiv-native-kta-vicreg-20260727
+interpretation:
+  at: '2026-08-18T21:08:45+00:00'
+  failure_mode: null
+  lesson: 'Applying duplicate-aware RBF kernel-target alignment + variance/covariance
+    regularization DIRECTLY to native embeddings is the right lever on collapse but
+    is under-powered at this setting: effective rank rose 2.6596 -> 4.9097 (delta
+    +2.2501), which still failed BOTH the preregistered rank>=6.0 bar and the original
+    unrelaxed rank>=5 gate, and cross-modal HSIC moved the WRONG way (0.05651 -> 0.006616)
+    against a predicted rise. HR R2 held (0.9381 -> 0.9446, bar >=0.94) and Recall@5
+    recovered 0.00748 -> 0.11970 (bar >=0.08723), so the collapse fix does not cost
+    decodability or retrieval. NOTE THE MECHANICAL VERDICT IS MISLEADING: the record
+    is filed ''supports'' on the direction-only rank delta, but the experiment''s
+    own notes state no configuration passed all gates, no confirmation lock or 8-seed
+    run was permitted, and the magnitude claim is NOT confirmed. Re-trying is worthwhile
+    but only OUTSIDE the tested grid: lambda 1.0 and 3.0 both WORSENED rank and HR
+    R2, so scaling the same penalty is already ruled out; vary bandwidth multiplier
+    (fixed at 1) or change the penalty family instead.'
+  transfers_to:
+  - hyp-eiv-vicreg-20260727
+  - hyp-eiv-soft-cca-20260727
+  - hyp-eiv-multipositive-spectral-entropy-20260728
 key_numbers: {}
 observed_effects:
 - delta: 2.250099393659
@@ -57,6 +79,7 @@ prediction_match:
     eiv_heldout_hr_r2: false
     eiv_peak_vram_gib: false
 provenance: {}
+recipe_fingerprint: {}
 verdict: supports
 ---
 
@@ -73,6 +96,11 @@ External run: outputs/experiments/native_rbf_kta_vicreg_20260727/runs
 - [[eiv_peak_vram_gib]]: before 5.22265625 → after 5.23046875  (Δ +0.0078125, up ✗ predicted none)
 
 **Verdict:** supports
+
+## Interpretation
+Applying duplicate-aware RBF kernel-target alignment + variance/covariance regularization DIRECTLY to native embeddings is the right lever on collapse but is under-powered at this setting: effective rank rose 2.6596 -> 4.9097 (delta +2.2501), which still failed BOTH the preregistered rank>=6.0 bar and the original unrelaxed rank>=5 gate, and cross-modal HSIC moved the WRONG way (0.05651 -> 0.006616) against a predicted rise. HR R2 held (0.9381 -> 0.9446, bar >=0.94) and Recall@5 recovered 0.00748 -> 0.11970 (bar >=0.08723), so the collapse fix does not cost decodability or retrieval. NOTE THE MECHANICAL VERDICT IS MISLEADING: the record is filed 'supports' on the direction-only rank delta, but the experiment's own notes state no configuration passed all gates, no confirmation lock or 8-seed run was permitted, and the magnitude claim is NOT confirmed. Re-trying is worthwhile but only OUTSIDE the tested grid: lambda 1.0 and 3.0 both WORSENED rank and HR R2, so scaling the same penalty is already ruled out; vary bandwidth multiplier (fixed at 1) or change the penalty family instead.
+
+Transfers to: [[hyp-eiv-vicreg-20260727]], [[hyp-eiv-soft-cca-20260727]], [[hyp-eiv-multipositive-spectral-entropy-20260728]]
 
 ## Notes
 Closed at the preregistered seed17 pilot gate. Values use projected VICReg default as before and closest native follow-up lambda=0.3 as after. Direction-only primary effective-rank delta is positive, but the committed absolute rank>=6.0 prediction failed (observed 4.9097), the original rank>=5 gate also failed, and no configuration passed all R2/retrieval/alignment/geometry gates. Lambda 1 and 3 worsened rank and HR R2. Therefore no confirmation lock or 8-seed run was permitted; any computed 'supports' verdict must not be interpreted as confirmation of the magnitude claim.

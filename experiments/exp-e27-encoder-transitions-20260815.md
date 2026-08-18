@@ -13,6 +13,7 @@ config_note: 'Runner: scratch/e27_encoder_transitions.py -> logs/e27_encoder_tra
   Encoder: outputs/checkpoints/v5d/phase_b temporal_encoder.pt (patch_len 120, stride
   60, input_dim 24, d_model 192), strict weight load, 662 unique windows encoded once
   to [662, 24, 23, 192] and indexed per epoch.'
+cost: null
 crash_reason: ''
 created_at: '2026-08-15T08:32:59+00:00'
 diagnostics_measured:
@@ -45,6 +46,30 @@ gate_results:
 git_ref: ''
 hypothesis_id: hyp-e27-encoder-on-transitions-20260815
 id: exp-e27-encoder-transitions-20260815
+interpretation:
+  at: '2026-08-18T21:08:42+00:00'
+  failure_mode: claim_false
+  lesson: 'The frozen v5d Phase-B encoder does NOT carry momentary state, and its
+    apparent skill is a high-dimensional readout artefact: on exp-e26''s identical
+    rows (n=3248, 87 subjects, 662 windows, same GroupKFold split) the best encoder
+    arm reaches AUC 0.5876 vs shallow percentile features 0.6329 (gap -0.0453) and
+    every encoder arm is below shallow (-0.045, -0.060, -0.108, -0.130), while the
+    within-window label SHUFFLE on the same encoder features scores 0.5830 — a real-minus-shuffle
+    gap of just 0.0046 against the shallow arm''s 0.1178. Locality reversed the prediction
+    diagnostically: local arms are worse than global (enc_local_avg 0.5026 = chance,
+    enc_local_avgmax 0.5254), consistent with fewer tokens meaning less capacity to
+    overfit rather than with a real local signal. Actionable: any encoder-token affect/state
+    probe in this vault is uninterpretable without a label-shuffle control on the
+    identical features (recorded as do-not-retry), exp-e22''s g3 ''locality confirmed
+    at the representation level'' (+0.054 to +0.066) was measured WITHOUT that control
+    and must be treated as unverified, and a ~4 GPU-hour Phase B retrain is a measured
+    NO-GO on representational grounds — only the separate, weaker supply argument
+    survives.'
+  transfers_to:
+  - hyp-e22-encoder-representation-affect-20260815
+  - hyp-e28-segment-triplet-retrain-20260815
+  - hyp-e19-encoder-pooling-transfer-20260815
+  - hyp-e19b-pooling-recipe-level-20260815
 key_numbers:
   auc_clock: 0.5129
   auc_enc_global_avg: 0.5728
@@ -69,6 +94,7 @@ prediction_match:
   per_diagnostic:
     eiv_affect_multichannel_increment: false
 provenance: {}
+recipe_fingerprint: {}
 verdict: refutes
 ---
 
@@ -86,6 +112,13 @@ External run: logs/e27_encoder_transitions.json
 - `g3_locality_at_transition_scale`: **FAIL**
 
 **Verdict:** refutes
+
+## Interpretation
+**Failure mode:** `claim_false`
+
+The frozen v5d Phase-B encoder does NOT carry momentary state, and its apparent skill is a high-dimensional readout artefact: on exp-e26's identical rows (n=3248, 87 subjects, 662 windows, same GroupKFold split) the best encoder arm reaches AUC 0.5876 vs shallow percentile features 0.6329 (gap -0.0453) and every encoder arm is below shallow (-0.045, -0.060, -0.108, -0.130), while the within-window label SHUFFLE on the same encoder features scores 0.5830 — a real-minus-shuffle gap of just 0.0046 against the shallow arm's 0.1178. Locality reversed the prediction diagnostically: local arms are worse than global (enc_local_avg 0.5026 = chance, enc_local_avgmax 0.5254), consistent with fewer tokens meaning less capacity to overfit rather than with a real local signal. Actionable: any encoder-token affect/state probe in this vault is uninterpretable without a label-shuffle control on the identical features (recorded as do-not-retry), exp-e22's g3 'locality confirmed at the representation level' (+0.054 to +0.066) was measured WITHOUT that control and must be treated as unverified, and a ~4 GPU-hour Phase B retrain is a measured NO-GO on representational grounds — only the separate, weaker supply argument survives.
+
+Transfers to: [[hyp-e22-encoder-representation-affect-20260815]], [[hyp-e28-segment-triplet-retrain-20260815]], [[hyp-e19-encoder-pooling-transfer-20260815]], [[hyp-e19b-pooling-recipe-level-20260815]]
 
 ## Key numbers
 - `auc_clock`: 0.5129

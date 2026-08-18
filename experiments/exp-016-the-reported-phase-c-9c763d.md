@@ -9,6 +9,7 @@ config_note: 'Ran scratch/diag_coverage_split.py twice on outputs/adapters/medge
   via a shared channel_validity_mask() helper (CHANNEL_VALIDITY_MIN_COVERAGE=0.05)
   in src/cli_annotate.py, and re-ran the full stratified generation eval (scratch/eval_hr_stratified.py,
   6/cell, 48 samples) before and after the fix.'
+cost: null
 crash_reason: ''
 created_at: '2026-08-04T22:43:51+00:00'
 diagnostics_measured:
@@ -35,6 +36,29 @@ gate_results:
 git_ref: ''
 hypothesis_id: the-reported-phase-c-collapse-to-the-272801
 id: exp-016-the-reported-phase-c-9c763d
+interpretation:
+  at: '2026-08-18T21:08:38+00:00'
+  failure_mode: null
+  lesson: 'Phase C''s ''collapse to the same output'' was an inference BUG, not a
+    structural or data limit: training gated channel validity at coverage>5% (m_inherited.mean(1)>0.05)
+    while all 9 inference sites gated at coverage>50% (m_union.mean(1)<0.5), so any
+    channel with coverage in (5%,50%] was trained as PRESENT but had its soft-token
+    slots zeroed and attention-masked at generation — blast radius 49.8% of samples
+    on the HR channel. Fixing it (shared channel_validity_mask(), CHANNEL_VALIDITY_MIN_COVERAGE=0.05)
+    moved generated peak corr -0.0 -> 0.615 and between-sample std 0.0 -> 14.3 bpm,
+    and end-to-end (48 stratified samples) turned a literal constant [112,112] into
+    [94,137], sparse tachy bucket acc 0.00 -> 0.33, high-140+ 0.00 -> 0.67 with MAE
+    41.4 -> 27.8, and +30 bpm shift response +1.3 -> +6.4 bpm. CRITICAL for retrieval:
+    every diagnostic restricted to hr_cov>=0.5 (scratch/_diag_common.py:87) was blind
+    to this bug, so E17/E18/E18b''s ''structural/data limit, abandon the bridge''
+    verdict was measured in the only regime where the two mask rules agree and must
+    not be cited as evidence. Honest ceiling: the fix does NOT make Phase C good —
+    overall peak corr is still ~0.08 with MAE ~23 bpm, full-coverage peak corr +0.175
+    was never affected, and the +30 bpm response is +6.4 vs an ideal +30.'
+  transfers_to:
+  - the-stage-c-collapse-tripwires-are-2211e6
+  - the-hr-peak-emission-failure-is-a-723466
+  - the-soft-token-prefix-influences-the-lm-82bbde
 key_numbers: {}
 observed_effects:
 - delta: 0.615
@@ -50,6 +74,7 @@ prediction_match:
     eiv_gen_between_sample_std: true
     eiv_gen_peak_corr: true
 provenance: {}
+recipe_fingerprint: {}
 verdict: supports
 ---
 
@@ -67,6 +92,11 @@ External run: local: outputs/probes/e21_coverage_split.json + outputs/probes/e21
 - `full_group_unchanged`: PASS
 
 **Verdict:** supports
+
+## Interpretation
+Phase C's 'collapse to the same output' was an inference BUG, not a structural or data limit: training gated channel validity at coverage>5% (m_inherited.mean(1)>0.05) while all 9 inference sites gated at coverage>50% (m_union.mean(1)<0.5), so any channel with coverage in (5%,50%] was trained as PRESENT but had its soft-token slots zeroed and attention-masked at generation — blast radius 49.8% of samples on the HR channel. Fixing it (shared channel_validity_mask(), CHANNEL_VALIDITY_MIN_COVERAGE=0.05) moved generated peak corr -0.0 -> 0.615 and between-sample std 0.0 -> 14.3 bpm, and end-to-end (48 stratified samples) turned a literal constant [112,112] into [94,137], sparse tachy bucket acc 0.00 -> 0.33, high-140+ 0.00 -> 0.67 with MAE 41.4 -> 27.8, and +30 bpm shift response +1.3 -> +6.4 bpm. CRITICAL for retrieval: every diagnostic restricted to hr_cov>=0.5 (scratch/_diag_common.py:87) was blind to this bug, so E17/E18/E18b's 'structural/data limit, abandon the bridge' verdict was measured in the only regime where the two mask rules agree and must not be cited as evidence. Honest ceiling: the fix does NOT make Phase C good — overall peak corr is still ~0.08 with MAE ~23 bpm, full-coverage peak corr +0.175 was never affected, and the +30 bpm response is +6.4 vs an ideal +30.
+
+Transfers to: [[the-stage-c-collapse-tripwires-are-2211e6]], [[the-hr-peak-emission-failure-is-a-723466]], [[the-soft-token-prefix-influences-the-lm-82bbde]]
 
 ## Notes
 All three preregistered gates passed. Root cause of the Phase C 'collapse to the same output' is a train/eval channel_mask semantics inversion, not a structural/data limit.

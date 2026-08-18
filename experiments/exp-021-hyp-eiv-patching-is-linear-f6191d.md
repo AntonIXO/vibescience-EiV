@@ -2,6 +2,7 @@
 artifacts: []
 closed: true
 config_note: ''
+cost: null
 crash_reason: ''
 created_at: '2026-08-05T16:54:54+00:00'
 diagnostics_measured:
@@ -37,6 +38,34 @@ gate_results:
 git_ref: ''
 hypothesis_id: hyp-eiv-patching-is-linear-not-average-20260805
 id: exp-021-hyp-eiv-patching-is-linear-f6191d
+interpretation:
+  at: '2026-08-18T21:08:38+00:00'
+  failure_mode: mechanism_wrong
+  lesson: 'The number confirmed and the mechanism died in the same run: max-pooling
+    across patch tokens gives peak-excursion increment R2 +0.4162 vs the avg-pooled
+    incumbent -0.0482 (delta +0.4644, R2->max 0.9061 vs within-probe control 0.4899),
+    but four controls show the gain belongs to the MAX OPERATOR, not to learned weights
+    — an UNTRAINED random-init encoder scores 0.9139 (better than the trained 0.9061),
+    a dimension-matched avg arm at the same 9216 dims scores 0.4901, shuffle gives
+    -0.0165, and corr(raw max-over-patches, true daily max) = +1.000000 exactly, so
+    arm D is near-tautological. Do NOT cite this as support for ''the trained linear
+    patch projection preserves within-patch information''; the actionable fact is
+    that information is NOT lost at patch construction (src/models/patching.py is
+    unfold(8,4) + nn.Linear, there is no within-patch mean anywhere) but at the DOWNSTREAM
+    averaging readers cross_modal.py:260 adaptive_avg_pool2d and correlation_head.py:107
+    x.mean(dim=2) — aim pooling-operator interventions there, not upstream. Two limits:
+    gate-reproduces-recorded-control FAILED (reimplemented control 0.4899 vs recorded
+    0.4371, gap +0.0528 outside the +/-0.05 tolerance), so only the within-probe arm-C-vs-arm-D
+    contrast is valid; and probe R2 proves PRESENCE, never usability — hr_peak had
+    negative skill vs an always-median constant in both coverage regimes (-5.88 bpm
+    full, -6.48 bpm sparse).'
+  transfers_to:
+  - e4-encoder-excursion-avgmax-20260813
+  - hyp-e6-peak-maxpool-readout-20260814
+  - hyp-e7-projector-bottleneck-20260814
+  - hyp-e17-unified-readout-operator-20260815
+  - hyp-e19-encoder-pooling-transfer-20260815
+  - hyp-e19b-pooling-recipe-level-20260815
 key_numbers: {}
 observed_effects:
 - delta: 0.4644
@@ -48,6 +77,7 @@ prediction_match:
   per_diagnostic:
     eiv_peak_excursion_increment_r2: true
 provenance: {}
+recipe_fingerprint: {}
 verdict: directional_only
 ---
 
@@ -64,6 +94,13 @@ Tests hypothesis [[hyp-eiv-patching-is-linear-not-average-20260805]].
 **Verdict:** directional_only
 
 > Direction matched, but a preregistered blocking gate did NOT pass. This does not establish the claim.
+
+## Interpretation
+**Failure mode:** `mechanism_wrong`
+
+The number confirmed and the mechanism died in the same run: max-pooling across patch tokens gives peak-excursion increment R2 +0.4162 vs the avg-pooled incumbent -0.0482 (delta +0.4644, R2->max 0.9061 vs within-probe control 0.4899), but four controls show the gain belongs to the MAX OPERATOR, not to learned weights — an UNTRAINED random-init encoder scores 0.9139 (better than the trained 0.9061), a dimension-matched avg arm at the same 9216 dims scores 0.4901, shuffle gives -0.0165, and corr(raw max-over-patches, true daily max) = +1.000000 exactly, so arm D is near-tautological. Do NOT cite this as support for 'the trained linear patch projection preserves within-patch information'; the actionable fact is that information is NOT lost at patch construction (src/models/patching.py is unfold(8,4) + nn.Linear, there is no within-patch mean anywhere) but at the DOWNSTREAM averaging readers cross_modal.py:260 adaptive_avg_pool2d and correlation_head.py:107 x.mean(dim=2) — aim pooling-operator interventions there, not upstream. Two limits: gate-reproduces-recorded-control FAILED (reimplemented control 0.4899 vs recorded 0.4371, gap +0.0528 outside the +/-0.05 tolerance), so only the within-probe arm-C-vs-arm-D contrast is valid; and probe R2 proves PRESENCE, never usability — hr_peak had negative skill vs an always-median constant in both coverage regimes (-5.88 bpm full, -6.48 bpm sparse).
+
+Transfers to: [[e4-encoder-excursion-avgmax-20260813]], [[hyp-e6-peak-maxpool-readout-20260814]], [[hyp-e7-projector-bottleneck-20260814]], [[hyp-e17-unified-readout-operator-20260815]], [[hyp-e19-encoder-pooling-transfer-20260815]], [[hyp-e19b-pooling-recipe-level-20260815]]
 
 ## Notes
 READ THE VERDICT WITH THIS CAVEAT: the computed verdict keys off the numeric prediction, which was met (+0.4162 vs a >+0.0090 bar). But my STATED MECHANISM IS REFUTED BY MY OWN CONTROLS. Do not credit this as support for 'the trained linear patch projection preserves within-patch information'.

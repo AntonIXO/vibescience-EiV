@@ -7,6 +7,7 @@ config_note: 'E9 = v11lmhead_s42: profile lora_proxy_12ch_wl_band04_lmhead (v9ba
   after attach. Same phase_b (v5c), seed 42, 2600 steps, 4-bit. Pipeline scratch/run_e9_lmhead.sh
   -> logs/e9_lmhead.log. Captures: supabase-200 + dense-128, batch 1. Gates g1 sign-flip
   / g2 hr-preserved / g3 vram on hypothesis.'
+cost: null
 crash_reason: ''
 created_at: '2026-08-14T08:45:28+00:00'
 diagnostics_measured:
@@ -38,6 +39,33 @@ gate_results:
 git_ref: ''
 hypothesis_id: hyp-e9-lmhead-lora-20260814
 id: exp-e9-lmhead-lora-20260814
+interpretation:
+  at: '2026-08-18T21:08:44+00:00'
+  failure_mode: recipe_conditional
+  lesson: 'Adding lm_head to the LoRA target set does NOT convert the readout-localized
+    peak supply into generated skill under CLM next-token cross-entropy: dense-128
+    hr_peak skill got WORSE, -2.88 -> -3.92 bpm (blocking gate g1 required >0), with
+    decoded MAE 20.86 vs the 16.95 median baseline, a new 161.1 bpm attractor on 44/128
+    samples, supabase peak std_ratio halved to 0.488, and the g4 hrv read also failing
+    (dense corr 0.592 vs 0.611 baseline, supabase hrv top-1 attractor mass 0.827).
+    The arm is SAFE but useless — hr axes were preserved (supabase hr_raw MAE 2.85->2.87,
+    dense 3.08->3.62, both inside bars, g2/g3 PASS) — so v11lmhead must not be promoted
+    and v9band04 stays baseline. Crucially this is a GRADIENT-ROUTE failure, not a
+    capacity failure: training was healthy (loss 5.26->0.57, 68.1M trainable, untied
+    head with input-embedding bit-identity asserted) and E26 put the digit-readout
+    ceiling at ~4.2 bpm better-than-median, so CE on 2-3 digit tokens per slot over
+    ~650 updates is simply too weak to steer the head against the template prior.
+    The surviving levers are a REGRESSION-loss numeric scalar head off layer-34 hidden
+    states, or much longer lm_head-only training with digit-focused loss reweighting
+    — not another cheap in-place LoRA.'
+  transfers_to:
+  - hyp-e8-lm-readout-transfer-20260814
+  - hyp-e10-hrv-localization-20260814
+  - e11-a-linear-scalar-regression-head-127ffe
+  - measured-in-lm-head-s-actual-function-b096c6
+  - the-hr-peak-readout-failure-is-72d5f2
+  - the-hr-peak-readout-is-limited-by-the-0d4b48
+  - the-hr-peak-failure-is-an-objective-cb1111
 key_numbers: {}
 observed_effects:
 - delta: -1.04
@@ -56,6 +84,7 @@ prediction_match:
     eiv_gen_peak_skill_bpm: false
     eiv_peak_vram_gib: false
 provenance: {}
+recipe_fingerprint: {}
 verdict: refutes
 ---
 
@@ -75,6 +104,13 @@ Branches from [[exp-e8-lm-readout-transfer-20260814]].
 - `g4-deployment-and-attractors`: **FAIL**
 
 **Verdict:** refutes
+
+## Interpretation
+**Failure mode:** `recipe_conditional`
+
+Adding lm_head to the LoRA target set does NOT convert the readout-localized peak supply into generated skill under CLM next-token cross-entropy: dense-128 hr_peak skill got WORSE, -2.88 -> -3.92 bpm (blocking gate g1 required >0), with decoded MAE 20.86 vs the 16.95 median baseline, a new 161.1 bpm attractor on 44/128 samples, supabase peak std_ratio halved to 0.488, and the g4 hrv read also failing (dense corr 0.592 vs 0.611 baseline, supabase hrv top-1 attractor mass 0.827). The arm is SAFE but useless — hr axes were preserved (supabase hr_raw MAE 2.85->2.87, dense 3.08->3.62, both inside bars, g2/g3 PASS) — so v11lmhead must not be promoted and v9band04 stays baseline. Crucially this is a GRADIENT-ROUTE failure, not a capacity failure: training was healthy (loss 5.26->0.57, 68.1M trainable, untied head with input-embedding bit-identity asserted) and E26 put the digit-readout ceiling at ~4.2 bpm better-than-median, so CE on 2-3 digit tokens per slot over ~650 updates is simply too weak to steer the head against the template prior. The surviving levers are a REGRESSION-loss numeric scalar head off layer-34 hidden states, or much longer lm_head-only training with digit-focused loss reweighting — not another cheap in-place LoRA.
+
+Transfers to: [[hyp-e8-lm-readout-transfer-20260814]], [[hyp-e10-hrv-localization-20260814]], [[e11-a-linear-scalar-regression-head-127ffe]], [[measured-in-lm-head-s-actual-function-b096c6]], [[the-hr-peak-readout-failure-is-72d5f2]], [[the-hr-peak-readout-is-limited-by-the-0d4b48]], [[the-hr-peak-failure-is-an-objective-cb1111]]
 
 ## Notes
 REFUTED — g1 BLOCKING FAIL, and the E10-derived hrv intervention read (g4) failed too. lm_head LoRA (untied head, bit-identity verified; healthy training loss 5.26->0.57, 68.1M trainable) did NOT teach the readout to use the peak/hrv supply that E8/E10 proved present: dense peak skill WORSENED -2.88->-3.92 (MAE 20.86 vs median 16.95; new 161.1 bpm attractor at 44/128), supa peak std_ratio halved to 0.488, hrv dense corr 0.592 (vs 0.611 baseline), supa hrv attractor top1 mass 0.827. hr axes preserved (2.87/3.62 within bars) — the arm is safe, just useless. Donor-gap control (required control of eiv_gen_peak_skill_bpm) intentionally NOT run: it is preregistered as a prerequisite for POSITIVE claims only, and the arm failed its blocking gate — no conditioning claim is being made, so the control has nothing to separate. MECHANISM READ: the failure stage is now narrower than 'the readout'. The supply sits in layer-34 hidden states (R2 0.54 peak-beyond-level, hrv 0.97 in prefix), a full-rank-over-digit-rows linear map on lm_head could express more (E26 digit-readout ceiling ~4.2 bpm better-than-median), yet CLM training of exactly that map plus rank-32 adapters on the transformer did not find it. The gradient signal through next-token CE on 2-3 digit tokens per slot per sample is evidently too weak/miscalibrated to steer the head against the template prior in 650 updates. Two arms survive: (a) numeric scalar heads off layer-34 h, trained with a REGRESSION loss on the value — sidesteps the CE-through-digits bottleneck entirely (runbook arm-numeric-scalar-regression-heads-*, priority 15, preconditions now MET); (b) heavier/longer lm_head-only training with digit-focused loss reweighting — weaker prior, more GPU. Choosing (a). Baseline remains v9band04; v11lmhead checkpoint should NOT be promoted (safe but strictly worse on dense hr_raw and peak).

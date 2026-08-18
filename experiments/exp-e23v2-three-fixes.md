@@ -7,6 +7,7 @@ config_note: 'profile lora_proxy_12ch_e23v2, 2600 steps, frozen encoder, MedGemm
   hr_augment re-anchored on the PEAK instead of the MEAN. Final loss 1.720, elapsed
   2247s. Adapter outputs/adapters/medgemma_12ch_e23v2. Evidence: outputs/probes/e23v2_gates.json,
   e23g_peak_decodability.json, e23j_teacher_forced.json.'
+cost: null
 crash_reason: ''
 created_at: '2026-08-05T11:05:13+00:00'
 diagnostics_measured:
@@ -41,6 +42,35 @@ gate_results:
 git_ref: ''
 hypothesis_id: hyp-eiv-label-consistent-sampler-20260805
 id: exp-e23v2-three-fixes
+interpretation:
+  at: '2026-08-18T21:08:41+00:00'
+  failure_mode: claim_false
+  lesson: 'Stacking all three data fixes (label-consistent sampler at strength 0.5,
+    min_valid_hr_bpm=30.0 dropping 1830/8774 zero-HR samples, hr_augment re-anchored
+    on the PEAK) balanced the training distribution as intended (label marginal max
+    0.5 -> 0.309; dumped targets elevated 30.75 / tachycardic 25.50 / resting 22.00
+    / bradycardic 21.75) and made the collapse WORSE — bucket entropy 0.257 -> 0.000
+    with 91/91 tachycardic and peak_corr 0.68 -> 0.159, confirming the earlier +0.680
+    was faked by zero-HR contamination. Four candidate causes are now ruled out with
+    direct measurement and should not be re-run: training marginal (balanced, still
+    one label — ''always tachycardic'' is not loss-optimal here), representation limit
+    (subject-held-out Ridge on THIS adapter''s soft-token prefix recovers hr_mean
+    R2 0.992 / hr_peak R2 0.753 MAE 5.5 / hr_std R2 0.969 at n=600, so mean-pooling
+    does not destroy the max), train/eval prompt skew (byte-identical), and zero-HR
+    contamination (removed, collapse persists). Conditioning is alive in the same
+    forward pass — hr_raw generates at corr +0.604 full-coverage and +0.909 sparse
+    — so this is a SLOT-LEVEL failure where a fixed additive prefix bias can be absorbed
+    by a continuous @@-value slot but not by a 4-way categorical token choice. CAVEAT:
+    this record''s teacher-forced ''ZERO measurable dependence at the bucket slot''
+    (argmax 0.250 matched and mismatched, always ''bradycardic'', n=32) was later
+    overturned by exp-e23LM-teacher-forced-corrected as a token-length scoring bug
+    — the dependence is real but ~12x too small. Next levers: a path where the prefix
+    changes RELATIVE attention (zero-init gated cross-attention), or simply derive
+    heart_rate_bucket deterministically from the generated hr_peak at decode time.'
+  transfers_to:
+  - hyp-eiv-boost-categorical-slot-signal-20260805
+  - the-hr-peak-failure-is-a-readout-965f58
+  - hyp-e7-projector-bottleneck-20260814
 key_numbers: {}
 observed_effects:
 - delta: -0.191
@@ -60,6 +90,7 @@ prediction_match:
     eiv_gen_pred_bucket_entropy: false
     eiv_train_label_marginal_max: true
 provenance: {}
+recipe_fingerprint: {}
 verdict: refutes
 ---
 
@@ -81,6 +112,13 @@ External run: local:outputs/adapters/medgemma_12ch_e23v2
 - `gate-p2-conditioning-preserved`: **FAIL**
 
 **Verdict:** refutes
+
+## Interpretation
+**Failure mode:** `claim_false`
+
+Stacking all three data fixes (label-consistent sampler at strength 0.5, min_valid_hr_bpm=30.0 dropping 1830/8774 zero-HR samples, hr_augment re-anchored on the PEAK) balanced the training distribution as intended (label marginal max 0.5 -> 0.309; dumped targets elevated 30.75 / tachycardic 25.50 / resting 22.00 / bradycardic 21.75) and made the collapse WORSE — bucket entropy 0.257 -> 0.000 with 91/91 tachycardic and peak_corr 0.68 -> 0.159, confirming the earlier +0.680 was faked by zero-HR contamination. Four candidate causes are now ruled out with direct measurement and should not be re-run: training marginal (balanced, still one label — 'always tachycardic' is not loss-optimal here), representation limit (subject-held-out Ridge on THIS adapter's soft-token prefix recovers hr_mean R2 0.992 / hr_peak R2 0.753 MAE 5.5 / hr_std R2 0.969 at n=600, so mean-pooling does not destroy the max), train/eval prompt skew (byte-identical), and zero-HR contamination (removed, collapse persists). Conditioning is alive in the same forward pass — hr_raw generates at corr +0.604 full-coverage and +0.909 sparse — so this is a SLOT-LEVEL failure where a fixed additive prefix bias can be absorbed by a continuous @@-value slot but not by a 4-way categorical token choice. CAVEAT: this record's teacher-forced 'ZERO measurable dependence at the bucket slot' (argmax 0.250 matched and mismatched, always 'bradycardic', n=32) was later overturned by exp-e23LM-teacher-forced-corrected as a token-length scoring bug — the dependence is real but ~12x too small. Next levers: a path where the prefix changes RELATIVE attention (zero-init gated cross-attention), or simply derive heart_rate_bucket deterministically from the generated hr_peak at decode time.
+
+Transfers to: [[hyp-eiv-boost-categorical-slot-signal-20260805]], [[the-hr-peak-failure-is-a-readout-965f58]], [[hyp-e7-projector-bottleneck-20260814]]
 
 ## Notes
 VERDICT: the marginal hypothesis is REFUTED. Balancing the training distribution did not fix the collapse and made the primary metric worse (entropy 0.257 -> 0.000, 91/91 tachycardic).

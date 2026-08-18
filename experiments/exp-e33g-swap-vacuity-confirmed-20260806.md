@@ -14,6 +14,7 @@ config_note: 'Confirmatory follow-up to exp-e33f, using data that did not exist 
   timeout would kill seed 3''s probe ~9 min short; it actually finished 03:36:36,
   about 22 min BEFORE the 03:58:39 kill, because I over-estimated probe duration by
   ~15 min. No data was lost to the timeout.'
+cost: null
 crash_reason: ''
 created_at: '2026-08-06T03:38:24+00:00'
 diagnostics_measured:
@@ -72,6 +73,35 @@ gate_results:
 git_ref: ''
 hypothesis_id: the-stage-c-collapse-tripwires-are-2211e6
 id: exp-e33g-swap-vacuity-confirmed-20260806
+interpretation:
+  at: '2026-08-18T21:08:43+00:00'
+  failure_mode: test_invalid
+  lesson: 'The swap-gate vacuity inferred in exp-e33f is now an OBSERVED FACT on a
+    real run, so any conclusion resting on swap_attribution_acc is untested rather
+    than negative: seed 3''s artifact (the first written after the counterfactual.py
+    patch) reads verbatim {"swap_attribution_acc": 0.0, "swap_total": 0, "swap_correct":
+    0, "swap_measured": false} - ZERO measurements returned as a failing score. All
+    three Stage C seeds reported swap 0.0000 and all three were failed on it (seed
+    1 SOLELY: ''collapsed=yes:swap<0.3''), the pipeline exited 1 with ''All 3 Stage
+    C seeds collapsed'', left the canonical adapter dir unpopulated and refused ~9
+    GPU-hours. p6 is equally dead: bucket_acc_ordered and bucket_acc_shuffled are
+    EXACTLY 0.0000 for all three seeds while p4 separates them cleanly (hr_acc 0.4297
+    / 0.0234 / 0.3516, parse_fail 0.0000 / 0.0000 / 0.0078). CRUCIALLY the bistability
+    is REAL and this does not overturn it: seed 2 is genuinely degenerate and the
+    honest p2 family says so unaided (monotonic_scale_response 0.0938 vs 0.8438/0.8906,
+    null_sensor_bucket_disagreement 0.2969 vs 0.6562/0.6875, hr_acc 0.0234), so ''all
+    3 collapsed'' is wrong - one collapsed, one (seed 1) clears the valid tripwires,
+    one (seed 3) narrowly misses an honest bar. Treat swap_measured == false as NOT
+    MEASURED, never as a failure, and switch p6 to datasets.hr_label_bucket before
+    reading its accuracies. The promoted seed 1 adapter is a starting point, not a
+    result: p1 hr_r2 0.9254 is IDENTICAL across all three seeds including the collapsed
+    one - a live demonstration that a hidden-state probe proves presence and never
+    usability - and p7 sensor_attention_mass 0.1404 sits BELOW the uniform baseline
+    0.2238.'
+  transfers_to:
+  - the-reported-phase-c-collapse-to-the-272801
+  - the-hr-peak-native-emission-deficit-264f4f
+  - the-hr-peak-emission-failure-is-a-723466
 key_numbers: {}
 observed_effects:
 - delta: -0.3
@@ -83,6 +113,7 @@ prediction_match:
   per_diagnostic:
     eiv_digit_readout_decoded_mae: false
 provenance: {}
+recipe_fingerprint: {}
 verdict: inconclusive
 ---
 
@@ -110,6 +141,13 @@ swap_total == 0. The gate performed ZERO measurements and returned 0.0, and the 
 SEED 2 IS GENUINELY DEGENERATE and the p2 family says so independently of the broken gates: monotonic_scale_response collapses to 0.0938 (vs 0.84/0.89) and null_sensor_bucket_disagreement to 0.2969 (vs 0.66/0.69), with hr_acc 0.0234. So the pipeline's documented bistability is REAL -- this is what a collapsed seed looks like, and the honest metrics detect it. SEEDS 1 AND 3 do not look like that: both hold output_diff_rate_zero at 1.0 and monotonic response at 0.84/0.89. Seed 1 was failed SOLELY by the vacuous swap gate; seed 3 fails an honest tripwire (hr_acc 0.3516 < 0.40) but only narrowly, and its swap failure is provably vacuous. CONCLUSION: the verdict 'all 3 collapsed' is not supported -- one seed is collapsed, one clears the valid tripwires, one narrowly misses on a real metric.
 
 **Verdict:** inconclusive
+
+## Interpretation
+**Failure mode:** `test_invalid`
+
+The swap-gate vacuity inferred in exp-e33f is now an OBSERVED FACT on a real run, so any conclusion resting on swap_attribution_acc is untested rather than negative: seed 3's artifact (the first written after the counterfactual.py patch) reads verbatim {"swap_attribution_acc": 0.0, "swap_total": 0, "swap_correct": 0, "swap_measured": false} - ZERO measurements returned as a failing score. All three Stage C seeds reported swap 0.0000 and all three were failed on it (seed 1 SOLELY: 'collapsed=yes:swap<0.3'), the pipeline exited 1 with 'All 3 Stage C seeds collapsed', left the canonical adapter dir unpopulated and refused ~9 GPU-hours. p6 is equally dead: bucket_acc_ordered and bucket_acc_shuffled are EXACTLY 0.0000 for all three seeds while p4 separates them cleanly (hr_acc 0.4297 / 0.0234 / 0.3516, parse_fail 0.0000 / 0.0000 / 0.0078). CRUCIALLY the bistability is REAL and this does not overturn it: seed 2 is genuinely degenerate and the honest p2 family says so unaided (monotonic_scale_response 0.0938 vs 0.8438/0.8906, null_sensor_bucket_disagreement 0.2969 vs 0.6562/0.6875, hr_acc 0.0234), so 'all 3 collapsed' is wrong - one collapsed, one (seed 1) clears the valid tripwires, one (seed 3) narrowly misses an honest bar. Treat swap_measured == false as NOT MEASURED, never as a failure, and switch p6 to datasets.hr_label_bucket before reading its accuracies. The promoted seed 1 adapter is a starting point, not a result: p1 hr_r2 0.9254 is IDENTICAL across all three seeds including the collapsed one - a live demonstration that a hidden-state probe proves presence and never usability - and p7 sensor_attention_mass 0.1404 sits BELOW the uniform baseline 0.2238.
+
+Transfers to: [[the-reported-phase-c-collapse-to-the-272801]], [[the-hr-peak-native-emission-deficit-264f4f]], [[the-hr-peak-emission-failure-is-a-723466]]
 
 ## Notes
 THE VACUITY IS NOW A MEASURED FACT, AND THE WATCHDOG RECOVERED ~9 GPU-HOURS THE PIPELINE HAD REFUSED.

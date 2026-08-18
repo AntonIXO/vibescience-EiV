@@ -26,6 +26,7 @@ config_note: 'Runner: scratch/e17_unified_readout.py (+ scratch/canon_utils.py).
   affine rescaling preserves ranks, so RF splits and AUC are invariant in exact arithmetic;
   the residual is float32 split-threshold noise. E16''s conclusions and its rule-out
   STAND unchanged.'
+cost: null
 crash_reason: ''
 created_at: '2026-08-14T21:47:37+00:00'
 diagnostics_measured:
@@ -54,6 +55,34 @@ gate_results:
 git_ref: ''
 hypothesis_id: hyp-e17-unified-readout-operator-20260815
 id: exp-e17-unified-readout-20260815
+interpretation:
+  at: '2026-08-18T21:08:39+00:00'
+  failure_mode: mechanism_wrong
+  lesson: 'DO NOT READ THIS `null` AS ''nearly worked'' — the run bundled two targets
+    and they came apart completely. Task A (excursion readout) CONFIRMED enormously:
+    at the incumbent 23-token grid the increment over the daily-mean control (0.0649)
+    goes avg +0.0090 -> avgmax concat +0.3605, a +0.3515 operator gain, SEVEN times
+    the preregistered +0.05 bar, with window, token count and data all held fixed
+    (n=4000, 77 subjects); max alone +0.0378 and lse alone +0.0374 are near-tied and
+    far below, localising the mechanism as LEVEL AND EXTREMUM TOGETHER, and the production
+    projector''s adaptive_avg_pool2d (cross_modal.py:260) is sitting on the +0.0090
+    arm. Task B (affect) nulled and is what set the verdict: best absolute AUC 0.6051
+    across all 8 token x operator arms vs a within-subject constant of 0.7381 (shortfall
+    -0.1330), and locality is sign-unstable (local-minus-global -0.0226..+0.0376 against
+    MDE 0.028) — a second independent feature construction hitting E16''s exact trait
+    ceiling. Secondary and actionable: the LSM-2 144-token geometry is uniformly WORSE
+    than 23 at every operator (avgmax 0.1470 vs 0.3605, avg -0.0383, max -0.0302,
+    lse -0.0311; penalty -0.2135), so token-count stages should be rescoped to OPERATOR.
+    Also: population_stats.json stores median/iqr as per-channel LISTS, so name-keyed
+    .get() silently returns (0.0,1.0) and leaves HR normalised while code believes
+    bpm — always denorm via canon_utils.channel_denorm with the assert_bpm tripwire.'
+  transfers_to:
+  - hyp-e19-encoder-pooling-transfer-20260815
+  - hyp-e19b-pooling-recipe-level-20260815
+  - e4-encoder-excursion-avgmax-20260813
+  - hyp-e6-peak-maxpool-readout-20260814
+  - hyp-e18-within-subject-state-20260815
+  - hyp-e22-encoder-representation-affect-20260815
 key_numbers:
   taskA_144tok_avg: -0.0383
   taskA_144tok_avgmax: 0.147
@@ -87,6 +116,7 @@ prediction_match:
     eiv_affect_multichannel_increment: false
     eiv_peak_excursion_increment_r2: true
 provenance: {}
+recipe_fingerprint: {}
 verdict: 'null'
 ---
 
@@ -107,6 +137,13 @@ Branches from [[exp-e16-peri-ema-window-20260815]].
 **Verdict:** null
 
 > POWERED NULL: the observed effect is smaller than the minimum detectable effect this run preregistered. The direction is noise, not evidence — read this as a refutation of the lever at the committed scale.
+
+## Interpretation
+**Failure mode:** `mechanism_wrong`
+
+DO NOT READ THIS `null` AS 'nearly worked' — the run bundled two targets and they came apart completely. Task A (excursion readout) CONFIRMED enormously: at the incumbent 23-token grid the increment over the daily-mean control (0.0649) goes avg +0.0090 -> avgmax concat +0.3605, a +0.3515 operator gain, SEVEN times the preregistered +0.05 bar, with window, token count and data all held fixed (n=4000, 77 subjects); max alone +0.0378 and lse alone +0.0374 are near-tied and far below, localising the mechanism as LEVEL AND EXTREMUM TOGETHER, and the production projector's adaptive_avg_pool2d (cross_modal.py:260) is sitting on the +0.0090 arm. Task B (affect) nulled and is what set the verdict: best absolute AUC 0.6051 across all 8 token x operator arms vs a within-subject constant of 0.7381 (shortfall -0.1330), and locality is sign-unstable (local-minus-global -0.0226..+0.0376 against MDE 0.028) — a second independent feature construction hitting E16's exact trait ceiling. Secondary and actionable: the LSM-2 144-token geometry is uniformly WORSE than 23 at every operator (avgmax 0.1470 vs 0.3605, avg -0.0383, max -0.0302, lse -0.0311; penalty -0.2135), so token-count stages should be rescoped to OPERATOR. Also: population_stats.json stores median/iqr as per-channel LISTS, so name-keyed .get() silently returns (0.0,1.0) and leaves HR normalised while code believes bpm — always denorm via canon_utils.channel_denorm with the assert_bpm tripwire.
+
+Transfers to: [[hyp-e19-encoder-pooling-transfer-20260815]], [[hyp-e19b-pooling-recipe-level-20260815]], [[e4-encoder-excursion-avgmax-20260813]], [[hyp-e6-peak-maxpool-readout-20260814]], [[hyp-e18-within-subject-state-20260815]], [[hyp-e22-encoder-representation-affect-20260815]]
 
 ## Key numbers
 - `taskA_144tok_avg`: -0.0383

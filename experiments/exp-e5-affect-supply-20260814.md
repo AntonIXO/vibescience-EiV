@@ -6,6 +6,7 @@ config_note: 'E5 supply probe, pure CPU. RF(400, min_leaf 5) + linear check, Gro
   sleep block). Features masked present-only per M_mask; missing family features imputed
   with train-fold median + presence flag. Gates preregistered on hypothesis: g1 delta
   AUC >= +0.03 & within-subject perm p<0.05 (blocking), g2 absolute AUC >= 0.58 (blocking).'
+cost: null
 crash_reason: ''
 created_at: '2026-08-14T07:47:47+00:00'
 diagnostics_measured:
@@ -41,6 +42,36 @@ gate_results:
 git_ref: ''
 hypothesis_id: hyp-affect-multichannel-supply-20260814
 id: exp-e5-affect-supply-20260814
+interpretation:
+  at: '2026-08-18T21:08:44+00:00'
+  failure_mode: claim_false
+  lesson: 'MOST LOAD-BEARING NEGATIVE IN THE VAULT - and the decisive gate is g2,
+    not g1. The preregistered multichannel increment failed (delta = 0.4538 - 0.4816
+    = -0.0278 against a >= +0.03 bar, within-subject permutation p = 0.84 over 24
+    perms, null mean -0.0038, std 0.0271, z = -0.88; adding channels HURT), but the
+    finding that matters is that THE HR-ONLY BASELINE IS ITSELF AT CHANCE: RF hr_only
+    AUC 0.4816 against chance 0.50 (linear hr_only 0.5329), and the best arm of ANY
+    composition is hr+time 0.5183, all far below the 0.58 absolute bar and all inside
+    the 0.027 null std of chance - there is NO absolute skill for any delta to sit
+    on, so no channel-addition experiment on this population can produce a positive.
+    Per-family arms confirm it (hr+sleep 0.4621, hr+temp 0.4808, hr+rr 0.5161, hr+hrv
+    0.4925), RF importances split evenly at ~0.023-0.028 because nothing is informative,
+    and pmdata sleep adds nothing (Spearman 0.1280 vs hr_only 0.1244, delta +0.0036,
+    perm p 0.84, with the null mean +0.0244 EXCEEDING the observed delta). CONSEQUENCE:
+    ''sleep/rr/spo2 will improve state detection'' is unsupported on the benchmark
+    cohorts, and the state slot cannot be honestly trained OR evaluated on lifesnaps/pmdata
+    labels at all - any state claim must wait for deployment-side labels. Encoder
+    work on non-HR channels remains justified only for channel-VALUE slots (hrv/rr/temp
+    reporting), not affect. SCOPE, stated precisely: this kills DAILY-SUMMARY supply
+    for BETWEEN-DAY affect discrimination generalizing ACROSS SUBJECTS; it does not
+    measure within-day temporal patterns beyond dispersion/fragmentation summaries,
+    nor N-of-1 per-subject models with per-subject baselines.'
+  transfers_to:
+  - hyp-e14-within-subject-affect-supply-20260814
+  - hyp-e22-encoder-representation-affect-20260815
+  - hyp-e18-within-subject-state-20260815
+  - hyp-e24-lab-protocol-subdaily-state-20260815
+  - hyp-e26-within-window-transitions-20260815
 key_numbers: {}
 observed_effects:
 - delta: -0.0278
@@ -52,6 +83,7 @@ prediction_match:
   per_diagnostic:
     eiv_affect_multichannel_increment: false
 provenance: {}
+recipe_fingerprint: {}
 verdict: refutes
 ---
 
@@ -68,6 +100,13 @@ Tests hypothesis [[hyp-affect-multichannel-supply-20260814]].
 - `g4-attribution`: **FAIL** — Measured, moot: no family cleared anything. hr+sleep 0.4621, hr+temp 0.4808, hr+rr 0.5161, hr+hrv 0.4925, hr+time 0.5183 — all vs hr_only 0.4816, all within the 0.027 null std of chance. Top RF importances split evenly across hr/temp stats (~0.023-0.028 each), i.e. no informative feature dominates because none is informative.
 
 **Verdict:** refutes
+
+## Interpretation
+**Failure mode:** `claim_false`
+
+MOST LOAD-BEARING NEGATIVE IN THE VAULT - and the decisive gate is g2, not g1. The preregistered multichannel increment failed (delta = 0.4538 - 0.4816 = -0.0278 against a >= +0.03 bar, within-subject permutation p = 0.84 over 24 perms, null mean -0.0038, std 0.0271, z = -0.88; adding channels HURT), but the finding that matters is that THE HR-ONLY BASELINE IS ITSELF AT CHANCE: RF hr_only AUC 0.4816 against chance 0.50 (linear hr_only 0.5329), and the best arm of ANY composition is hr+time 0.5183, all far below the 0.58 absolute bar and all inside the 0.027 null std of chance - there is NO absolute skill for any delta to sit on, so no channel-addition experiment on this population can produce a positive. Per-family arms confirm it (hr+sleep 0.4621, hr+temp 0.4808, hr+rr 0.5161, hr+hrv 0.4925), RF importances split evenly at ~0.023-0.028 because nothing is informative, and pmdata sleep adds nothing (Spearman 0.1280 vs hr_only 0.1244, delta +0.0036, perm p 0.84, with the null mean +0.0244 EXCEEDING the observed delta). CONSEQUENCE: 'sleep/rr/spo2 will improve state detection' is unsupported on the benchmark cohorts, and the state slot cannot be honestly trained OR evaluated on lifesnaps/pmdata labels at all - any state claim must wait for deployment-side labels. Encoder work on non-HR channels remains justified only for channel-VALUE slots (hrv/rr/temp reporting), not affect. SCOPE, stated precisely: this kills DAILY-SUMMARY supply for BETWEEN-DAY affect discrimination generalizing ACROSS SUBJECTS; it does not measure within-day temporal patterns beyond dispersion/fragmentation summaries, nor N-of-1 per-subject models with per-subject baselines.
+
+Transfers to: [[hyp-e14-within-subject-affect-supply-20260814]], [[hyp-e22-encoder-representation-affect-20260815]], [[hyp-e18-within-subject-state-20260815]], [[hyp-e24-lab-protocol-subdaily-state-20260815]], [[hyp-e26-within-window-transitions-20260815]]
 
 ## Notes
 REFUTED at the supply level, and more strongly than predicted: I predicted a small positive delta (+0.02..+0.06, sleep-driven); measured -0.0278 (p=0.84). But the decisive finding is g2, not g1: THE HR-ONLY ARM IS ITSELF AT CHANCE (RF AUC 0.4816, linear 0.5329, chance 0.50) on subject-grouped OOF lifesnaps TENSE/ANXIOUS, and NO composition of channels exceeds 0.5183. There is no daily-summary affect signal in ANY channel on the only labeled cohorts — consistent with the earlier bounding fact corr(label, emitted hr) <= 0.09 and with pmdata hr_only Spearman 0.1244 (16 subjects, saturated 3-heavy label). SCOPE OF THE NEGATIVE, stated precisely: this kills daily-summary supply for BETWEEN-DAY affect discrimination generalizing ACROSS SUBJECTS at the population level. It does not measure (a) within-day temporal patterns beyond dispersion/fragmentation summaries — though shallow-at-chance makes deep rescue unlikely per lecture-04 priors — or (b) N-of-1 per-subject models with per-subject baselines, which is the actual product regime and would need within-subject calibration data the platform collects. IMPLICATION FOR ANTON'S STEER: 'sleep/rr/spo2 will improve state detection' is NOT supported by the benchmark cohorts we can score on; the state slot cannot be honestly trained or evaluated on lifesnaps/pmdata labels at all. Any state-detection claim must wait for deployment-side labels (optihealth_supabase labels:{} today). Encoder work on non-HR channels remains justified ONLY for channel-value slots (hrv/rr/temp reporting), not for affect. Artifact logs/e5_affect_supply_probe.json, probe scratch/e5_affect_supply_probe.py, 151s CPU, zero GPU.

@@ -14,6 +14,7 @@ config_note: 'Runner: scratch/e26_within_window_transitions.py -> logs/e26_withi
   (neutral,stress) 399, (flow,neutral) 392. Contributing datasets: lifesnaps 871,
   dryad 342, neuro_stress 26, wesad 15, consumer_grade_wearables 11, nurse_stress
   8, pmdata 1. Primary pair = flow vs stress.'
+cost: null
 crash_reason: ''
 created_at: '2026-08-15T07:54:25+00:00'
 diagnostics_measured:
@@ -36,6 +37,30 @@ gate_results:
 git_ref: ''
 hypothesis_id: hyp-e26-within-window-transitions-20260815
 id: exp-e26-within-window-transitions-20260815
+interpretation:
+  at: '2026-08-18T21:08:42+00:00'
+  failure_mode: null
+  lesson: 'Within-window transitions are the first design in this project where physiology
+    beats every available baseline on the state axis, and it works because the trait
+    confound is removed by SAMPLING rather than by statistical control: flow vs stress
+    epochs from the same subject on the same day give HR AUC 0.6329 vs clock 0.5129
+    (+0.1200) and vs its own within-window shuffle 0.5151 (+0.1178), majority 0.520,
+    on n=3248 epochs / 87 subjects / 662 windows with GroupKFold by subject — the
+    per-user constant that beat every prior arm (0.7381 in E16) is exactly 0.5 here
+    by construction. Only the W=120 arm is citable: W=15/30/60 sit at 0.5427/0.5381/0.5524
+    and their shuffles are unstable (0.4425/0.4730), and adding clock features HURTS
+    (hr+clock 0.5786 < hr alone 0.6329), so the signal is a slow ~2-hour physiological
+    signature, not acute peri-ping reactivity. Engineering consequence: TripletStateDataset
+    mines on infer_state_label, one majority-collapsed label per window, so all 1274
+    transition windows have their internal contrast discarded before Phase B sees
+    it. Caveats for reuse: 0.6329 is an in-the-wild-grade detector (never quote it
+    beside WESAD''s lab 0.8497) and lifesnaps (871) + dryad (342) supply 1213 of the
+    1274 windows.'
+  transfers_to:
+  - hyp-e27-encoder-on-transitions-20260815
+  - hyp-e28-segment-triplet-retrain-20260815
+  - hyp-e16-peri-ema-window-20260815
+  - hyp-e18-within-subject-state-20260815
 key_numbers:
   auc_clock_w120: 0.5129
   auc_hr_w120: 0.6329
@@ -65,6 +90,7 @@ prediction_match:
   per_diagnostic:
     eiv_affect_multichannel_increment: true
 provenance: {}
+recipe_fingerprint: {}
 verdict: supports
 ---
 
@@ -82,6 +108,11 @@ External run: logs/e26_within_window_transitions.json
 - `g3_trait_held_constant_by_design`: PASS
 
 **Verdict:** supports
+
+## Interpretation
+Within-window transitions are the first design in this project where physiology beats every available baseline on the state axis, and it works because the trait confound is removed by SAMPLING rather than by statistical control: flow vs stress epochs from the same subject on the same day give HR AUC 0.6329 vs clock 0.5129 (+0.1200) and vs its own within-window shuffle 0.5151 (+0.1178), majority 0.520, on n=3248 epochs / 87 subjects / 662 windows with GroupKFold by subject — the per-user constant that beat every prior arm (0.7381 in E16) is exactly 0.5 here by construction. Only the W=120 arm is citable: W=15/30/60 sit at 0.5427/0.5381/0.5524 and their shuffles are unstable (0.4425/0.4730), and adding clock features HURTS (hr+clock 0.5786 < hr alone 0.6329), so the signal is a slow ~2-hour physiological signature, not acute peri-ping reactivity. Engineering consequence: TripletStateDataset mines on infer_state_label, one majority-collapsed label per window, so all 1274 transition windows have their internal contrast discarded before Phase B sees it. Caveats for reuse: 0.6329 is an in-the-wild-grade detector (never quote it beside WESAD's lab 0.8497) and lifesnaps (871) + dryad (342) supply 1213 of the 1274 windows.
+
+Transfers to: [[hyp-e27-encoder-on-transitions-20260815]], [[hyp-e28-segment-triplet-retrain-20260815]], [[hyp-e16-peri-ema-window-20260815]], [[hyp-e18-within-subject-state-20260815]]
 
 ## Key numbers
 - `auc_clock_w120`: 0.5129

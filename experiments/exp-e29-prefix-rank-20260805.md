@@ -12,6 +12,7 @@ config_note: 'CPU-only, zero GPU, on cached features from exp-e26. SAME frozen H
   by external theory (Petrov, Torr & Bibi ICLR 2024, arXiv:2310.19698) rather than
   by extending my own prior framing. Script scratch/probe_e29_prefix_rank.py, decision
   rule in docstring, written before the run; committed to the low-rank branch.'
+cost: null
 crash_reason: ''
 created_at: '2026-08-05T21:25:24+00:00'
 diagnostics_measured:
@@ -82,6 +83,38 @@ gate_results:
 git_ref: ''
 hypothesis_id: the-soft-token-prefix-influences-the-lm-82bbde
 id: exp-e29-prefix-rank-20260805
+interpretation:
+  at: '2026-08-18T21:08:42+00:00'
+  failure_mode: mechanism_wrong
+  lesson: 'PREFIX RANK is eliminated as the location of the loss, and the refutation
+    delivered the chain''s first structural mechanism. Ridge on the top 3 PCs gives
+    18.407 bpm vs full-dimensional Ridge 10.270 (gate allowed 0.5 bpm), barely beating
+    always-predict-median 18.492, and MAE falls monotonically with rank all the way
+    out (k=1 19.244, k=3 18.407, k=10 15.223, k=20 13.242, k=50 11.108, k=100 10.796,
+    k=300 10.304; CI95 k=300 minus k=3 = [-9.371,-6.885]) while donor (19.288-19.381)
+    and shuffled-target (19.228-19.339) arms stay flat and skill-free at every k —
+    so the rank-dependent gain is real per-sample signal, and the prefix''s influence
+    is NOT a low-rank bias. The mechanism: the hidden states ARE globally low-rank
+    (PC1 47.82% of variance, PC1-10 83.68%, participation ratio 3.92) but the peak-predictive
+    content is not in the dominant directions — corr(PC_i, hr_peak) for i=1..10 is
+    +0.042, -0.358, -0.019, -0.209, -0.215, +0.211, +0.219, +0.069, -0.285, -0.010,
+    so PC1 carries nearly half the variance and is uncorrelated with the target. hr_peak
+    lives in HIGH-RANK, LOW-VARIANCE directions, which single-handedly explains E28''s
+    non-linear losses (capacity allocated along high-variance directions with no signal),
+    E20''s cos = -0.015 against the LM''s native numeric direction, and why E28''s
+    ''information limit'' reading was wrong. Next arms should change what ENTERS the
+    stack (projector-output whitening, soft tokens initialised from real vocabulary
+    embeddings, an explicit alignment loss to the LM''s numeric subspace, or zero-init
+    gated cross-attention), not how it is read out. Scope limits: this tested a CONSEQUENCE
+    of Petrov et al. (arXiv:2310.19698), which assumes a FIXED prefix, so the theorem
+    is not falsified; and rank measured at ONE position does not localise WHERE the
+    signal became low-variance — run the same spectrum on the projector output and
+    intermediate layers before any training run.'
+  transfers_to:
+  - the-hr-peak-signal-enters-the-lm-well-ba9dd9
+  - the-hr-peak-signal-at-the-projector-4aa472
+  - the-hr-peak-readout-cap-is-an-a61025
+  - hyp-e7-projector-bottleneck-20260814
 key_numbers: {}
 observed_effects:
 - delta: 8.137
@@ -93,6 +126,7 @@ prediction_match:
   per_diagnostic:
     eiv_digit_readout_decoded_mae: false
 provenance: {}
+recipe_fingerprint: {}
 verdict: refutes
 ---
 
@@ -111,6 +145,13 @@ Branches from [[exp-e28-function-class-20260805]].
 - `gate-theory-scope-stated`: PASS — HONOURED. Both preregistered scope limits are stated and both now matter more, not less, given the refutation. (1) Petrov et al. (arXiv:2310.19698) concerns a FIXED prefix while mine varies per sample, so this experiment tested a CONSEQUENCE of the theory rather than the theorem. The consequence FAILED, and I am explicitly NOT claiming the theorem is false -- a per-sample prefix is outside its scope, and the honest statement is that this system does not exhibit the low-rank signature the theory's bias picture would predict. (2) Rank measured at the emission position does not localise WHERE the signal became high-rank and low-variance; a layer sweep (or a comparison against the projector output's own spectrum) is required and was not run here. Any follow-up must not treat this single-position measurement as a claim about the whole stack.
 
 **Verdict:** refutes
+
+## Interpretation
+**Failure mode:** `mechanism_wrong`
+
+PREFIX RANK is eliminated as the location of the loss, and the refutation delivered the chain's first structural mechanism. Ridge on the top 3 PCs gives 18.407 bpm vs full-dimensional Ridge 10.270 (gate allowed 0.5 bpm), barely beating always-predict-median 18.492, and MAE falls monotonically with rank all the way out (k=1 19.244, k=3 18.407, k=10 15.223, k=20 13.242, k=50 11.108, k=100 10.796, k=300 10.304; CI95 k=300 minus k=3 = [-9.371,-6.885]) while donor (19.288-19.381) and shuffled-target (19.228-19.339) arms stay flat and skill-free at every k — so the rank-dependent gain is real per-sample signal, and the prefix's influence is NOT a low-rank bias. The mechanism: the hidden states ARE globally low-rank (PC1 47.82% of variance, PC1-10 83.68%, participation ratio 3.92) but the peak-predictive content is not in the dominant directions — corr(PC_i, hr_peak) for i=1..10 is +0.042, -0.358, -0.019, -0.209, -0.215, +0.211, +0.219, +0.069, -0.285, -0.010, so PC1 carries nearly half the variance and is uncorrelated with the target. hr_peak lives in HIGH-RANK, LOW-VARIANCE directions, which single-handedly explains E28's non-linear losses (capacity allocated along high-variance directions with no signal), E20's cos = -0.015 against the LM's native numeric direction, and why E28's 'information limit' reading was wrong. Next arms should change what ENTERS the stack (projector-output whitening, soft tokens initialised from real vocabulary embeddings, an explicit alignment loss to the LM's numeric subspace, or zero-init gated cross-attention), not how it is read out. Scope limits: this tested a CONSEQUENCE of Petrov et al. (arXiv:2310.19698), which assumes a FIXED prefix, so the theorem is not falsified; and rank measured at ONE position does not localise WHERE the signal became low-variance — run the same spectrum on the projector output and intermediate layers before any training run.
+
+Transfers to: [[the-hr-peak-signal-enters-the-lm-well-ba9dd9]], [[the-hr-peak-signal-at-the-projector-4aa472]], [[the-hr-peak-readout-cap-is-an-a61025]], [[hyp-e7-projector-bottleneck-20260814]]
 
 ## Notes
 MY LITERATURE-DERIVED HYPOTHESIS WAS REFUTED, AND THE REFUTATION IS MORE USEFUL THAN THE CONFIRMATION WOULD HAVE BEEN. It produced the first structural finding in this problem that no prior experiment could have reached.

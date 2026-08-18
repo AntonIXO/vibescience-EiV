@@ -6,6 +6,7 @@ config_note: 'Profiles lora_proxy_12ch_wl_noatom_s43/_s44, byte-diff vs baseline
   Score: frozen 200-row supabase draw (default_rng(0)/223 pool) + dense 128, scratch/emission_diversity_audit.py.
   Seed 42 = existing v7noatom, reused not retrained. Pipeline scratch/run_v7noatom_seed_band.sh,
   log logs/v7noatom_seed_band.log; check internal *_RC= markers.'
+cost: null
 crash_reason: ''
 created_at: '2026-08-13T08:05:13+00:00'
 diagnostics_measured:
@@ -38,6 +39,34 @@ gate_results:
 git_ref: 1d4c663
 hypothesis_id: the-atom-fix-a71034c-removed-the-d96b6e
 id: exp-v7noatom-seed-band-20260813
+interpretation:
+  at: '2026-08-18T21:08:46+00:00'
+  failure_mode: null
+  lesson: 'THIS IS THE MINIMUM-DETECTABLE-EFFECT RECORD FOR THE DEPLOYMENT (supabase)
+    DISTRIBUTION, post atom-fix. Seeds 42/43/44 of lora_proxy_12ch_wl_noatom off the
+    same v5c/phase_b init give supabase hr_raw MAE 11.54 / 15.78 / 9.49, a pure-seed
+    band of 6.29 bpm — so no future SINGLE-SEED deployment arm can claim an improvement
+    smaller than 6.29 bpm, and that figure is a LOWER BOUND because a 3-draw range
+    understates the true spread; score arms band-vs-band against {9.49, 11.54, 15.78},
+    not against the 11.54 point. Sobering scale: a trivial always-median predictor
+    scores 4.02 bpm, i.e. EVERY seed is 2.4-3.9x worse than a constant on deployment.
+    Direction held but MAGNITUDE FAILED: the band narrowed 11.37 -> 6.29 (45%) yet
+    missed the preregistered <6.0 bar, so the atom fix removed much but not all seed
+    bistability. The structural claim DID replicate — exact-30 floor emissions 0/200
+    on all three seeds (rate 0.000 < 0.05 gate), so v7noatom''s baseline designation
+    stands. Mechanism sharpened, not refuted: every seed still crystallizes a low
+    prototype (43/44 at 31.1/31.3/31.6 bpm, just above the deleted 30 floor) and emits
+    <45 bpm on 33-60% of rows while deployment truth is NEVER <45; the post-fix target
+    law still puts P(hr_raw target < 45) = 0.0729, almost entirely from augmentation
+    (E[P(aug<45)] = 0.1774 vs natural 0.0032), with band supply/demand 0.2017 vs 0.8290
+    (ratio 0.243). ACTIONABLE: the augment low tail — not the removed atom — is now
+    the dominant remaining source of sub-45 emissions and seed instability, so band-mass
+    arms must REMOVE/reweight the sub-45 augment tail as well as add [45,65] mass.'
+  transfers_to:
+  - e1-band-mass-starvation-drives-supabase-mae-and-seed-band
+  - v4w-s-genuine-deployment-advantage-9d4fbf
+  - with-phase-c-now-seeded-0b5aff2-three-fae38a
+  - hrv-raw-fails-on-deployment-for-the-624895
 key_numbers: {}
 observed_effects:
 - delta: -5.08
@@ -53,6 +82,7 @@ prediction_match:
     eiv_supabase_floor_emission_rate: false
     eiv_supabase_seed_band_mae_bpm: true
 provenance: {}
+recipe_fingerprint: {}
 verdict: supports
 ---
 
@@ -70,6 +100,11 @@ At commit `1d4c663`.
 - `g3-no-best-seed-promotion`: PASS — Seed 44 scored best (9.49 < 11.54) and was NOT promoted; v7noatom seed 42 remains the named baseline checkpoint. Honored by design.
 
 **Verdict:** supports
+
+## Interpretation
+THIS IS THE MINIMUM-DETECTABLE-EFFECT RECORD FOR THE DEPLOYMENT (supabase) DISTRIBUTION, post atom-fix. Seeds 42/43/44 of lora_proxy_12ch_wl_noatom off the same v5c/phase_b init give supabase hr_raw MAE 11.54 / 15.78 / 9.49, a pure-seed band of 6.29 bpm — so no future SINGLE-SEED deployment arm can claim an improvement smaller than 6.29 bpm, and that figure is a LOWER BOUND because a 3-draw range understates the true spread; score arms band-vs-band against {9.49, 11.54, 15.78}, not against the 11.54 point. Sobering scale: a trivial always-median predictor scores 4.02 bpm, i.e. EVERY seed is 2.4-3.9x worse than a constant on deployment. Direction held but MAGNITUDE FAILED: the band narrowed 11.37 -> 6.29 (45%) yet missed the preregistered <6.0 bar, so the atom fix removed much but not all seed bistability. The structural claim DID replicate — exact-30 floor emissions 0/200 on all three seeds (rate 0.000 < 0.05 gate), so v7noatom's baseline designation stands. Mechanism sharpened, not refuted: every seed still crystallizes a low prototype (43/44 at 31.1/31.3/31.6 bpm, just above the deleted 30 floor) and emits <45 bpm on 33-60% of rows while deployment truth is NEVER <45; the post-fix target law still puts P(hr_raw target < 45) = 0.0729, almost entirely from augmentation (E[P(aug<45)] = 0.1774 vs natural 0.0032), with band supply/demand 0.2017 vs 0.8290 (ratio 0.243). ACTIONABLE: the augment low tail — not the removed atom — is now the dominant remaining source of sub-45 emissions and seed instability, so band-mass arms must REMOVE/reweight the sub-45 augment tail as well as add [45,65] mass.
+
+Transfers to: [[e1-band-mass-starvation-drives-supabase-mae-and-seed-band]], [[v4w-s-genuine-deployment-advantage-9d4fbf]], [[with-phase-c-now-seeded-0b5aff2-three-fae38a]], [[hrv-raw-fails-on-deployment-for-the-624895]]
 
 ## Notes
 POST-FIX BAND MEASURED: 6.29 bpm (seeds 42/43/44 -> 11.54/15.78/9.49 supabase hr_raw MAE; trivial 4.02). All gates PASS. Floor structurally dead on all seeds (0/200 exact-30 everywhere) — the baseline designation stands. Band narrowed 11.37 -> 6.29 (45%) but MISSED the preregistered <6.0 bar: direction held, magnitude claim failed. Mechanism finding (per-seed forensics): the prototype-crystallization account is CONFIRMED and sharpened — every seed still invents low attractors, and seeds 43/44 crystallized theirs at 31.1/31.3/31.6 bpm, i.e. just above the old 30 floor. Emissions <45 bpm occur on 33-60% of rows across seeds while deployment truth is NEVER <45. New CPU probe (scratch/band_supply_demand.py, commit 744bbd7): post-fix target law still places P(hr_raw target < 45) = 0.0729 (almost all from augmentation: E[P(aug<45)]=0.1774, natural only 0.0032), while band-of-interest supply/demand is 0.2017 vs 0.8290 (ratio 0.243). The augmentation's low tail is now the DOMINANT remaining source of sub-45 emissions and seed instability. E1 (rb-deployment-band-mass-20260813) should therefore not just ADD [45,65] mass but REMOVE/reweight the sub-45 augment tail — both edits to _sample_hr_augment_peak's draw law, no new atom. Artifacts: outputs/probes/v7noatom_s43/_s44_emissions_{supabase,n128}.json, scratch/score_v7noatom_seed_band.py, logs/v7noatom_seed_band.log.

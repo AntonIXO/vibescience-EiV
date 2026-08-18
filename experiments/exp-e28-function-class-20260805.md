@@ -12,6 +12,7 @@ config_note: 'CPU-only, zero GPU. SAME frozen H[:,0,:] at the hr_peak emission p
   hyperparameters; shuffled-target control on two. Smoke-tested at n_train=200 before
   the run. Scripts scratch/probe_e28_function_class.py and scratch/probe_e28b_e27_recheck.py,
   decision rules in docstrings, written before running. Committed to the NULL branch.'
+cost: null
 crash_reason: ''
 created_at: '2026-08-05T21:13:42+00:00'
 diagnostics_measured:
@@ -76,6 +77,31 @@ gate_results:
 git_ref: ''
 hypothesis_id: the-hr-peak-readout-cap-is-an-a61025
 id: exp-e28-function-class-20260805
+interpretation:
+  at: '2026-08-18T21:08:42+00:00'
+  failure_mode: claim_false
+  lesson: 'Readout FUNCTION CLASS is eliminated as the location of the hr_peak loss:
+    on the same frozen H[:,0,:] at the emission position (700/300 split), plain Ridge
+    wins outright — LIN_SCALAR 10.270 < GBT_SCALAR 11.776 < MLP_SCALAR 11.902 < MLP_BIN
+    12.398 < LIN_BIN 12.529 < DIGIT 14.263 < always-median 18.492 — with paired bootstrap
+    CI95 (best non-linear minus best linear) = [+0.574,+2.441], entirely ABOVE zero,
+    so extra capacity measurably HURTS. The null is credible because two very different
+    inductive biases agree within 0.13 bpm, donor arms for all five are worse than
+    always-median (19.380/25.018/21.373/22.390/19.651) and shuffled-target refits
+    sit at 19.339/20.870, ruling out both ''the optimiser failed to fit'' and overfitting
+    at d=2560 vs n_train=700. Consequence: do NOT spend a training run on a non-linear
+    numeric head on the final hidden state, and do not quote the K=4 floor of 5.694
+    bpm as achievable (it is an encoding limit presupposing perfect true-bin assignment).
+    Also recorded here: exp-e27''s headline is superseded — LIN_SCALAR beats LIN_BIN
+    CI95 [-3.310,-1.185] and DIGIT CI95 [-5.364,-2.657], realising 8.222 bpm (64.2%)
+    of the 12.799 bpm headroom vs LIN_BIN''s 5.964 (46.6%). CAUTION for retrieval:
+    this run''s ''information limit'' diagnosis was later corrected by exp-e29 — the
+    features DO contain more, the signal simply lives in high-rank, low-variance directions.'
+  transfers_to:
+  - the-hr-peak-readout-is-limited-by-the-0d4b48
+  - the-soft-token-prefix-influences-the-lm-82bbde
+  - e11-a-linear-scalar-regression-head-127ffe
+  - hyp-e9-lmhead-lora-20260814
 key_numbers: {}
 observed_effects:
 - delta: -2.259
@@ -87,6 +113,7 @@ prediction_match:
   per_diagnostic:
     eiv_digit_readout_decoded_mae: false
 provenance: {}
+recipe_fingerprint: {}
 verdict: refutes
 ---
 
@@ -105,6 +132,13 @@ Branches from [[exp-e27-bin-encoding-20260805]].
 - `gate-two-nonlinear-families`: PASS — PASS, and the two families AGREE, which is what makes the null credible. Dense MLP and gradient boosting have very different inductive biases yet land within 0.13 bpm of each other (MLP_SCALAR 11.902, GBT_SCALAR 11.776) and BOTH lose to plain Ridge at 10.270. A single family underperforming would have left 'the optimiser failed to fit' open; agreement across families closes it. Additionally MLP_BIN (12.398) roughly ties LIN_BIN (12.529), so non-linearity does not rescue the bin parameterization either. CV selections were interior to the grids, not at a boundary that would suggest under-search: mlp_scalar n_comp=128 hid=(128,64) alpha=10.0 (cv 12.030), mlp_bin n_comp=64 hid=(128,64) alpha=10.0 (cv 13.950), gbt_scalar n_comp=32 (cv 13.004).
 
 **Verdict:** refutes
+
+## Interpretation
+**Failure mode:** `claim_false`
+
+Readout FUNCTION CLASS is eliminated as the location of the hr_peak loss: on the same frozen H[:,0,:] at the emission position (700/300 split), plain Ridge wins outright — LIN_SCALAR 10.270 < GBT_SCALAR 11.776 < MLP_SCALAR 11.902 < MLP_BIN 12.398 < LIN_BIN 12.529 < DIGIT 14.263 < always-median 18.492 — with paired bootstrap CI95 (best non-linear minus best linear) = [+0.574,+2.441], entirely ABOVE zero, so extra capacity measurably HURTS. The null is credible because two very different inductive biases agree within 0.13 bpm, donor arms for all five are worse than always-median (19.380/25.018/21.373/22.390/19.651) and shuffled-target refits sit at 19.339/20.870, ruling out both 'the optimiser failed to fit' and overfitting at d=2560 vs n_train=700. Consequence: do NOT spend a training run on a non-linear numeric head on the final hidden state, and do not quote the K=4 floor of 5.694 bpm as achievable (it is an encoding limit presupposing perfect true-bin assignment). Also recorded here: exp-e27's headline is superseded — LIN_SCALAR beats LIN_BIN CI95 [-3.310,-1.185] and DIGIT CI95 [-5.364,-2.657], realising 8.222 bpm (64.2%) of the 12.799 bpm headroom vs LIN_BIN's 5.964 (46.6%). CAUTION for retrieval: this run's 'information limit' diagnosis was later corrected by exp-e29 — the features DO contain more, the signal simply lives in high-rank, low-variance directions.
+
+Transfers to: [[the-hr-peak-readout-is-limited-by-the-0d4b48]], [[the-soft-token-prefix-influences-the-lm-82bbde]], [[e11-a-linear-scalar-regression-head-127ffe]], [[hyp-e9-lmhead-lora-20260814]]
 
 ## Notes
 NULL PREDICTION HELD, AND IT ALSO OVERTURNED THE EXPERIMENT ONE STEP BACK. Two results, both recorded.

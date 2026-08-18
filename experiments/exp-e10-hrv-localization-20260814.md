@@ -7,6 +7,7 @@ config_note: 'E10 CPU-only (CUDA_VISIBLE_DEVICES= while E9 trains on GPU): froze
   RidgeCV GroupKFold(5) by subject; thermometer control R2(hrv|true hr mean); shuffle
   null. systemd scope MemoryMax=10G. Gate g1 two-sided: >=0.35 readout-limited / <0.15
   encoder-limited.'
+cost: null
 crash_reason: ''
 created_at: '2026-08-14T09:00:42+00:00'
 diagnostics_measured:
@@ -30,6 +31,31 @@ gate_results:
 git_ref: ''
 hypothesis_id: hyp-e10-hrv-localization-20260814
 id: exp-e10-hrv-localization-20260814
+interpretation:
+  at: '2026-08-18T21:08:39+00:00'
+  failure_mode: null
+  lesson: 'hrv is READOUT-limited, not encoder-limited, and by a wide margin: the
+    frozen v9band04_s42 prefix decodes daily hrv_rmssd at subject-grouped OOF R2 0.9692
+    with the slot mean+max readout (pooled 0.9007), MAE 2.77 ms vs a trivial 17.64
+    ms, with +0.7086 increment beyond the hr thermometer (thermometer alone 0.2605)
+    and a clean shuffle null of -0.0196 — while the emission path only manages dense
+    corr 0.60 and a 69.1 ms supabase attractor. Act on this by abandoning encoder-side
+    and data-law interventions for hrv (it retroactively explains why E3''s target-law
+    reshaping failed for this slot) and spending on the decode stage instead: combined
+    with E8''s peak increment +0.5032 at the emitting position, the encoder+projector
+    stack is effectively solved (hr_mean ~0.97, hrv 0.97, peak-beyond-level 0.53 all
+    linearly readable from the prefix) and the frozen lm_head/decode path is the single
+    common failure stage across every failing numeric slot. Instrument rule that transfers
+    everywhere: emission correlation UNDERCOUNTS prefix content whenever the readout
+    is the defect (0.60 emitted vs 0.97 present), so use prefix probes, not emissions,
+    to answer any supply/localization question.'
+  transfers_to:
+  - hyp-e7-projector-bottleneck-20260814
+  - hyp-e8-lm-readout-transfer-20260814
+  - hyp-e9-lmhead-lora-20260814
+  - e11-a-linear-scalar-regression-head-127ffe
+  - hrv-raw-fails-on-deployment-for-the-624895
+  - the-hr-peak-failure-is-a-readout-965f58
 key_numbers: {}
 observed_effects:
 - delta: 0.3692
@@ -41,6 +67,7 @@ prediction_match:
   per_diagnostic:
     eiv_nonhr_channel_grouped_r2: true
 provenance: {}
+recipe_fingerprint: {}
 verdict: supports
 ---
 
@@ -56,6 +83,11 @@ Branches from [[exp-e7-projector-bottleneck-20260814]].
 - `g2-beyond-hr-thermometer`: PASS — Measured: increment beyond the hr thermometer +0.7086 (thermometer alone 0.2605). The prefix hrv signal is NOT hr-mediated. Shuffle null -0.0196 clean.
 
 **Verdict:** supports
+
+## Interpretation
+hrv is READOUT-limited, not encoder-limited, and by a wide margin: the frozen v9band04_s42 prefix decodes daily hrv_rmssd at subject-grouped OOF R2 0.9692 with the slot mean+max readout (pooled 0.9007), MAE 2.77 ms vs a trivial 17.64 ms, with +0.7086 increment beyond the hr thermometer (thermometer alone 0.2605) and a clean shuffle null of -0.0196 — while the emission path only manages dense corr 0.60 and a 69.1 ms supabase attractor. Act on this by abandoning encoder-side and data-law interventions for hrv (it retroactively explains why E3's target-law reshaping failed for this slot) and spending on the decode stage instead: combined with E8's peak increment +0.5032 at the emitting position, the encoder+projector stack is effectively solved (hr_mean ~0.97, hrv 0.97, peak-beyond-level 0.53 all linearly readable from the prefix) and the frozen lm_head/decode path is the single common failure stage across every failing numeric slot. Instrument rule that transfers everywhere: emission correlation UNDERCOUNTS prefix content whenever the readout is the defect (0.60 emitted vs 0.97 present), so use prefix probes, not emissions, to answer any supply/localization question.
+
+Transfers to: [[hyp-e7-projector-bottleneck-20260814]], [[hyp-e8-lm-readout-transfer-20260814]], [[hyp-e9-lmhead-lora-20260814]], [[e11-a-linear-scalar-regression-head-127ffe]], [[hrv-raw-fails-on-deployment-for-the-624895]], [[the-hr-peak-failure-is-a-readout-965f58]]
 
 ## Notes
 CONFIRMED (both gates pass, prediction direction and zone correct; magnitude even above my committed 0.40-0.65 range — 0.9692 with the slot mean+max readout). hrv joins hr_peak as READOUT-LIMITED: the v9band04 prefix carries daily hrv at R2 0.9692 / MAE 2.77 ms (trivial 17.64), with +0.7086 beyond the hr thermometer and a clean shuffle null — while the emission path manages dense corr 0.60 and a 69.1 ms supabase attractor. Combined with E8 (peak increment +0.5032 at the emitting position) the picture is now uniform across every failing numeric slot: THE ENCODER+PROJECTOR STACK IS ESSENTIALLY SOLVED (hr_mean ~0.97, hrv 0.97, peak-beyond-level 0.53 all linearly readable from the prefix); the frozen lm_head/decode path is the single common failure stage. This retroactively explains why E3's target-law reshaping failed: it tried to fix a readout problem with a data law. NEXT READ: E9's g4 hrv capture is now a direct intervention test — if the lm_head LoRA lifts hrv dense corr materially above 0.60 alongside any peak movement, one arm fixes the common stage; if E9 fails on both, the numeric-head architecture arm (scalar regression head off layer-34 hidden state — which this probe family shows would inherit R2 ~0.5-0.97 supply) becomes the only surviving lever and has strong priors. Superseded framing: the dissociation criterion's 'dense corr HIGH vs LOW' fork used EMISSIONS as the localization instrument; E10 shows emission corr can sit at 0.60 while the prefix holds 0.97 — emissions UNDERCOUNT prefix content whenever the readout is the defect. Prefix probes are the correct instrument for the supply half of that criterion going forward.

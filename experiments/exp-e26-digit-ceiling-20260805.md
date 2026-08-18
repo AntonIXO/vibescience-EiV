@@ -13,6 +13,7 @@ config_note: 'SELF-CORRECTION of exp-e25. CPU-side fits on GPU-extracted frozen 
   at n=60 (all arms parse 1.000). Script scratch/probe_e26_digit_ceiling.py with the
   decision rule in its docstring, committed before launch. Primary prediction committed
   to the NULL branch.'
+cost: null
 crash_reason: ''
 created_at: '2026-08-05T19:08:43+00:00'
 diagnostics_measured:
@@ -76,6 +77,30 @@ gate_results:
 git_ref: ''
 hypothesis_id: measured-in-lm-head-s-actual-function-b096c6
 id: exp-e26-digit-ceiling-20260805
+interpretation:
+  at: '2026-08-18T21:08:42+00:00'
+  failure_mode: claim_false
+  lesson: '''Refutes'' here refutes the author''s own preregistered NULL, not the
+    readout: measured in lm_head''s REAL function class (per-position multinomial
+    over {''0''..''9'',''.'',END}, free-running decode with digits fed back through
+    KV cache, n=1000 / 700-300 split), decoded MAE is 14.263 bpm vs always-predict-median
+    18.492 (CI95 [-6.008,-2.493]) with a donor-prefix arm at 24.179 — worse than median
+    (CI95 vs median [+3.685,+7.681]) — so the ~4.2 bpm gain is per-sample. This ELIMINATES
+    the multi-token digit ceiling as the place hr_peak is lost at the value level,
+    but the loss is not in digits either: zero non-leading positions clear BOTH the
+    +0.05 majority bar and their own donor null (pos1 +0.0433/+0.0800, pos2 +0.0600/-0.0233,
+    pos3 +0.0333/+0.0267, pos4 +0.0467/-0.0433), so the readout carries coarse MAGNITUDE
+    (~90 vs ~110 vs ~130), not accurate values — expect ~4 bpm of partial credit from
+    an lm_head LoRA, not a fix. Standing methodological rule established here and
+    reused downstream: teacher-forced decode is NOT an upper bound on free-running
+    decoded error for multi-token numerics (TF 60.873 vs FR 14.263, TF CI vs median
+    [+24.143,+62.995]) because a leading-digit error under oracle prefixes is unrecoverable;
+    only the free-running arm is admissible.'
+  transfers_to:
+  - the-hr-peak-readout-is-limited-by-the-0d4b48
+  - the-hr-peak-readout-cap-is-an-a61025
+  - hyp-e9-lmhead-lora-20260814
+  - e11-a-linear-scalar-regression-head-127ffe
 key_numbers: {}
 observed_effects:
 - delta: -4.229
@@ -87,6 +112,7 @@ prediction_match:
   per_diagnostic:
     eiv_digit_readout_decoded_mae: false
 provenance: {}
+recipe_fingerprint: {}
 verdict: refutes
 ---
 
@@ -104,6 +130,13 @@ Branches from [[exp-e25-readout-ceiling-20260805]].
 - `gate-donor-null-fr`: PASS — PASS, decisively. Donor-prefix free-running decode 24.179 bpm, which is WORSE than always-predict-median 18.492 (CI95 of donor-minus-median [+3.685, +7.681], excluding zero and positive). The per-position classifiers did not learn a prefix-independent digit prior that would have inflated the real arm. This is what makes the gate-fr-beats-median pass trustworthy at the value level, and simultaneously what exposes the per-position gate failure.
 
 **Verdict:** refutes
+
+## Interpretation
+**Failure mode:** `claim_false`
+
+'Refutes' here refutes the author's own preregistered NULL, not the readout: measured in lm_head's REAL function class (per-position multinomial over {'0'..'9','.',END}, free-running decode with digits fed back through KV cache, n=1000 / 700-300 split), decoded MAE is 14.263 bpm vs always-predict-median 18.492 (CI95 [-6.008,-2.493]) with a donor-prefix arm at 24.179 — worse than median (CI95 vs median [+3.685,+7.681]) — so the ~4.2 bpm gain is per-sample. This ELIMINATES the multi-token digit ceiling as the place hr_peak is lost at the value level, but the loss is not in digits either: zero non-leading positions clear BOTH the +0.05 majority bar and their own donor null (pos1 +0.0433/+0.0800, pos2 +0.0600/-0.0233, pos3 +0.0333/+0.0267, pos4 +0.0467/-0.0433), so the readout carries coarse MAGNITUDE (~90 vs ~110 vs ~130), not accurate values — expect ~4 bpm of partial credit from an lm_head LoRA, not a fix. Standing methodological rule established here and reused downstream: teacher-forced decode is NOT an upper bound on free-running decoded error for multi-token numerics (TF 60.873 vs FR 14.263, TF CI vs median [+24.143,+62.995]) because a leading-digit error under oracle prefixes is unrecoverable; only the free-running arm is admissible.
+
+Transfers to: [[the-hr-peak-readout-is-limited-by-the-0d4b48]], [[the-hr-peak-readout-cap-is-an-a61025]], [[hyp-e9-lmhead-lora-20260814]], [[e11-a-linear-scalar-regression-head-127ffe]]
 
 ## Notes
 MY PREREGISTERED PREDICTION WAS WRONG, AND THE CORRECTION IT WAS MAKING WAS STILL WORTH RUNNING. I committed to the NULL branch: that a linear readout in lm_head's real function class would NOT beat always-predict-median. It does, by 4.229 bpm with a CI excluding zero and a donor null on the wrong side of the median predictor. The verdict is computed from that primary prediction, so it reads as a refutation of MY stated expectation -- read the gates, not the verdict label, for the substantive finding.

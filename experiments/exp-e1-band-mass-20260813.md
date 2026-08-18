@@ -9,6 +9,7 @@ config_note: 'Profiles lora_proxy_12ch_wl_band{,_s43,_s44} (v9band, seeds 42/43/
   Pipeline scratch/run_e1_band.sh -> logs/e1_band.log, per-stage *_RC= markers (wrapper
   exit codes lie). CPU supply gate GO: P(band) 0.2039->0.5510, P(<45) 0.0719->0.0007
   (scratch/e1_supply_gate.py).'
+cost: null
 crash_reason: ''
 created_at: '2026-08-13T10:50:52+00:00'
 diagnostics_measured:
@@ -59,6 +60,33 @@ gate_results:
 git_ref: 14e2ee4
 hypothesis_id: e1-band-mass-starvation-drives-supabase-mae-and-seed-band
 id: exp-e1-band-mass-20260813
+interpretation:
+  at: '2026-08-18T21:08:38+00:00'
+  failure_mode: null
+  lesson: 'Reshaping the hr_raw target law (aug_min_mean_bpm=45 to delete the fictional
+    sub-45 tail, hr_augment_band_prob=0.5 to draw ~half of augment means from [45,65])
+    is the first intervention in this project with positive DEPLOYMENT skill: supabase
+    MAE 11.54 -> per-seed 4.16/2.86/3.89 (median 3.89), two seeds beating the trivial
+    always-median 4.02, paired sign test vs v7noatom 156/200 wins at p=3.4e-16, floor
+    rate 0.000 and P(emit<45)=0.000 on all three seeds. It also proves the shared
+    root cause: the seed band collapsed 6.29 -> 1.31 bpm (4.8x narrower) and crystallization
+    weakened and relocated to plausible values (top-1 mass 0.555@38.9 -> 0.195-0.435
+    @ 52.6/58.6/54.6, distinct values 17/22/24), so the seed lottery and band starvation
+    are the SAME target-law defect and should be attacked together, never as separate
+    problems. The cost is real and unexplained: dense-128 MAE 4.49/5.65/4.46 against
+    a <= 3.89 bar, regression concentrated in the upper terciles (seed 43 [3.60,5.15,8.27]
+    vs v7noatom [4.15,1.94,2.58]) with POSITIVE bias on truth>80 rows (+1.15/+9.57/+3.98
+    bpm, n=26) — the arm overestimates high days rather than shrinking them band-ward,
+    and the trade-off is seed-anticorrelated (the best supabase seed is the worst
+    dense seed). A declared confound rides along: hr_augment_prob 0.4 -> 0.8 halved
+    the natural-target share (0.6 -> 0.2), so attribute the dense cost only after
+    the E1b isolation arm.'
+  transfers_to:
+  - e1b-prob08-not-band-law-owns-the-dense-cost
+  - the-hr-raw-floor-emissions-on-the-87cd26
+  - the-atom-fix-a71034c-removed-the-d96b6e
+  - hrv-raw-fails-on-deployment-for-the-624895
+  - with-phase-c-now-seeded-0b5aff2-three-fae38a
 key_numbers: {}
 observed_effects:
 - delta: -7.65
@@ -78,6 +106,7 @@ prediction_match:
     eiv_supabase_hr_raw_mae_bpm: true
     eiv_supabase_seed_band_mae_bpm: true
 provenance: {}
+recipe_fingerprint: {}
 verdict: supports
 ---
 
@@ -98,6 +127,11 @@ At commit `14e2ee4`.
 - `g5-band-reported`: PASS — Band = 1.31 bpm (4.16/2.86/3.89), down from 6.29 — 4.8x narrower, and below the shared-root-cause bar. Crystallization moved INSIDE the band and weakened: top-1 mass 0.435@52.6 / 0.195@58.6 / 0.295@54.6 (baseline: 0.555@38.9 / 0.540@31.1+31.3 / 0.310@31.6), distinct values 17/22/24. Seed lottery and band starvation are CONFIRMED as sharing the target-law root.
 
 **Verdict:** supports
+
+## Interpretation
+Reshaping the hr_raw target law (aug_min_mean_bpm=45 to delete the fictional sub-45 tail, hr_augment_band_prob=0.5 to draw ~half of augment means from [45,65]) is the first intervention in this project with positive DEPLOYMENT skill: supabase MAE 11.54 -> per-seed 4.16/2.86/3.89 (median 3.89), two seeds beating the trivial always-median 4.02, paired sign test vs v7noatom 156/200 wins at p=3.4e-16, floor rate 0.000 and P(emit<45)=0.000 on all three seeds. It also proves the shared root cause: the seed band collapsed 6.29 -> 1.31 bpm (4.8x narrower) and crystallization weakened and relocated to plausible values (top-1 mass 0.555@38.9 -> 0.195-0.435 @ 52.6/58.6/54.6, distinct values 17/22/24), so the seed lottery and band starvation are the SAME target-law defect and should be attacked together, never as separate problems. The cost is real and unexplained: dense-128 MAE 4.49/5.65/4.46 against a <= 3.89 bar, regression concentrated in the upper terciles (seed 43 [3.60,5.15,8.27] vs v7noatom [4.15,1.94,2.58]) with POSITIVE bias on truth>80 rows (+1.15/+9.57/+3.98 bpm, n=26) — the arm overestimates high days rather than shrinking them band-ward, and the trade-off is seed-anticorrelated (the best supabase seed is the worst dense seed). A declared confound rides along: hr_augment_prob 0.4 -> 0.8 halved the natural-target share (0.6 -> 0.2), so attribute the dense cost only after the E1b isolation arm.
+
+Transfers to: [[e1b-prob08-not-band-law-owns-the-dense-cost]], [[the-hr-raw-floor-emissions-on-the-87cd26]], [[the-atom-fix-a71034c-removed-the-d96b6e]], [[hrv-raw-fails-on-deployment-for-the-624895]], [[with-phase-c-now-seeded-0b5aff2-three-fae38a]]
 
 ## Notes
 HEADLINE: supabase MAE 4.16/2.86/3.89 (median 3.89), seed band 6.29->1.31, floor 0.000, P(emit<45) 0.000 all seeds. Seeds 43/44 BEAT the trivial always-median baseline (4.02) — the first arms in project history with positive deployment skill; paired seed-42 vs v7noatom 156/200 wins, p=3.4e-16. Both blocking gates PASS; predictions P1 (median<8) and P2 (band<6.29) held with large margin. The shared-root-cause claim is CONFIRMED: reshaping the target law simultaneously fixed accuracy AND collapsed the seed lottery (crystallization weakened and relocated inside the band: top-1 mass 0.555->0.195-0.435, now at 52.6/58.6/54.6 — plausible values).

@@ -9,6 +9,7 @@ config_note: 'CPU-side analysis on GPU-extracted frozen features; NO TRAINING. A
   (logs/e25_smoke.log): lm_head(hidden_states[-1]) == logits exactly (max abs diff
   0.0e+00); lm_head.weight TIED to input embeddings (identical data_ptr); one-token-per-digit
   tokenization with digit mass >= 0.995 at the emission positions.'
+cost: null
 crash_reason: ''
 created_at: '2026-08-05T18:33:00+00:00'
 diagnostics_measured:
@@ -66,6 +67,32 @@ gate_results:
 git_ref: ''
 hypothesis_id: the-hr-peak-readout-failure-is-72d5f2
 id: exp-e25-readout-ceiling-20260805
+interpretation:
+  at: '2026-08-18T21:08:41+00:00'
+  failure_mode: test_invalid
+  lesson: 'The mechanical ''inconclusive'' verdict records only that the preregistered
+    instrument was invalid, NOT that hr_peak is unreadable: first-digit accuracy is
+    degenerate on this population (true peak mean 121.6 bpm, so ~89% of values lead
+    with ''1''), and the best linear readout scored 0.8917 = the majority baseline
+    EXACTLY, giving +0.0000 on gate-above-majority while the nominal +0.3250 ''gap''
+    only measured that the frozen head (0.5667) is worse than always-guessing-''1''.
+    The value arm, which is the honest evidence, shows hr_peak IS linearly present
+    in the frozen final hidden state at the emission position: MAE 11.815 bpm vs always-predict-median
+    20.094 and vs predict-from-TRUE-daily-mean 19.723 (bootstrap CI95, 5000 resamples,
+    [-10.619,-6.028] and [-9.943,-5.952]), R2 +0.5107 vs +(-0.0176) for the true daily
+    mean (increment +0.5283 against a +0.15 bar), donor-prefix null R2 -0.0784 — so
+    it is per-sample PEAK information, not daily level, while the frozen head itself
+    emits at MAE 30.602 / corr -0.089, worse than a constant. Actionable rules: never
+    score hr_peak with a leading-digit metric, and every accuracy gate in this vault
+    needs BOTH a majority baseline and a donor null; also note lm_head.weight is TIED
+    to the input embeddings (identical data_ptr), so any lm_head LoRA must untie first.
+    Do not quote the hr_peak>=100 result (linear 0.9417 vs majority 0.8917) as a win
+    — its CI95 [+0.0000,+0.1000] touches zero at n_test=120.'
+  transfers_to:
+  - measured-in-lm-head-s-actual-function-b096c6
+  - hyp-e9-lmhead-lora-20260814
+  - e11-a-linear-scalar-regression-head-127ffe
+  - the-hr-peak-failure-is-a-readout-965f58
 key_numbers: {}
 observed_effects:
 - delta: 0.0
@@ -81,6 +108,7 @@ prediction_match:
     eiv_lm_hidden_peak_r2: false
     eiv_readout_linear_gap: false
 provenance: {}
+recipe_fingerprint: {}
 verdict: inconclusive
 ---
 
@@ -99,6 +127,13 @@ Branches from [[exp-e24-lm-hidden-peak-20260805]].
 - `gate-above-majority`: **FAIL** — FAILED at exactly +0.0000, and this is the finding that saved the experiment from a false positive. Best linear readout first-digit accuracy 0.8917 minus majority-class baseline 0.8917 = 0.0000, against a >+0.05 bar. This non-blocking guard is what exposed that the blocking primary gate had passed degenerately. Recorded prominently: a non-blocking gate overturned the reading of a blocking one.
 
 **Verdict:** inconclusive
+
+## Interpretation
+**Failure mode:** `test_invalid`
+
+The mechanical 'inconclusive' verdict records only that the preregistered instrument was invalid, NOT that hr_peak is unreadable: first-digit accuracy is degenerate on this population (true peak mean 121.6 bpm, so ~89% of values lead with '1'), and the best linear readout scored 0.8917 = the majority baseline EXACTLY, giving +0.0000 on gate-above-majority while the nominal +0.3250 'gap' only measured that the frozen head (0.5667) is worse than always-guessing-'1'. The value arm, which is the honest evidence, shows hr_peak IS linearly present in the frozen final hidden state at the emission position: MAE 11.815 bpm vs always-predict-median 20.094 and vs predict-from-TRUE-daily-mean 19.723 (bootstrap CI95, 5000 resamples, [-10.619,-6.028] and [-9.943,-5.952]), R2 +0.5107 vs +(-0.0176) for the true daily mean (increment +0.5283 against a +0.15 bar), donor-prefix null R2 -0.0784 — so it is per-sample PEAK information, not daily level, while the frozen head itself emits at MAE 30.602 / corr -0.089, worse than a constant. Actionable rules: never score hr_peak with a leading-digit metric, and every accuracy gate in this vault needs BOTH a majority baseline and a donor null; also note lm_head.weight is TIED to the input embeddings (identical data_ptr), so any lm_head LoRA must untie first. Do not quote the hr_peak>=100 result (linear 0.9417 vs majority 0.8917) as a win — its CI95 [+0.0000,+0.1000] touches zero at n_test=120.
+
+Transfers to: [[measured-in-lm-head-s-actual-function-b096c6]], [[hyp-e9-lmhead-lora-20260814]], [[e11-a-linear-scalar-regression-head-127ffe]], [[the-hr-peak-failure-is-a-readout-965f58]]
 
 ## Notes
 READ THIS BEFORE READING THE VERDICT FIELD. The computed verdict keys off the primary predicted diagnostic eiv_readout_linear_gap, which I recorded as delta 0.0 / direction 'none'. That is deliberate and correct: my preregistered primary INSTRUMENT was invalid, so the honest record is that it moved nothing. The verdict field should be read as 'the preregistered test failed', NOT as 'the readout is fine'.

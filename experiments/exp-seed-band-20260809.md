@@ -39,6 +39,7 @@ config_note: 'PREREGISTERED BEFORE RESULTS EXIST: opened while seed 43 was at st
   more trustworthy than feared, and the v4w/v5c gap needs another explanation -- leading
   candidate being that data/canonical/X_canonical.npy was rewritten at 16:36:05, INSIDE
   v4c''s Phase A window (15:40:10-16:45:15), so that A/B may have carried two variables.'
+cost: null
 crash_reason: ''
 created_at: '2026-08-11T21:19:51+00:00'
 diagnostics_measured:
@@ -97,6 +98,36 @@ gate_results:
 git_ref: ''
 hypothesis_id: with-phase-c-now-seeded-0b5aff2-three-fae38a
 id: exp-seed-band-20260809
+interpretation:
+  at: '2026-08-18T21:08:46+00:00'
+  failure_mode: null
+  lesson: 'THIS IS THE PROJECT''S MINIMUM-DETECTABLE-EFFECT RECORD FOR PHASE C. Three
+    runs of the identical lora_proxy_12ch_wl config off the SAME v5c/phase_b init,
+    differing ONLY in the Phase-C seed (42/43/44), span a pure-seed band of 2.4238
+    bpm on emitted hr_peak skill (-3.260 / -1.6723 / -0.8362) and 0.0781 on p4 hr_acc
+    (0.5234=67/128 / 0.4453=57/128 / 0.5000=64/128, majority baseline 0.4453 on all
+    three). Any future SINGLE-SEED Phase-C comparison must beat >2.42 bpm on emitted
+    hr_peak skill and >0.0781 on p4 hr_acc to mean anything, and both figures are
+    LOWER BOUNDS because the range of only 3 draws systematically understates the
+    true spread — so multi-seed arms, not single draws, are the only valid design
+    from here. The legacy 0.066 seed-spread figure is RETIRED. Consequently these
+    earlier results are UNDERPOWERED BY CONSTRUCTION, not refuted, and may be re-tried
+    with multi-seed arms: H-1 dryad hr_acc delta 0.0078 (10x smaller than the band),
+    the allowlist A/B +0.0249 and its own +0.03 bar, the v4w-vs-v4c rescored hr_acc
+    gap 0.0781 (EQUALS the band exactly), and the v4w-vs-v5c ''basin gap'' of 2.673
+    bpm (~90% of the band). WHAT SURVIVES AND IS STRENGTHENED: hr_peak skill is NEGATIVE
+    on all three seeds (no seed beats a constant) while hr_raw skill is POSITIVE on
+    all three (+1.618 / +2.8542 / +3.8804 bpm, corr 0.780/0.833/0.918) — the hr_raw/hr_peak
+    asymmetry is seed-robust and is the signal to build on; state_skill straddles
+    zero (-0.1328 / 0.0000 / +0.0082), so there is no evidence Phase C reads state
+    at all. Seeding itself is verified: an A/A smoke gave byte-identical adapter sha256
+    564ce044b0911435f8467125, so cross-seed differences are attributable to the seed
+    alone.'
+  transfers_to:
+  - v4w-s-genuine-deployment-advantage-9d4fbf
+  - the-atom-fix-a71034c-removed-the-d96b6e
+  - the-hr-raw-hr-peak-asymmetry-is-507782
+  - e1-band-mass-starvation-drives-supabase-mae-and-seed-band
 key_numbers: {}
 observed_effects:
 - delta: 2.4238
@@ -116,6 +147,7 @@ prediction_match:
     eiv_gen_bucket_acc_over_majority: true
     eiv_phase_c_seed_band_range_bpm: true
 provenance: {}
+recipe_fingerprint: {}
 verdict: supports
 ---
 
@@ -133,6 +165,11 @@ Tests hypothesis [[with-phase-c-now-seeded-0b5aff2-three-fae38a]].
 - `gate-no-post-hoc-best-seed`: PASS — No seed is promoted. Seed 42 has the best p4 hr_acc (0.5234) and seed 44 the best emission hr_peak skill (-0.8362 bpm) and best hr_raw skill (+3.8804 bpm) — three different 'winners' on three metrics, which is itself the argument against selection. Reported as a distribution throughout: hr_acc {0.5234, 0.4453, 0.5000}, hr_peak skill {-3.260, -1.6723, -0.8362} bpm, hr_raw skill {+1.618, +2.8542, +3.8804} bpm, hr_peak distinct {19, 24, 17}, hr_peak top1 {0.271, 0.2917, 0.25}. The v5c checkpoint remains the control by PRE-EXISTING designation (it was the seed-42 arm before this experiment opened), not because it scored well.
 
 **Verdict:** supports
+
+## Interpretation
+THIS IS THE PROJECT'S MINIMUM-DETECTABLE-EFFECT RECORD FOR PHASE C. Three runs of the identical lora_proxy_12ch_wl config off the SAME v5c/phase_b init, differing ONLY in the Phase-C seed (42/43/44), span a pure-seed band of 2.4238 bpm on emitted hr_peak skill (-3.260 / -1.6723 / -0.8362) and 0.0781 on p4 hr_acc (0.5234=67/128 / 0.4453=57/128 / 0.5000=64/128, majority baseline 0.4453 on all three). Any future SINGLE-SEED Phase-C comparison must beat >2.42 bpm on emitted hr_peak skill and >0.0781 on p4 hr_acc to mean anything, and both figures are LOWER BOUNDS because the range of only 3 draws systematically understates the true spread — so multi-seed arms, not single draws, are the only valid design from here. The legacy 0.066 seed-spread figure is RETIRED. Consequently these earlier results are UNDERPOWERED BY CONSTRUCTION, not refuted, and may be re-tried with multi-seed arms: H-1 dryad hr_acc delta 0.0078 (10x smaller than the band), the allowlist A/B +0.0249 and its own +0.03 bar, the v4w-vs-v4c rescored hr_acc gap 0.0781 (EQUALS the band exactly), and the v4w-vs-v5c 'basin gap' of 2.673 bpm (~90% of the band). WHAT SURVIVES AND IS STRENGTHENED: hr_peak skill is NEGATIVE on all three seeds (no seed beats a constant) while hr_raw skill is POSITIVE on all three (+1.618 / +2.8542 / +3.8804 bpm, corr 0.780/0.833/0.918) — the hr_raw/hr_peak asymmetry is seed-robust and is the signal to build on; state_skill straddles zero (-0.1328 / 0.0000 / +0.0082), so there is no evidence Phase C reads state at all. Seeding itself is verified: an A/A smoke gave byte-identical adapter sha256 564ce044b0911435f8467125, so cross-seed differences are attributable to the seed alone.
+
+Transfers to: [[v4w-s-genuine-deployment-advantage-9d4fbf]], [[the-atom-fix-a71034c-removed-the-d96b6e]], [[the-hr-raw-hr-peak-asymmetry-is-507782]], [[e1-band-mass-starvation-drives-supabase-mae-and-seed-band]]
 
 ## Notes
 RESULT: the prediction holds, and the band is large enough to swallow every effect this project has treated as a finding.

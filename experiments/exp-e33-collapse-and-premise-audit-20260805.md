@@ -11,6 +11,7 @@ config_note: 'PURE CPU audit of cached measurements, zero GPU, ~1 min across fiv
   Baseline medians recomputed WITHIN each population at every filtering step; bootstrap
   CI95 on every skill number; Gini mean difference computed in closed form via the
   sorted-array identity and cross-checked against 400 explicit permutation draws.'
+cost: null
 crash_reason: ''
 created_at: '2026-08-05T22:28:41+00:00'
 diagnostics_measured:
@@ -100,6 +101,36 @@ gate_results:
 git_ref: ''
 hypothesis_id: the-hr-peak-emission-failure-is-a-723466
 id: exp-e33-collapse-and-premise-audit-20260805
+interpretation:
+  at: '2026-08-18T21:08:43+00:00'
+  failure_mode: claim_false
+  lesson: 'The hr_peak adapter is NOT mode-collapsed and NOT prior-sampling, so nine
+    experiments were not aimed at a training-stability artifact: std(emitted)/std(true)
+    = 0.9999 with 129 distinct values (n=300, mean 116.78, std 20.758, min 80.4, max
+    175.2) and 0.0000 of emissions in the documented 54-67 bpm collapse band, while
+    the sharp donor test shows real conditioning (mean |real - donor| 22.184 bpm,
+    only 0.33% bit-identical, donor MAE 24.179 vs real 14.263, so the real prefix
+    is worth +9.916 bpm). Prior-sampling is refuted by the Gini identity - an independent
+    draw from the correct marginal has expected MAE equal to the Gini mean difference,
+    25.609 test / 26.439 train, confirmed by 400 permutation draws at 25.610 +/- 0.924,
+    versus the actual 14.263, an 11.346 bpm gap - though KEEP the identity as a standing
+    null since Gini >= mean absolute deviation from the median guarantees a perfect
+    prior-sampler negative skill. The LOAD-BEARING consequence is bigger than the
+    mechanical verdict: the -5.88 / -6.48 premise this whole series rests on was scored
+    on an eval population UNFIT for a max-based target (8 of 96 rows have a true ''daily
+    peak'' of 0.0 bpm; 25.0% below 90 bpm vs 5.0% strict-clean), and while the sign
+    stays negative through every decontamination step (-2.37 [-7.01,+2.38] n=96; -6.15
+    n=88; -4.64 n=81; -3.45 [-8.52,+2.02] n=34 strict-clean), the strict-clean CI
+    CROSSES ZERO - never quote -5.88/-6.48 again without n and CI. Two retractions
+    to honour: corr(emitted,true) is 0.5791 not 0.0870 (fr_pred is te-indexed), and
+    fr_pred is a FITTED-PROBE decode, not the native JSON emission, so the cached
+    +4.229 bpm and the negative native skill are different quantities with no contradiction
+    between them.'
+  transfers_to:
+  - the-reported-phase-c-collapse-to-the-272801
+  - the-hr-peak-native-emission-deficit-264f4f
+  - the-deficit-is-not-purely-a-decode-rule-1ccb22
+  - the-hr-raw-hr-peak-asymmetry-is-507782
 key_numbers: {}
 observed_effects:
 - delta: -11.346
@@ -111,6 +142,7 @@ prediction_match:
   per_diagnostic:
     eiv_digit_readout_decoded_mae: false
 provenance: {}
+recipe_fingerprint: {}
 verdict: refutes
 ---
 
@@ -142,6 +174,13 @@ ERROR 2 -- PROVENANCE CONFUSION, ALSO MINE. probe_e33b/c framed a 'SIGN CONTRADI
 BOTH ERRORS WERE CAUGHT BY THIS GATE BEFORE ANY CONCLUSION WAS RECORDED, WHICH IS EXACTLY WHY IT WAS PREREGISTERED.
 
 **Verdict:** refutes
+
+## Interpretation
+**Failure mode:** `claim_false`
+
+The hr_peak adapter is NOT mode-collapsed and NOT prior-sampling, so nine experiments were not aimed at a training-stability artifact: std(emitted)/std(true) = 0.9999 with 129 distinct values (n=300, mean 116.78, std 20.758, min 80.4, max 175.2) and 0.0000 of emissions in the documented 54-67 bpm collapse band, while the sharp donor test shows real conditioning (mean |real - donor| 22.184 bpm, only 0.33% bit-identical, donor MAE 24.179 vs real 14.263, so the real prefix is worth +9.916 bpm). Prior-sampling is refuted by the Gini identity - an independent draw from the correct marginal has expected MAE equal to the Gini mean difference, 25.609 test / 26.439 train, confirmed by 400 permutation draws at 25.610 +/- 0.924, versus the actual 14.263, an 11.346 bpm gap - though KEEP the identity as a standing null since Gini >= mean absolute deviation from the median guarantees a perfect prior-sampler negative skill. The LOAD-BEARING consequence is bigger than the mechanical verdict: the -5.88 / -6.48 premise this whole series rests on was scored on an eval population UNFIT for a max-based target (8 of 96 rows have a true 'daily peak' of 0.0 bpm; 25.0% below 90 bpm vs 5.0% strict-clean), and while the sign stays negative through every decontamination step (-2.37 [-7.01,+2.38] n=96; -6.15 n=88; -4.64 n=81; -3.45 [-8.52,+2.02] n=34 strict-clean), the strict-clean CI CROSSES ZERO - never quote -5.88/-6.48 again without n and CI. Two retractions to honour: corr(emitted,true) is 0.5791 not 0.0870 (fr_pred is te-indexed), and fr_pred is a FITTED-PROBE decode, not the native JSON emission, so the cached +4.229 bpm and the negative native skill are different quantities with no contradiction between them.
+
+Transfers to: [[the-reported-phase-c-collapse-to-the-272801]], [[the-hr-peak-native-emission-deficit-264f4f]], [[the-deficit-is-not-purely-a-decode-rule-1ccb22]], [[the-hr-raw-hr-peak-asymmetry-is-507782]]
 
 ## Notes
 MY HYPOTHESIS REFUTED, AND THE AUDIT GATE CAUGHT TWO ERRORS I MADE INSIDE THIS SAME EXPERIMENT. ~1 min CPU, no GPU.

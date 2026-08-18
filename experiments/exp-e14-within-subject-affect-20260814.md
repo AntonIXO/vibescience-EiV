@@ -17,6 +17,7 @@ config_note: 'E14 within-subject affect supply probe. CPU-only, no model — raw
   perm p<0.05; g2 blocking absolute skill beats both trivials CI95; g3 family attribution;
   g0 power precondition. Script scratch/e14_within_subject_affect.py -> logs/e14_within_subject_affect.json,
   systemd-run scoped MemoryMax=16G.'
+cost: null
 crash_reason: ''
 created_at: '2026-08-14T17:12:18+00:00'
 diagnostics_measured:
@@ -65,6 +66,27 @@ gate_results:
 git_ref: main@d3f379f
 hypothesis_id: hyp-e14-within-subject-affect-supply-20260814
 id: exp-e14-within-subject-affect-20260814
+interpretation:
+  at: '2026-08-18T21:08:39+00:00'
+  failure_mode: claim_false
+  lesson: 'This is a POWERED NULL, not a directional hint — the mechanical ''up''
+    comes from a +0.0003 delta that sits BELOW the permutation null mean (+0.0048,
+    std 0.0168, perm p=0.6471, 50 perms), and g0 established MDE ~0.028 < the preregistered
+    0.05 bar on n_oos 493 lifesnaps / 725 pmdata. Non-HR daily-summary channels (sleep,
+    rr, temp, hrv, time) add NOTHING to affect prediction within subject (multichannel
+    AUC 0.6136 vs rich-HR-only 0.6133) and the linear check is outright negative (-0.025
+    lifesnaps / -0.0076 pmdata), closing E5''s trait-dominance escape hatch: the lever
+    is now null cross-subject AND within-subject. Real within-subject affect skill
+    in lifesnaps does exist but lives in rich-HR alone (CI-positive over median-forward
+    +0.0733[0.0453,0.1027] and persistence +0.1200[0.0838,0.1581]); pmdata is worse
+    than trivial (Spearman 0.2761 vs day-persistence 0.3522), i.e. its stress signal
+    is autocorrelation. Sub-daily/temporal features were NOT tested by this daily-summary
+    design — that carve is a separate question.'
+  transfers_to:
+  - hyp-affect-multichannel-supply-20260814
+  - hyp-e16-peri-ema-window-20260815
+  - hyp-e18-within-subject-state-20260815
+  - hyp-e24-lab-protocol-subdaily-state-20260815
 key_numbers: {}
 observed_effects:
 - delta: 0.0003
@@ -76,6 +98,7 @@ prediction_match:
   per_diagnostic:
     eiv_affect_multichannel_increment: true
 provenance: {}
+recipe_fingerprint: {}
 verdict: directional_only
 ---
 
@@ -95,6 +118,13 @@ At commit `main@d3f379f`.
 **Verdict:** directional_only
 
 > Direction matched, but a preregistered blocking gate did NOT pass. This does not establish the claim.
+
+## Interpretation
+**Failure mode:** `claim_false`
+
+This is a POWERED NULL, not a directional hint — the mechanical 'up' comes from a +0.0003 delta that sits BELOW the permutation null mean (+0.0048, std 0.0168, perm p=0.6471, 50 perms), and g0 established MDE ~0.028 < the preregistered 0.05 bar on n_oos 493 lifesnaps / 725 pmdata. Non-HR daily-summary channels (sleep, rr, temp, hrv, time) add NOTHING to affect prediction within subject (multichannel AUC 0.6136 vs rich-HR-only 0.6133) and the linear check is outright negative (-0.025 lifesnaps / -0.0076 pmdata), closing E5's trait-dominance escape hatch: the lever is now null cross-subject AND within-subject. Real within-subject affect skill in lifesnaps does exist but lives in rich-HR alone (CI-positive over median-forward +0.0733[0.0453,0.1027] and persistence +0.1200[0.0838,0.1581]); pmdata is worse than trivial (Spearman 0.2761 vs day-persistence 0.3522), i.e. its stress signal is autocorrelation. Sub-daily/temporal features were NOT tested by this daily-summary design — that carve is a separate question.
+
+Transfers to: [[hyp-affect-multichannel-supply-20260814]], [[hyp-e16-peri-ema-window-20260815]], [[hyp-e18-within-subject-state-20260815]], [[hyp-e24-lab-protocol-subdaily-state-20260815]]
 
 ## Notes
 NULL RESULT — read as RULES OUT the multichannel-affect supply lever, now in BOTH regimes. CAUTION on the mechanical verdict: observed delta +0.0003 has direction 'up' only by sign; perm p = 0.6471 (null mean +0.0048 — the observed delta is BELOW the null mean). This is a powered null (g0: MDE ~0.028 < preregistered 0.05 bar), not a directional hint. Substantive findings: (1) PRIMARY lifesnaps within-subject multichannel increment +0.0003, p=0.65; linear check NEGATIVE (-0.025/-0.0076, logs/e14_linear_check.json) — E5's trait-dominance escape hatch is CLOSED: cross-subject (E5, delta -0.028 p=0.84) AND within-subject (E14) both null. The affect information simply is not in the added channels' daily summaries. (2) Genuine within-subject affect skill EXISTS in lifesnaps but lives in RICH-HR alone: hr_only AUC 0.6133, CI-positive over both trivials (median-forward +0.0733 [0.0453,0.1027]; persistence +0.1200 [0.0838,0.1581]) — within-person tension IS predictable from HR daily stats; adding sleep/rr/temp/hrv adds NOTHING (multichannel 0.6136). (3) pmdata: multichannel Spearman 0.2761 is CI-WORSE than day-persistence trivial 0.3522 — stress there is autocorrelation, not sensor-readable state. (4) g3: no family nominated; pmdata sleep +0.0293 carries the whole (sub-significant) delta but sits under the trivial. Cohort attrition vs census (15/26 lifesnaps, 11/14 pmdata) from label-row availability at feature time — power unaffected (g0 PASS). DO-NOT-RETRY: multichannel daily-summary affect supply, any grouping (cross-subject E5 + within-subject E14). SURVIVING levers for state: (a) rich-HR-only within-subject head (the only CI-positive affect instrument measured to date; candidate for PerUserHeadStore once supabase EMA labels accrue ~50-60 days); (b) sub-daily/temporal features — explicitly UNTESTED by this design (daily summaries only), carve as new hypothesis if pursued. Runtime 7017s CPU (1.2 cores eff.; joblib inner-RF parallelism useless at these sizes — parallelize the outer subject×perm loop next time). Artifacts: scratch/e14_within_subject_affect.py, scratch/e14_linear_check.py, logs/e14_within_subject_affect.json, logs/e14_linear_check.json, logs/e14_full.log.

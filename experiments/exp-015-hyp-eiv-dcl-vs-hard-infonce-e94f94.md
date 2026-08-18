@@ -4,6 +4,7 @@ closed: true
 config_note: 'Re-close of the archived 2026-07-31 v3 confirmation against structured
   gates. No new compute: measurements and gate outcomes are read verbatim from the
   frozen artifacts.'
+cost: null
 crash_reason: ''
 created_at: '2026-08-01T08:23:27+00:00'
 diagnostics_measured:
@@ -73,6 +74,26 @@ gate_results:
 git_ref: fix/soft-token-norm-scale@955c1b5+frozen-8585f0ae7166d723
 hypothesis_id: hyp-eiv-dcl-vs-hard-infonce-medgemma-cachev2-gated-20260801
 id: exp-015-hyp-eiv-dcl-vs-hard-infonce-e94f94
+interpretation:
+  at: '2026-08-18T21:08:38+00:00'
+  failure_mode: noise
+  lesson: 'Re-scoring the SAME frozen 2026-07-31 v3 artifacts (no new compute) against
+    explicit gates converts exp-014''s `supports` into `directional_only`: 4 of 9
+    gates fail — mean dRecall@5 +0.00299 < +0.010, sign-flip p=0.34375, bootstrap
+    CI95 [-0.008479,+0.013466] crossing zero, and mean effective-rank delta negative
+    — while the 5 safety gates pass (no seed regressed worse than +2 median rank,
+    all DCL median cosine <= 0.90, VRAM under the 11.25 GiB ceiling, runtime within
+    1.10x, every DCL rank >= 5). Read this as the settled answer for the DCL denominator
+    question on this recipe: DCL is SAFE but not BETTER, so do not spend GPU re-running
+    it and do not unlock the locked test on it. Methodological transfer: the verdict
+    flavour here was set purely by whether thresholds were preregistered, so any prior
+    ''supports'' in this vault that lacks numeric gates should be re-read as direction-only.'
+  transfers_to:
+  - hyp-eiv-dcl-vs-hard-infonce-medgemma-cachev2-20260731
+  - hyp-eiv-dcl-vs-hard-infonce-fp32-cached-20260728
+  - hyp-eiv-dcl-vs-hard-infonce-fp32-20260728
+  - hyp-eiv-dcl-vs-hard-infonce-softtoken-20260728
+  - hyp-eiv-multipositive-dcl-20260728
 key_numbers: {}
 observed_effects:
 - delta: 0.002992518703
@@ -119,6 +140,7 @@ prediction_match:
     eiv_text_cache_batch_invariance_cosine: true
     eiv_training_runtime_sec: false
 provenance: {}
+recipe_fingerprint: {}
 verdict: directional_only
 ---
 
@@ -154,6 +176,13 @@ External run: /root/optiHealth-EiV/outputs/experiments/infonce_vs_dcl_softtoken_
 **Verdict:** directional_only
 
 > Direction matched, but a preregistered blocking gate did NOT pass. This does not establish the claim.
+
+## Interpretation
+**Failure mode:** `noise`
+
+Re-scoring the SAME frozen 2026-07-31 v3 artifacts (no new compute) against explicit gates converts exp-014's `supports` into `directional_only`: 4 of 9 gates fail — mean dRecall@5 +0.00299 < +0.010, sign-flip p=0.34375, bootstrap CI95 [-0.008479,+0.013466] crossing zero, and mean effective-rank delta negative — while the 5 safety gates pass (no seed regressed worse than +2 median rank, all DCL median cosine <= 0.90, VRAM under the 11.25 GiB ceiling, runtime within 1.10x, every DCL rank >= 5). Read this as the settled answer for the DCL denominator question on this recipe: DCL is SAFE but not BETTER, so do not spend GPU re-running it and do not unlock the locked test on it. Methodological transfer: the verdict flavour here was set purely by whether thresholds were preregistered, so any prior 'supports' in this vault that lacks numeric gates should be re-read as direction-only.
+
+Transfers to: [[hyp-eiv-dcl-vs-hard-infonce-medgemma-cachev2-20260731]], [[hyp-eiv-dcl-vs-hard-infonce-fp32-cached-20260728]], [[hyp-eiv-dcl-vs-hard-infonce-fp32-20260728]], [[hyp-eiv-dcl-vs-hard-infonce-softtoken-20260728]], [[hyp-eiv-multipositive-dcl-20260728]]
 
 ## Notes
 Re-close of the frozen v3 confirmation with the preregistered thresholds enforced. Direction on the primary diagnostic matched (+0.00299), but the superiority gates did not clear, so this is directional_only: it does NOT establish DCL as better than hard InfoNCE. test_unlocked remained False. No new compute was run; every number is read from the archived confirmation_summary.json.

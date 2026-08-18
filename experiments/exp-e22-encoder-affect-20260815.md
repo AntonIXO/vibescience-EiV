@@ -15,6 +15,7 @@ config_note: 'Runner: scratch/e22_encoder_affect.py -> logs/e22_encoder_affect.j
   shallow_plus_clock (the exact ~17 summary scalars from E16/E18), enc_global_{avg,avgmax},
   enc_local_{avg,avgmax} where local = tokens overlapping [ping-120, ping). RF(300,
   min_samples_leaf=5).'
+cost: null
 crash_reason: ''
 created_at: '2026-08-15T07:42:52+00:00'
 diagnostics_measured:
@@ -37,6 +38,28 @@ gate_results:
 git_ref: ''
 hypothesis_id: hyp-e22-encoder-representation-affect-20260815
 id: exp-e22-encoder-affect-20260815
+interpretation:
+  at: '2026-08-18T21:08:40+00:00'
+  failure_mode: claim_false
+  lesson: 'Representation power is not the binding constraint on in-the-wild affect:
+    the frozen Phase-B encoder adds at most +0.0303 over ~17 hand-crafted summary
+    scalars on TENSE/ANXIOUS (0.5980 vs 0.5676) and +0.0011 on TIRED at n=4208 over
+    61 subjects, both under the preregistered +0.05 bar, and both GLOBAL encoder arms
+    are actively worse than shallow (0.5285 / 0.5383 vs 0.5676). Do not repeat the
+    ''swap in a deeper representation'' lever on lifesnaps self-report — exp-e24 landed
+    the same hour showing the SAME shallow features reach AUC 0.8497 on WESAD and
+    0.6806 on neuro_stress, so the discriminating variable is the LABEL, not the encoder
+    or the window. The one clean positive, which contradicts the headline null and
+    should be carried forward: reading only the encoder tokens that COVER the ping
+    beats pooling the whole day in 4/4 arms (+0.0656/+0.0597 tense, +0.0540/+0.0646
+    tired, all above E17''s 0.028 MDE), so E17''s ''locality is a coin flip'' conclusion
+    is scoped to RAW patches and must not be cited for learned representations — time-indexed/local
+    queries belong in the projector even though they do not rescue affect.'
+  transfers_to:
+  - hyp-e17-unified-readout-operator-20260815
+  - hyp-e24-lab-protocol-subdaily-state-20260815
+  - hyp-e25-triplet-degeneracy-fixed-20260815
+  - hyp-e27-encoder-on-transitions-20260815
 key_numbers:
   clock_only_tense: 0.5507
   enc_global_avg_tense: 0.5285
@@ -62,6 +85,7 @@ prediction_match:
   per_diagnostic:
     eiv_affect_multichannel_increment: true
 provenance: {}
+recipe_fingerprint: {}
 verdict: 'null'
 ---
 
@@ -81,6 +105,13 @@ External run: logs/e22_encoder_affect.json
 **Verdict:** null
 
 > POWERED NULL: the observed effect is smaller than the minimum detectable effect this run preregistered. The direction is noise, not evidence — read this as a refutation of the lever at the committed scale.
+
+## Interpretation
+**Failure mode:** `claim_false`
+
+Representation power is not the binding constraint on in-the-wild affect: the frozen Phase-B encoder adds at most +0.0303 over ~17 hand-crafted summary scalars on TENSE/ANXIOUS (0.5980 vs 0.5676) and +0.0011 on TIRED at n=4208 over 61 subjects, both under the preregistered +0.05 bar, and both GLOBAL encoder arms are actively worse than shallow (0.5285 / 0.5383 vs 0.5676). Do not repeat the 'swap in a deeper representation' lever on lifesnaps self-report — exp-e24 landed the same hour showing the SAME shallow features reach AUC 0.8497 on WESAD and 0.6806 on neuro_stress, so the discriminating variable is the LABEL, not the encoder or the window. The one clean positive, which contradicts the headline null and should be carried forward: reading only the encoder tokens that COVER the ping beats pooling the whole day in 4/4 arms (+0.0656/+0.0597 tense, +0.0540/+0.0646 tired, all above E17's 0.028 MDE), so E17's 'locality is a coin flip' conclusion is scoped to RAW patches and must not be cited for learned representations — time-indexed/local queries belong in the projector even though they do not rescue affect.
+
+Transfers to: [[hyp-e17-unified-readout-operator-20260815]], [[hyp-e24-lab-protocol-subdaily-state-20260815]], [[hyp-e25-triplet-degeneracy-fixed-20260815]], [[hyp-e27-encoder-on-transitions-20260815]]
 
 ## Key numbers
 - `clock_only_tense`: 0.5507

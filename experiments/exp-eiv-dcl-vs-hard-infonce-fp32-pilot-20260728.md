@@ -11,6 +11,7 @@ config_note: 'Frozen matched pilot on local RTX 5070. Historical Phase-A actual 
   SHA 43dcafef4a0a4a0e4cae3c6bca0b067599ae61b35d1ea1983e4a16ab4ac2f2f5. Smoke seed17/2
   steps is structurally excluded. Pilot go/no-go and conditional confirmation gates
   are encoded in protocol.json. Scope is 500-step pilot, not legacy 2,000-step convergence.'
+cost: null
 crash_reason: ''
 created_at: '2026-07-28T11:10:58+00:00'
 diagnostics_measured:
@@ -24,6 +25,28 @@ gate_results: []
 git_ref: fix/soft-token-norm-scale@955c1b5+frozen-dc45212c44f09693
 hypothesis_id: hyp-eiv-dcl-vs-hard-infonce-fp32-20260728
 id: exp-eiv-dcl-vs-hard-infonce-fp32-pilot-20260728
+interpretation:
+  at: '2026-08-18T21:08:45+00:00'
+  failure_mode: test_invalid
+  lesson: 'DCL-vs-hard-InfoNCE IS UNTESTED HERE — do not read this flat record as
+    evidence about the decoupled denominator. Both arms died SYMMETRICALLY before
+    initialization and before step 1: each tried to precompute 4,962 missing corrected-mask
+    caption embeddings by moving fp32 MedGemma onto an 11.51 GiB RTX 5070 and OOMed
+    at 10.314 GiB reserved, which is the only diagnostic in the record (eiv_peak_vram_gib
+    10.314453125, delta 0). No retrieval, geometry, or training diagnostic ever existed,
+    so the preregistered primary (mean paired duplicate-aware Recall@5 delta >= +0.005)
+    was never evaluated and no pilot, confirmation, or test read occurred. This is
+    a capacity/infrastructure blockage, and the fix is known: byte-compatible cached
+    embeddings already exist under other cache fingerprints, so a retry must use a
+    NEW campaign root and authenticate/materialize the exact text-cache corpus before
+    any GPU work — runtime text precompute with a resident fp32 LM does not fit on
+    this card.'
+  transfers_to:
+  - hyp-eiv-dcl-vs-hard-infonce-fp32-cached-20260728
+  - hyp-eiv-dcl-vs-hard-infonce-softtoken-20260728
+  - hyp-eiv-dcl-vs-hard-infonce-medgemma-cachev2-20260731
+  - hyp-eiv-dcl-vs-hard-infonce-medgemma-cachev2-gated-20260801
+  - hyp-eiv-dcl-baseline-20260727
 key_numbers: {}
 observed_effects:
 - delta: 0.0
@@ -42,6 +65,7 @@ prediction_match:
     eiv_sensor_median_cosine: false
     eiv_training_runtime_sec: false
 provenance: {}
+recipe_fingerprint: {}
 verdict: inconclusive
 ---
 
@@ -54,6 +78,13 @@ External run: /root/optiHealth-EiV/outputs/experiments/infonce_vs_dcl_softtoken_
 - [[eiv_peak_vram_gib]]: before 10.314453125 → after 10.314453125  (Δ +0, flat ✓ predicted none)
 
 **Verdict:** inconclusive
+
+## Interpretation
+**Failure mode:** `test_invalid`
+
+DCL-vs-hard-InfoNCE IS UNTESTED HERE — do not read this flat record as evidence about the decoupled denominator. Both arms died SYMMETRICALLY before initialization and before step 1: each tried to precompute 4,962 missing corrected-mask caption embeddings by moving fp32 MedGemma onto an 11.51 GiB RTX 5070 and OOMed at 10.314 GiB reserved, which is the only diagnostic in the record (eiv_peak_vram_gib 10.314453125, delta 0). No retrieval, geometry, or training diagnostic ever existed, so the preregistered primary (mean paired duplicate-aware Recall@5 delta >= +0.005) was never evaluated and no pilot, confirmation, or test read occurred. This is a capacity/infrastructure blockage, and the fix is known: byte-compatible cached embeddings already exist under other cache fingerprints, so a retry must use a NEW campaign root and authenticate/materialize the exact text-cache corpus before any GPU work — runtime text precompute with a resident fp32 LM does not fit on this card.
+
+Transfers to: [[hyp-eiv-dcl-vs-hard-infonce-fp32-cached-20260728]], [[hyp-eiv-dcl-vs-hard-infonce-softtoken-20260728]], [[hyp-eiv-dcl-vs-hard-infonce-medgemma-cachev2-20260731]], [[hyp-eiv-dcl-vs-hard-infonce-medgemma-cachev2-gated-20260801]], [[hyp-eiv-dcl-baseline-20260727]]
 
 ## Notes
 Engineering smoke failed symmetrically before initialization or step 1: both hard InfoNCE and DCL tried to precompute 4,962 missing corrected-mask caption embeddings by moving fp32 MedGemma to the 11.51 GiB RTX 5070, then OOMed at 10.314 GiB reserved. No primary retrieval or training diagnostic exists, so this is an implementation/resource blockage, not evidence for or against DCL. Exact compatible cached embeddings already exist under other cache fingerprints; next experiment must use a new campaign root and authenticate/materialize the exact text-cache corpus before running. No retry, output deletion, pilot, confirmation, or test occurred.

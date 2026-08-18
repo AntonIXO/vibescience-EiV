@@ -15,6 +15,7 @@ config_note: 'Runner: scratch/e20_input_scaling_premise.py -> logs/e20_input_sca
   Measures per-channel first-layer pre-activation variance two ways (present-step
   only, and as-fed including the 0.0 fill), the z-position of the 0.0 fill in both
   stored and raw units, and the max/min channel-std ratio LayerNorm would equalise.'
+cost: null
 crash_reason: ''
 created_at: '2026-08-15T06:56:22+00:00'
 diagnostics_measured:
@@ -37,6 +38,27 @@ gate_results: []
 git_ref: ''
 hypothesis_id: unnormalised-encoder-input-not-data-8ef2be
 id: exp-e20-input-scaling-premise-20260815
+interpretation:
+  at: '2026-08-18T21:08:40+00:00'
+  failure_mode: claim_false
+  lesson: 'Input-channel scale is NOT the encoder''s problem on corpus git_sha e849eb7:
+    the hypothesis'' decisive premise (hr_mean owns 96.07% of first-layer pre-activation
+    variance on present steps, 99.77% as-fed, 7.7x std dominance) measures 11.73%
+    / 13.47% / 4.4x at n=3000 seed 0 — off by 8.2x and 7.4x — and hr_mean is not even
+    the largest channel (the four circadian encodings tie at ~16.5% as-fed). Merge-time
+    population normalisation already flattened the physiological channels (hrv_rmssd
+    13.37%, respiratory_rate 12.03%, hr_mean 11.73%, skin_temperature 11.64%), so
+    do not fund use_layernorm/input-normalisation arms on this motivation; the ''0.0
+    fill sits at -4.18 SD'' argument is true only in RAW BPM (measured -3.994) and
+    vanishes in the stored units the encoder actually eats (-0.028 SD, i.e. the median).
+    The surviving explanation for the bad non-HR channel readout (eiv_nonhr_channel_grouped_r2
+    respiratory_rate -0.0757, sleep_prob_deep -0.1847) is PRESENCE/coverage, not conditioning
+    — respiratory_rate is 7.3% present and hrv_rmssd 19.3% — so re-aim at supply,
+    and always re-measure a premise against the current corpus git_sha before spending
+    GPU (this cost one CPU minute and saved ~15 GPU-minutes).'
+  transfers_to:
+  - h5-the-shortcut-is-the-coverage-2aaaa0
+  - hyp-affect-multichannel-supply-20260814
 key_numbers:
   hr_share_as_fed_claimed: 0.9977
   hr_share_as_fed_measured: 0.1347
@@ -59,6 +81,7 @@ prediction_match:
     eiv_heldout_hr_r2: false
     eiv_nonhr_channel_grouped_r2: false
 provenance: {}
+recipe_fingerprint: {}
 verdict: refutes
 ---
 
@@ -71,6 +94,13 @@ External run: logs/e20_input_scaling_premise.json
 - [[eiv_nonhr_channel_grouped_r2]]: before 0.9607 → after 0.1173  (Δ -0.8434, down ✗ predicted up)
 
 **Verdict:** refutes
+
+## Interpretation
+**Failure mode:** `claim_false`
+
+Input-channel scale is NOT the encoder's problem on corpus git_sha e849eb7: the hypothesis' decisive premise (hr_mean owns 96.07% of first-layer pre-activation variance on present steps, 99.77% as-fed, 7.7x std dominance) measures 11.73% / 13.47% / 4.4x at n=3000 seed 0 — off by 8.2x and 7.4x — and hr_mean is not even the largest channel (the four circadian encodings tie at ~16.5% as-fed). Merge-time population normalisation already flattened the physiological channels (hrv_rmssd 13.37%, respiratory_rate 12.03%, hr_mean 11.73%, skin_temperature 11.64%), so do not fund use_layernorm/input-normalisation arms on this motivation; the '0.0 fill sits at -4.18 SD' argument is true only in RAW BPM (measured -3.994) and vanishes in the stored units the encoder actually eats (-0.028 SD, i.e. the median). The surviving explanation for the bad non-HR channel readout (eiv_nonhr_channel_grouped_r2 respiratory_rate -0.0757, sleep_prob_deep -0.1847) is PRESENCE/coverage, not conditioning — respiratory_rate is 7.3% present and hrv_rmssd 19.3% — so re-aim at supply, and always re-measure a premise against the current corpus git_sha before spending GPU (this cost one CPU minute and saved ~15 GPU-minutes).
+
+Transfers to: [[h5-the-shortcut-is-the-coverage-2aaaa0]], [[hyp-affect-multichannel-supply-20260814]]
 
 ## Key numbers
 - `hr_share_as_fed_claimed`: 0.9977

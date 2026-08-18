@@ -10,6 +10,7 @@ config_note: 'Scientific v2 after engineering-smoke-only integrity fix. Frozen v
   exact caption predicate spec SHA256 46d57eecd32d0db7bdbe96e0434072204d90167b0a555a87511644179459cede.
   Undefined per-domain R2 for domains with one validation window is explicitly non-gating;
   all preregistered aggregate/native metrics must be finite. Test is locked.'
+cost: null
 crash_reason: ''
 created_at: '2026-07-28T08:46:59+00:00'
 diagnostics_measured:
@@ -47,6 +48,33 @@ gate_results: []
 git_ref: fix/soft-token-norm-scale@955c1b5+dirty-manifest-a8c45395db64
 hypothesis_id: hyp-eiv-multipositive-dcl-20260728
 id: exp-eiv-multipositive-dcl-pilot-v2-20260728
+interpretation:
+  at: '2026-08-18T21:08:45+00:00'
+  failure_mode: null
+  lesson: 'THE MECHANISM WORKED PERFECTLY BUT THE PAYOFF DID NOT — read this ''supports''
+    as direction-only, because the preregistered pilot gate FAILED and selected=null
+    with no confirmation lock or test unlock. Exact-caption multi-positive DCL removed
+    every audited false negative exactly as designed (baseline DCL placed 584/566/602
+    caption-equivalent directed pairs in the negative denominator across 45.0%/44.0%/45.6%
+    of batches; treatment used ZERO with matched batches and initializations), yet
+    duplicate-aware Recall@5 rose only 0.095594 -> 0.099751 (+0.00416, below the required
+    >=+0.005), with per-seed deltas 0 / +0.00499 / +0.00748 and median-rank deltas
+    -1 / -4 / +2 (mean 41.67 -> 40.67). Effective rank moved +0.0800 (4.6270 -> 4.7070)
+    but the per-seed treatment ranks 4.380875 / 4.849925 / 4.890322 all stayed under
+    the unchanged absolute rank>=5 collapse gate. ACTIONABLE READ: false negatives
+    were NOT the binding constraint on retrieval — eliminating 100% of them bought
+    under half a point of Recall@5 — so future work should target the anisotropy/rank
+    gate directly rather than the positive set. Ignore the eiv_heldout_hr_r2 crash
+    to -1.5609: it is a saturated-Ridge numerical artifact driven by seed 23 (R2 -6.594,
+    MAE 26.02 bpm, singular/ill-conditioned warnings), not a representation regression,
+    and it was never a selection gate. All integrity/resource gates passed at 5.205
+    GiB peak with no OOM or nonfinite loss.'
+  transfers_to:
+  - hyp-eiv-multipositive-spectral-entropy-20260728
+  - hyp-eiv-dcl-baseline-20260727
+  - hyp-eiv-dcl-hsic-20260727
+  - hyp-eiv-dcl-vs-hard-infonce-fp32-20260728
+  - hyp-eiv-label-consistent-sampler-20260805
 key_numbers: {}
 observed_effects:
 - delta: 0.004156275977
@@ -85,6 +113,7 @@ prediction_match:
     eiv_effective_rank: true
     eiv_false_negative_pairs_per_batch: true
 provenance: {}
+recipe_fingerprint: {}
 verdict: supports
 ---
 
@@ -105,6 +134,11 @@ External run: /root/optiHealth-EiV/outputs/experiments/multi_positive_dcl_202607
 - [[eiv_training_runtime_sec]]: before 113.71233136666706 → after 113.69205976633143  (Δ -0.0202716, down)
 
 **Verdict:** supports
+
+## Interpretation
+THE MECHANISM WORKED PERFECTLY BUT THE PAYOFF DID NOT — read this 'supports' as direction-only, because the preregistered pilot gate FAILED and selected=null with no confirmation lock or test unlock. Exact-caption multi-positive DCL removed every audited false negative exactly as designed (baseline DCL placed 584/566/602 caption-equivalent directed pairs in the negative denominator across 45.0%/44.0%/45.6% of batches; treatment used ZERO with matched batches and initializations), yet duplicate-aware Recall@5 rose only 0.095594 -> 0.099751 (+0.00416, below the required >=+0.005), with per-seed deltas 0 / +0.00499 / +0.00748 and median-rank deltas -1 / -4 / +2 (mean 41.67 -> 40.67). Effective rank moved +0.0800 (4.6270 -> 4.7070) but the per-seed treatment ranks 4.380875 / 4.849925 / 4.890322 all stayed under the unchanged absolute rank>=5 collapse gate. ACTIONABLE READ: false negatives were NOT the binding constraint on retrieval — eliminating 100% of them bought under half a point of Recall@5 — so future work should target the anisotropy/rank gate directly rather than the positive set. Ignore the eiv_heldout_hr_r2 crash to -1.5609: it is a saturated-Ridge numerical artifact driven by seed 23 (R2 -6.594, MAE 26.02 bpm, singular/ill-conditioned warnings), not a representation regression, and it was never a selection gate. All integrity/resource gates passed at 5.205 GiB peak with no OOM or nonfinite loss.
+
+Transfers to: [[hyp-eiv-multipositive-spectral-entropy-20260728]], [[hyp-eiv-dcl-baseline-20260727]], [[hyp-eiv-dcl-hsic-20260727]], [[hyp-eiv-dcl-vs-hard-infonce-fp32-20260728]], [[hyp-eiv-label-consistent-sampler-20260805]]
 
 ## Notes
 Direction-only primary prediction matched: mean duplicate-aware Recall@5 rose 0.09559435 to 0.09975062 (delta +0.00415628). The preregistered pilot study gate FAILED: required delta was >=+0.005 and observed treatment effective ranks 4.380875/4.849925/4.890322 all remained below the unchanged absolute rank>=5 gate. Per-seed Recall deltas were 0,+0.00498753,+0.00748130; median-rank deltas -1,-4,+2. Mechanism succeeded exactly: DCL used 584/566/602 caption-equivalent false-negative directed pairs in 45.0%/44.0%/45.6% of batches; treatment used zero with matched batches and initializations. Median cosine remained healthy but worsened on average 0.123114 to 0.155961; alignment gap decreased 0.0880635 to 0.0855914. Secondary saturated Ridge was numerically unstable: seed23 treatment R2=-6.594 and MAE=26.02 bpm with singular/ill-conditioned warnings, driving mean R2 down; this was preserved and was not a selection gate. All integrity/resource gates passed, 5.205 GiB peak, no OOM/nonfinite. pilot_summary SHA256 232b98d94328c01b8d96f233b82ff103823a43aeeff0db6ff7779ade454faf46. selected=null; no confirmation_lock; no test_unlock; zero confirmation/test files. Direction matched; preregistered magnitude/collapse gates failed; no confirmation/deployment/test.

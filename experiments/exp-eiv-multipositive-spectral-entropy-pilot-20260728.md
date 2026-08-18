@@ -12,6 +12,7 @@ config_note: 'Frozen validation-only RTX 5070 pilot. Comparator: exact-caption m
   Recall@5 among eligible; within 0.002 choose lower weight. Confirmation seeds 31/37/41/43/47
   only if pilot earns immutable lock. Locked test remains untouched unless confirmation
   passes. population_stats_mode=disabled. Protocol SHA256 9884ac3df783c5c9bc192ae9c72877e4af317a3370bda7d69ac4c2bb24e481a1.'
+cost: null
 crash_reason: ''
 created_at: '2026-07-28T09:36:08+00:00'
 diagnostics_measured:
@@ -52,6 +53,34 @@ gate_results: []
 git_ref: working-tree@multi-positive-spectral-manifest-9884ac3d
 hypothesis_id: hyp-eiv-multipositive-spectral-entropy-20260728
 id: exp-eiv-multipositive-spectral-entropy-pilot-20260728
+interpretation:
+  at: '2026-08-18T21:08:45+00:00'
+  failure_mode: null
+  lesson: 'A weak sensor-only batch-Gram spectral-entropy penalty CANNOT lift multi-positive
+    DCL over the effective-rank>=5 collapse gate, and the ''supports'' verdict is
+    direction-only on the best-response arm — the frozen campaign returned gate_passed=false
+    and selected=null, so no confirmation or test ran. The mechanism engaged (weight
+    0.10 raised final normalized batch spectral entropy 0.368791 -> 0.386036) but
+    did NOT transfer at magnitude to held-out native geometry: rank went 4.380875
+    -> 4.517720 (+0.136844, below the required +0.25 and far below the absolute 5.0),
+    and the smaller weights moved rank BACKWARD by -0.072124 (w=0.01) and -0.129266
+    (w=0.03), so the response is not even monotone in the weight. The dose-response
+    also trades off against retrieval: w=0.10 held Recall@5 exactly flat at 0.107232
+    while worsening median rank 38 -> 39, median cosine 0.134607 -> 0.329088 and HR
+    R2 0.952754 -> 0.925409, whereas w=0.03 gave the campaign''s best retrieval (Recall@5
+    0.117207, +0.009975) with rank falling to 4.251609 — entropy and retrieval pull
+    in opposite directions here. Cheap batch-Gram entropy regularization is exhausted
+    as a route to rank>=5; a genuinely different anti-collapse mechanism (or revisiting
+    the rank>=5 gate itself) is required. All arms ran clean: zero caption-equivalent
+    false negatives while auditing 584 extra-positive directed pairs across 225/500
+    batches, no OOM/nonfinite, peak 5.210938 GiB, runtime ratios <=1.0142.'
+  transfers_to:
+  - hyp-eiv-multipositive-dcl-20260728
+  - hyp-eiv-dcl-baseline-20260727
+  - hyp-eiv-dcl-hsic-20260727
+  - hyp-eiv-vicreg-20260727
+  - hyp-eiv-soft-cca-20260727
+  - hyp-eiv-native-kta-vicreg-20260727
 key_numbers: {}
 observed_effects:
 - delta: 0.136844480465
@@ -91,6 +120,7 @@ prediction_match:
     eiv_effective_rank: true
     eiv_sensor_spectral_entropy: true
 provenance: {}
+recipe_fingerprint: {}
 verdict: supports
 ---
 
@@ -112,6 +142,11 @@ External run: file:///root/optiHealth-EiV/outputs/experiments/multi_positive_dcl
 - [[eiv_training_runtime_sec]]: before 114.35292421000486 → after 114.24245741600316  (Δ -0.110467, down)
 
 **Verdict:** supports
+
+## Interpretation
+A weak sensor-only batch-Gram spectral-entropy penalty CANNOT lift multi-positive DCL over the effective-rank>=5 collapse gate, and the 'supports' verdict is direction-only on the best-response arm — the frozen campaign returned gate_passed=false and selected=null, so no confirmation or test ran. The mechanism engaged (weight 0.10 raised final normalized batch spectral entropy 0.368791 -> 0.386036) but did NOT transfer at magnitude to held-out native geometry: rank went 4.380875 -> 4.517720 (+0.136844, below the required +0.25 and far below the absolute 5.0), and the smaller weights moved rank BACKWARD by -0.072124 (w=0.01) and -0.129266 (w=0.03), so the response is not even monotone in the weight. The dose-response also trades off against retrieval: w=0.10 held Recall@5 exactly flat at 0.107232 while worsening median rank 38 -> 39, median cosine 0.134607 -> 0.329088 and HR R2 0.952754 -> 0.925409, whereas w=0.03 gave the campaign's best retrieval (Recall@5 0.117207, +0.009975) with rank falling to 4.251609 — entropy and retrieval pull in opposite directions here. Cheap batch-Gram entropy regularization is exhausted as a route to rank>=5; a genuinely different anti-collapse mechanism (or revisiting the rank>=5 gate itself) is required. All arms ran clean: zero caption-equivalent false negatives while auditing 584 extra-positive directed pairs across 225/500 batches, no OOM/nonfinite, peak 5.210938 GiB, runtime ratios <=1.0142.
+
+Transfers to: [[hyp-eiv-multipositive-dcl-20260728]], [[hyp-eiv-dcl-baseline-20260727]], [[hyp-eiv-dcl-hsic-20260727]], [[hyp-eiv-vicreg-20260727]], [[hyp-eiv-soft-cca-20260727]], [[hyp-eiv-native-kta-vicreg-20260727]]
 
 ## Notes
 Direction-only Vibescience observation uses the preregistered grid's maximum primary-response arm, weight 0.10, versus the paired weight-zero multi-positive DCL comparator. This is not a selected/eligible winner: the frozen campaign aggregate returned gate_passed=false and selected=null. Primary effective rank rose only 4.380875->4.517720 (delta +0.136844), below required +0.25 and below absolute 5.0. Weights 0.01 and 0.03 reduced rank by -0.072124 and -0.129266. All candidates therefore failed both mandatory rank gates; no confirmation_lock or test_unlock was created and confirmation/test were not run. Mechanism prediction did move directionally for weight 0.10: final batch normalized spectral entropy 0.368791->0.386036, but this did not transfer at required magnitude to held-out native effective rank. Weight 0.10 retained Recall@5 exactly (0.107232) but worsened median rank 38->39, median cosine 0.134607->0.329088, alignment gap 0.090315->0.082836, and secondary HR R2 0.952754->0.925409. Weight 0.03 had best retrieval, Recall@5 0.117207 (+0.009975), but rank fell to 4.251609. All arms used zero caption-equivalent false negatives while auditing 584 extra-positive directed pairs across 225/500 batches, had no OOM/nonfinite, peak 5.210938 GiB, and treatment runtime ratios <=1.0142. Scientific artifacts and 104 enumerated hashes verified. Pilot summary SHA256 72e26ca967e892fb01b58633c32f21409f2e1b2cfd7ec0ea4c46e31d3a601a67; protocol SHA256 9884ac3df783c5c9bc192ae9c72877e4af317a3370bda7d69ac4c2bb24e481a1. population_stats_mode remained disabled. Interpret any tool 'supports' verdict strictly as directional prediction match; the preregistered magnitude/eligibility result is a failed pilot.

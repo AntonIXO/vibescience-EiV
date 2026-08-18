@@ -12,6 +12,7 @@ config_note: Corrected v3 direct confirmation on local RTX 5070. Required google
   f0fd24b056e077670a266cb42e33e458d4bb3d7122f8cd068796013f9a776104. Effective batch92
   (45/12/35), 500 steps=46k samples, float32, hard one-positive labels, population
   stats disabled. Smoke excluded; exactly five paired seeds, sequential; test locked.
+cost: null
 crash_reason: ''
 created_at: '2026-07-31T08:23:27+00:00'
 diagnostics_measured:
@@ -53,6 +54,28 @@ gate_results: []
 git_ref: fix/soft-token-norm-scale@955c1b5+frozen-8585f0ae7166d723
 hypothesis_id: hyp-eiv-dcl-vs-hard-infonce-medgemma-cachev2-20260731
 id: exp-014-hyp-eiv-dcl-vs-hard-infonce-41d655
+interpretation:
+  at: '2026-08-18T21:08:37+00:00'
+  failure_mode: null
+  lesson: 'The mechanical `supports` here is misleading: with authenticated MedGemma-4B
+    targets and cache v2, DCL beat hard one-positive InfoNCE by only +0.00299 duplicate-aware
+    Recall@5 (0.118204 -> 0.121197) against a preregistered +0.010 bar, with exact
+    one-sided sign-flip p=0.34375 over 5 paired seeds and a paired bootstrap CI95
+    of [-0.008479, +0.013466] that crosses zero; effective rank moved the WRONG way
+    (7.0013 -> 6.6776, delta -0.3237, past the -0.25 guard) while median rank improved
+    only 35.0 -> 34.2. Treat the DCL-vs-InfoNCE denominator swap as a null-sized effect
+    at 500 float32 Phase-A steps / batch 92 / 5 seeds, not as a win: any re-try must
+    change the regime (many more seeds, more steps, or a larger batch), because this
+    design cannot resolve a 0.3-point Recall@5 difference. What DOES stand from this
+    run is infrastructure, not the loss: cache-vs-singleton min cosine 0.999848, text-cache
+    batch-invariance 0.9997286 flat, peak VRAM 9.00195 GiB flat and runtime within
+    1.10x, i.e. the fail-loud cache/pooling fixes are validated and reusable.'
+  transfers_to:
+  - hyp-eiv-dcl-vs-hard-infonce-medgemma-cachev2-gated-20260801
+  - hyp-eiv-dcl-vs-hard-infonce-fp32-cached-20260728
+  - hyp-eiv-dcl-vs-hard-infonce-fp32-20260728
+  - hyp-eiv-dcl-vs-hard-infonce-softtoken-20260728
+  - hyp-eiv-multipositive-dcl-20260728
 key_numbers: {}
 observed_effects:
 - delta: 0.002992518703
@@ -99,6 +122,7 @@ prediction_match:
     eiv_text_cache_batch_invariance_cosine: true
     eiv_training_runtime_sec: false
 provenance: {}
+recipe_fingerprint: {}
 verdict: supports
 ---
 
@@ -120,6 +144,11 @@ External run: /root/optiHealth-EiV/outputs/experiments/infonce_vs_dcl_softtoken_
 - [[eiv_text_cache_batch_invariance_cosine]]: before 0.9997285604476929 → after 0.9997285604476929  (Δ +0, flat ✓ predicted none)
 
 **Verdict:** supports
+
+## Interpretation
+The mechanical `supports` here is misleading: with authenticated MedGemma-4B targets and cache v2, DCL beat hard one-positive InfoNCE by only +0.00299 duplicate-aware Recall@5 (0.118204 -> 0.121197) against a preregistered +0.010 bar, with exact one-sided sign-flip p=0.34375 over 5 paired seeds and a paired bootstrap CI95 of [-0.008479, +0.013466] that crosses zero; effective rank moved the WRONG way (7.0013 -> 6.6776, delta -0.3237, past the -0.25 guard) while median rank improved only 35.0 -> 34.2. Treat the DCL-vs-InfoNCE denominator swap as a null-sized effect at 500 float32 Phase-A steps / batch 92 / 5 seeds, not as a win: any re-try must change the regime (many more seeds, more steps, or a larger batch), because this design cannot resolve a 0.3-point Recall@5 difference. What DOES stand from this run is infrastructure, not the loss: cache-vs-singleton min cosine 0.999848, text-cache batch-invariance 0.9997286 flat, peak VRAM 9.00195 GiB flat and runtime within 1.10x, i.e. the fail-loud cache/pooling fixes are validated and reusable.
+
+Transfers to: [[hyp-eiv-dcl-vs-hard-infonce-medgemma-cachev2-gated-20260801]], [[hyp-eiv-dcl-vs-hard-infonce-fp32-cached-20260728]], [[hyp-eiv-dcl-vs-hard-infonce-fp32-20260728]], [[hyp-eiv-dcl-vs-hard-infonce-softtoken-20260728]], [[hyp-eiv-multipositive-dcl-20260728]]
 
 ## Notes
 Independent primary-agent audit authenticated all 10 reports, 21-artifact manifests/checkpoints per run, paired initialization/evaluation/caption/exposure invariants, fresh train/eval cache corpus hashes, and bit-for-bit aggregate recomputation. Frozen source digest remained 8585f0ae7166d723...; required google/medgemma-1.5-4b-it and fallback=false in every report; FrozenHash class/runtime branch absent. External turn interruption killed the first seed31 DCL attempt at step150 before evaluation; it is preserved verbatim under interrupted_runs and the exact seed was restarted once without outcome selection. Directionally DCL mean Recall@5 rose 0.11820449→0.12119701 (+0.00299252), median rank improved 35.0→34.2, alignment gap rose +0.006012, and median cosine decreased. However, preregistered superiority failed: Recall gain <+0.010, exact one-sided sign-flip p=0.34375, paired bootstrap 95% CI [-0.00847880,+0.01346633], and effective-rank delta -0.32369 below the -0.25 guard. Every DCL effective rank remained >=5, resource/integrity gates passed, peak reserved VRAM 9.00195 GiB, no OOM/nonfinite. Magnitude/confirmation gate failed despite any direction-only computed verdict. test_unlocked=false; locked test was not run. Conclusion: corrected genuine-MedGemma evidence does not establish DCL as better than hard InfoNCE; retain neither as a winner based on this comparison, while preserving weak directional retrieval evidence and the fail-loud cache/pooling fixes.

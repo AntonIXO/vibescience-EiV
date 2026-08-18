@@ -8,6 +8,7 @@ config_note: 'profile lora_proxy_12ch_e23, 2600 steps, frozen encoder, MedGemma-
   Eval: scratch/eval_e23_gates.py, label-stratified, coverage-split at 0.5, n=96 ->
   outputs/probes/e23_gates.json. Required PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
   to avoid OOM.'
+cost: null
 crash_reason: ''
 created_at: '2026-08-05T10:20:27+00:00'
 diagnostics_measured:
@@ -39,6 +40,32 @@ gate_results:
 git_ref: ''
 hypothesis_id: hyp-eiv-label-consistent-sampler-20260805
 id: exp-e23-label-consistent-sampler-run1
+interpretation:
+  at: '2026-08-18T21:08:41+00:00'
+  failure_mode: mechanism_wrong
+  lesson: 'The sampler/target partition mismatch was real and the fix worked on its
+    own terms (training label marginal max 0.5 -> 0.2078) but did NOT touch the collapse:
+    predicted-bucket entropy reached only 0.257 against the preregistered 0.50 bar
+    and the full-coverage group stayed 48/48 tachycardic — a 20.8% tachycardic training
+    marginal cannot produce a 100% saturated predictor, so stop attributing the collapse
+    to label balance. Two independent data defects found while digging are the durable
+    output: (a) hr_augment perturbed the daily MEAN while both the hr_peak slot and
+    heart_rate_bucket are defined on the PEAK, so the augmented 40% of steps carried
+    hr_peak centred at 119.5 bpm (median 118.8, mean spread 32.1 bpm) sitting exactly
+    on the 120 tachycardic boundary — 48.8% tachycardic, 67.6% elevated-or-above —
+    manufacturing the prior it was meant to destroy; (b) 1830 lifesnaps samples (20.9%
+    of the filter, 27.6% of lifesnaps, 0% of pmdata) had HR marked PRESENT with every
+    value exactly 0.0 bpm, supplying 72.0% of ALL bradycardic targets and shifting
+    the natural marginal from 28.95/25.18/28.78/17.10 to 10.22/31.81/36.36/21.60.
+    Methodological rule this earns: the peak-corr gate PASSED at +0.680 on a demonstrably
+    degenerate model purely because the bimodal 0-vs-120 bpm distribution rewards
+    ''predict 0 or 120'' (full-coverage-only corr was +0.086 with predictions pinned
+    to [120,130]) — prefer DISTRIBUTIONAL gates over correlation gates when the failure
+    mode is a saturated prior, and always split by HR coverage rather than trusting
+    a pooled number.'
+  transfers_to:
+  - hyp-eiv-boost-categorical-slot-signal-20260805
+  - the-hr-peak-failure-is-a-readout-965f58
 key_numbers: {}
 observed_effects:
 - delta: -0.2922
@@ -58,6 +85,7 @@ prediction_match:
     eiv_gen_pred_bucket_entropy: true
     eiv_train_label_marginal_max: true
 provenance: {}
+recipe_fingerprint: {}
 verdict: directional_only
 ---
 
@@ -79,6 +107,13 @@ External run: local:outputs/adapters/medgemma_12ch_e23
 **Verdict:** directional_only
 
 > Direction matched, but a preregistered blocking gate did NOT pass. This does not establish the claim.
+
+## Interpretation
+**Failure mode:** `mechanism_wrong`
+
+The sampler/target partition mismatch was real and the fix worked on its own terms (training label marginal max 0.5 -> 0.2078) but did NOT touch the collapse: predicted-bucket entropy reached only 0.257 against the preregistered 0.50 bar and the full-coverage group stayed 48/48 tachycardic — a 20.8% tachycardic training marginal cannot produce a 100% saturated predictor, so stop attributing the collapse to label balance. Two independent data defects found while digging are the durable output: (a) hr_augment perturbed the daily MEAN while both the hr_peak slot and heart_rate_bucket are defined on the PEAK, so the augmented 40% of steps carried hr_peak centred at 119.5 bpm (median 118.8, mean spread 32.1 bpm) sitting exactly on the 120 tachycardic boundary — 48.8% tachycardic, 67.6% elevated-or-above — manufacturing the prior it was meant to destroy; (b) 1830 lifesnaps samples (20.9% of the filter, 27.6% of lifesnaps, 0% of pmdata) had HR marked PRESENT with every value exactly 0.0 bpm, supplying 72.0% of ALL bradycardic targets and shifting the natural marginal from 28.95/25.18/28.78/17.10 to 10.22/31.81/36.36/21.60. Methodological rule this earns: the peak-corr gate PASSED at +0.680 on a demonstrably degenerate model purely because the bimodal 0-vs-120 bpm distribution rewards 'predict 0 or 120' (full-coverage-only corr was +0.086 with predictions pinned to [120,130]) — prefer DISTRIBUTIONAL gates over correlation gates when the failure mode is a saturated prior, and always split by HR coverage rather than trusting a pooled number.
+
+Transfers to: [[hyp-eiv-boost-categorical-slot-signal-20260805]], [[the-hr-peak-failure-is-a-readout-965f58]]
 
 ## Notes
 VERDICT: the sampler/target partition mismatch was REAL and is FIXED, but it was NOT SUFFICIENT. The primary preregistered gate (predicted-bucket entropy >= 0.50) FAILED at 0.257, and the full-coverage group is still 48/48 tachycardic. A 20.8% tachycardic training marginal cannot by itself produce a 100% saturated predictor, so I kept digging instead of declaring victory.

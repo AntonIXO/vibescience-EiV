@@ -14,6 +14,7 @@ config_note: 'CPU-only, zero GPU. Reuses the frozen features E26 extracted (outp
   written before the run) and scratch/probe_e27b_floor_decomposition.py (the error-budget
   decomposition demanded by the preregistered non-blocking floor guard). Committed
   to the POSITIVE branch before running.'
+cost: null
 crash_reason: ''
 created_at: '2026-08-05T20:50:36+00:00'
 diagnostics_measured:
@@ -79,6 +80,32 @@ gate_results:
 git_ref: ''
 hypothesis_id: the-hr-peak-readout-is-limited-by-the-0d4b48
 id: exp-e27-bin-encoding-20260805
+interpretation:
+  at: '2026-08-18T21:08:42+00:00'
+  failure_mode: null
+  lesson: 'All five gates pass and the framing still does not survive: a single-token
+    K=4 quantile-bin target does decode hr_peak better than E26''s multi-token digit
+    string from the IDENTICAL frozen hidden state (12.529 vs 14.263 bpm, CI95 [-3.280,-0.257];
+    vs always-median 18.492, CI95 [-7.793,-4.097]; donor 25.018, CI95 [-14.836,-10.091];
+    K=4 bin accuracy 0.5800 vs majority 0.2600 and donor 0.2567, clearing both bars
+    that every non-leading digit position in E26 failed) — but the preregistered floor
+    guard ELIMINATES target encoding as the binding constraint. Of the 12.799 bpm
+    headroom between always-median (18.492) and the K=4 quantization floor (5.694),
+    the readout realises 5.964 bpm (46.6%) and loses 6.835 (53.4%) at fixed encoding,
+    with only 1.734 bpm (13.6%) attributable to the encoding change itself. Do not
+    ''just use more bins'': floors fall (K=4 5.694 -> K=8 2.730 -> K=16 1.594 -> K=32
+    0.862) while achieved accuracy collapses (0.5800 -> 0.3467 -> 0.1300 -> 0.0800)
+    and train-split CV MAE degrades monotonically (12.879 -> 13.222 -> 13.717 -> 14.042),
+    which is why CV picked the coarsest grid point — the readout resolves quartile-level
+    magnitude and no more. Note that exp-e28 later withdrew this experiment''s framing
+    entirely: plain LIN_SCALAR Ridge (untested here) reaches 10.270 bpm, beating this
+    bin arm CI95 [-3.310,-1.185], so the axis that mattered was scalar-vs-token output,
+    not digits-vs-bins; sell a binned-target change as ~1.7 bpm over the digit target,
+    never as 5.964.'
+  transfers_to:
+  - measured-in-lm-head-s-actual-function-b096c6
+  - the-hr-peak-readout-cap-is-an-a61025
+  - e11-a-linear-scalar-regression-head-127ffe
 key_numbers: {}
 observed_effects:
 - delta: -1.734
@@ -90,6 +117,7 @@ prediction_match:
   per_diagnostic:
     eiv_digit_readout_decoded_mae: true
 provenance: {}
+recipe_fingerprint: {}
 verdict: supports
 ---
 
@@ -110,6 +138,11 @@ PER-K EVIDENCE THAT FINER BINS DO NOT HELP: floor falls monotonically (K=4 5.694
 - `gate-k-selected-on-train-only`: PASS — PASS. K and C were selected by 5-fold CV on the TRAIN split only; the test split was never touched during selection. Full 16-cell grid reported in outputs/probes/e27_bin_encoding.json. Selected K=4, C=0.1 at CV MAE 12.879. Grid was monotone in K at every C, so the selection is not a knife-edge: K=4 {12.879..13.131}, K=8 {13.222..13.670}, K=16 {13.717..14.426}, K=32 {14.042..15.120}.
 
 **Verdict:** supports
+
+## Interpretation
+All five gates pass and the framing still does not survive: a single-token K=4 quantile-bin target does decode hr_peak better than E26's multi-token digit string from the IDENTICAL frozen hidden state (12.529 vs 14.263 bpm, CI95 [-3.280,-0.257]; vs always-median 18.492, CI95 [-7.793,-4.097]; donor 25.018, CI95 [-14.836,-10.091]; K=4 bin accuracy 0.5800 vs majority 0.2600 and donor 0.2567, clearing both bars that every non-leading digit position in E26 failed) — but the preregistered floor guard ELIMINATES target encoding as the binding constraint. Of the 12.799 bpm headroom between always-median (18.492) and the K=4 quantization floor (5.694), the readout realises 5.964 bpm (46.6%) and loses 6.835 (53.4%) at fixed encoding, with only 1.734 bpm (13.6%) attributable to the encoding change itself. Do not 'just use more bins': floors fall (K=4 5.694 -> K=8 2.730 -> K=16 1.594 -> K=32 0.862) while achieved accuracy collapses (0.5800 -> 0.3467 -> 0.1300 -> 0.0800) and train-split CV MAE degrades monotonically (12.879 -> 13.222 -> 13.717 -> 14.042), which is why CV picked the coarsest grid point — the readout resolves quartile-level magnitude and no more. Note that exp-e28 later withdrew this experiment's framing entirely: plain LIN_SCALAR Ridge (untested here) reaches 10.270 bpm, beating this bin arm CI95 [-3.310,-1.185], so the axis that mattered was scalar-vs-token output, not digits-vs-bins; sell a binned-target change as ~1.7 bpm over the digit target, never as 5.964.
+
+Transfers to: [[measured-in-lm-head-s-actual-function-b096c6]], [[the-hr-peak-readout-cap-is-an-a61025]], [[e11-a-linear-scalar-regression-head-127ffe]]
 
 ## Notes
 ALL FIVE GATES PASS AND THE HEADLINE FRAMING STILL DOES NOT SURVIVE. The verdict will read 'supports' because the primary directional prediction (bin MAE < digit MAE) was correct. Do not stop there -- the non-blocking floor guard I preregistered is what actually decides how this should be used, and it says the encoding is NOT the binding constraint.

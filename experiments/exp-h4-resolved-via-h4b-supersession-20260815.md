@@ -25,6 +25,7 @@ config_note: 'BOOKKEEPING CLOSURE, no new computation. H4 (proposed 2026-08-08) 
 
   Surfaced by the doctor check added in vibescience-mcp 5c042a6 (hypothesis_superseded_but_open),
   which was written after finding this exact record.'
+cost: null
 crash_reason: ''
 created_at: '2026-08-15T07:01:22+00:00'
 diagnostics_measured:
@@ -38,6 +39,27 @@ gate_results: []
 git_ref: ''
 hypothesis_id: h4-caption-content-not-architecture-the-3306b2
 id: exp-h4-resolved-via-h4b-supersession-20260815
+interpretation:
+  at: '2026-08-18T21:08:45+00:00'
+  failure_mode: mechanism_wrong
+  lesson: 'H4''s DIAGNOSIS survives and its PRESCRIPTION is dead: within-day dispersion
+    really is missing downstream (the measured ladder level-only 0.0226 -> caption
+    scalars 0.1242 -> deep stack 0.4209 -> hand dispersion 0.7075 -> patch maxes 0.9706
+    is not in dispute), but writing those scalars into the caption does not transfer
+    that ceiling. The successor h4b tested the sharpest version (hr_std in the caption)
+    and moved the peak-excursion increment DOWN, 0.4305 -> 0.3349 (delta -0.0956),
+    with a 3-seed arm at +0.313 against a same-code control of +0.409 and a 0.56 bar,
+    while hr_mean fell 0.971 -> 0.938 — the capacity-reallocation signature h4b pre-named
+    as disqualifying. This record is a BOOKKEEPING CLOSURE with no new computation
+    (diagnostic copied from h4b), so cite h4b for evidence. Do not re-open caption-enrichment
+    for hr_peak; the measured working route is architectural — swapping the cross-patch
+    pooling operator (E19/E19b: avg +0.2807 -> avgmax +0.6849 on real encoder tokens,
+    reproducing on 5 checkpoints with a 0.0457 band and a dead shuffle control), the
+    exact opposite of H4''s ''no further architectural change is needed''.'
+  transfers_to:
+  - h4b-supersedes-h4-sharpened-from-add-82c23a
+  - hyp-e19-encoder-pooling-transfer-20260815
+  - hyp-e19b-pooling-recipe-level-20260815
 key_numbers:
   h4b_3seed_control_increment: 0.409
   h4b_3seed_increment: 0.313
@@ -56,6 +78,7 @@ prediction_match:
     eiv_heldout_hr_r2: false
     eiv_peak_excursion_increment_r2: false
 provenance: {}
+recipe_fingerprint: {}
 verdict: refutes
 ---
 
@@ -67,6 +90,13 @@ External run: see h4b-supersedes-h4-sharpened-from-add-82c23a
 - [[eiv_peak_excursion_increment_r2]]: before 0.4305 → after 0.3349  (Δ -0.0956, down ✗ predicted up)
 
 **Verdict:** refutes
+
+## Interpretation
+**Failure mode:** `mechanism_wrong`
+
+H4's DIAGNOSIS survives and its PRESCRIPTION is dead: within-day dispersion really is missing downstream (the measured ladder level-only 0.0226 -> caption scalars 0.1242 -> deep stack 0.4209 -> hand dispersion 0.7075 -> patch maxes 0.9706 is not in dispute), but writing those scalars into the caption does not transfer that ceiling. The successor h4b tested the sharpest version (hr_std in the caption) and moved the peak-excursion increment DOWN, 0.4305 -> 0.3349 (delta -0.0956), with a 3-seed arm at +0.313 against a same-code control of +0.409 and a 0.56 bar, while hr_mean fell 0.971 -> 0.938 — the capacity-reallocation signature h4b pre-named as disqualifying. This record is a BOOKKEEPING CLOSURE with no new computation (diagnostic copied from h4b), so cite h4b for evidence. Do not re-open caption-enrichment for hr_peak; the measured working route is architectural — swapping the cross-patch pooling operator (E19/E19b: avg +0.2807 -> avgmax +0.6849 on real encoder tokens, reproducing on 5 checkpoints with a 0.0457 band and a dead shuffle control), the exact opposite of H4's 'no further architectural change is needed'.
+
+Transfers to: [[h4b-supersedes-h4-sharpened-from-add-82c23a]], [[hyp-e19-encoder-pooling-transfer-20260815]], [[hyp-e19b-pooling-recipe-level-20260815]]
 
 ## Key numbers
 - `h4b_3seed_control_increment`: 0.409

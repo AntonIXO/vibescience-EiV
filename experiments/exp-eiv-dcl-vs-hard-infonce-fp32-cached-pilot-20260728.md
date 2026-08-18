@@ -10,6 +10,7 @@ config_note: Replacement for symmetric pre-step OOM only; no failed _v1 output r
   protocol SHA 643aa7a507e04238af4274ff3517e5f3caaab76ab55c279be3f0c163f3ab8e7f; split
   SHA 43dcafef4a0a4a0e4cae3c6bca0b067599ae61b35d1ea1983e4a16ab4ac2f2f5. Smoke is excluded;
   gate/scope unchanged.
+cost: null
 crash_reason: ''
 created_at: '2026-07-28T11:19:49+00:00'
 diagnostics_measured:
@@ -23,6 +24,31 @@ gate_results: []
 git_ref: fix/soft-token-norm-scale@955c1b5+frozen-bca2dfa3df312bb0
 hypothesis_id: hyp-eiv-dcl-vs-hard-infonce-fp32-cached-20260728
 id: exp-eiv-dcl-vs-hard-infonce-fp32-cached-pilot-20260728
+interpretation:
+  at: '2026-08-18T21:08:44+00:00'
+  failure_mode: test_invalid
+  lesson: DCL-vs-hard-InfoNCE REMAINS UNTESTED after this v2 retry — the run cleared
+    the earlier fp32 OOM by authenticating the cache (4,962 training files at corpus
+    SHA 7afdd8b1..., 401 validation files at e71f74fb...) but was then scientifically
+    invalidated by a padding bug, so no objective comparison exists. The cache was
+    proven genuine (the ten audited vectors reproduced at cosine ~1.0 with identical
+    norms under genuine google/medgemma-1.5-4b-it once their original precompute groups
+    of four were reconstructed; legacy FrozenHash norms would have been 0.40-0.61
+    versus real cached norms 85.5-113.8), but MedGemma's tokenizer LEFT-pads while
+    the hidden_states_last_token code gathered index sum(mask)-1, a right-padding
+    assumption. Under changed batching the cached-vs-fresh batch-invariance cosine
+    fell from 1.0000 to a median of 0.6890 with a minimum of 0.0276, so every v2 objective
+    metric, the pilot gate, and the seed-31 InfoNCE confirmation were excluded and
+    the locked test was never opened. Any retry must first land padding-agnostic final-attended-token
+    pooling, cache version 2 with CONTENT hashes (not path fingerprints), and fail-loud
+    MedGemma loading with FrozenHash removed; a batch-invariance cosine check near
+    1.0 belongs in preflight.
+  transfers_to:
+  - hyp-eiv-dcl-vs-hard-infonce-fp32-20260728
+  - hyp-eiv-dcl-vs-hard-infonce-softtoken-20260728
+  - hyp-eiv-dcl-vs-hard-infonce-medgemma-cachev2-20260731
+  - hyp-eiv-dcl-vs-hard-infonce-medgemma-cachev2-gated-20260801
+  - hyp-eiv-multipositive-dcl-20260728
 key_numbers: {}
 observed_effects:
 - delta: -0.31097266078
@@ -41,6 +67,7 @@ prediction_match:
     eiv_sensor_median_cosine: false
     eiv_training_runtime_sec: false
 provenance: {}
+recipe_fingerprint: {}
 verdict: inconclusive
 ---
 
@@ -53,6 +80,13 @@ External run: /root/optiHealth-EiV/outputs/experiments/infonce_vs_dcl_softtoken_
 - [[eiv_text_cache_batch_invariance_cosine]]: before 1.0000004768371582 → after 0.6890278160572052  (Δ -0.310973, down)
 
 **Verdict:** inconclusive
+
+## Interpretation
+**Failure mode:** `test_invalid`
+
+DCL-vs-hard-InfoNCE REMAINS UNTESTED after this v2 retry — the run cleared the earlier fp32 OOM by authenticating the cache (4,962 training files at corpus SHA 7afdd8b1..., 401 validation files at e71f74fb...) but was then scientifically invalidated by a padding bug, so no objective comparison exists. The cache was proven genuine (the ten audited vectors reproduced at cosine ~1.0 with identical norms under genuine google/medgemma-1.5-4b-it once their original precompute groups of four were reconstructed; legacy FrozenHash norms would have been 0.40-0.61 versus real cached norms 85.5-113.8), but MedGemma's tokenizer LEFT-pads while the hidden_states_last_token code gathered index sum(mask)-1, a right-padding assumption. Under changed batching the cached-vs-fresh batch-invariance cosine fell from 1.0000 to a median of 0.6890 with a minimum of 0.0276, so every v2 objective metric, the pilot gate, and the seed-31 InfoNCE confirmation were excluded and the locked test was never opened. Any retry must first land padding-agnostic final-attended-token pooling, cache version 2 with CONTENT hashes (not path fingerprints), and fail-loud MedGemma loading with FrozenHash removed; a batch-invariance cosine check near 1.0 belongs in preflight.
+
+Transfers to: [[hyp-eiv-dcl-vs-hard-infonce-fp32-20260728]], [[hyp-eiv-dcl-vs-hard-infonce-softtoken-20260728]], [[hyp-eiv-dcl-vs-hard-infonce-medgemma-cachev2-20260731]], [[hyp-eiv-dcl-vs-hard-infonce-medgemma-cachev2-gated-20260801]], [[hyp-eiv-multipositive-dcl-20260728]]
 
 ## Notes
 Scientifically invalidated before confirmation. Ten fixed cache vectors reproduced at cosine ~1.0 and identical norms with genuine google/medgemma-1.5-4b-it only when their original precompute groups of four were reconstructed, proving there was no FrozenHash fallback. The actual legacy hash norms were 0.40-0.61 versus cached norms 85.5-113.8. But MedGemma's tokenizer left-pads while the old hidden_states_last_token code gathered sum(mask)-1, a right-padding assumption. Under changed batching, cached-vs-fresh cosine median fell to 0.6890 and minimum to 0.0276. Thus all v2 objective metrics, the pilot gate, and seed31 InfoNCE confirmation are inconclusive and excluded; test stayed locked. Code is being superseded by padding-agnostic final-attended-token pooling, cache version 2/content hashes, and fail-loud MedGemma loading with FrozenHash removed.

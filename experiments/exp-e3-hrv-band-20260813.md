@@ -12,6 +12,7 @@ config_note: 'Arm v10hrv = profile lora_proxy_12ch_wl_band04_hrv, single variabl
   top1 mass < 0.5 AND std_ratio > 0.3 (baseline 0.63-0.85 / 0.02-0.29); P3 hr preserved:
   supa hr MAE <= 3.45, dense hr MAE <= 4.73 (worst v9band04 seed values); P4 dense
   hrv skill >= +1.5 (baseline +2.8..+3.5).'
+cost: null
 crash_reason: ''
 created_at: '2026-08-13T21:05:23+00:00'
 diagnostics_measured:
@@ -31,6 +32,30 @@ gate_results: []
 git_ref: ''
 hypothesis_id: hrv-raw-fails-on-deployment-for-the-624895
 id: exp-e3-hrv-band-20260813
+interpretation:
+  at: '2026-08-18T21:08:43+00:00'
+  failure_mode: claim_false
+  lesson: 'HEADLINE DIFFERS FROM THE MECHANICAL VERDICT: the record is filed ''inconclusive''
+    but its own notes read REFUTED with all 4 preregistered gates failing, and the
+    failure is decisive, not ambiguous. The hrv band-augmentation law (hrv_augment=True,
+    prob 0.4, band_prob 0.5; single seed 42, Phase C 2600 steps) realized EXACTLY
+    as designed at the supply level (target p50 63.2 vs designed 63.8, P(>=80) 0.246
+    vs 0.242, band mass 0.406->0.509) and still failed: supabase hrv MAE 12.64 vs
+    trivial 8.31 = skill -4.33 (baseline -0.31), dense hrv skill -11.93 (was +3.52)
+    with the model emitting p50 84.0 ms against dense truth p50 45.3; collapse only
+    partially broke (top1 mass 0.853->0.284 but std_ratio 0.133 < the 0.3 bar, corr
+    0.127); and it BLOCKINGLY damaged the healthy axes, supabase hr MAE 2.85->3.67
+    (>3.45 bar) and dense-128 hr MAE 3.08->5.44 (>4.73 bar). The transferable rule:
+    TARGET-SIDE BAND LAWS ONLY TRANSFER TO A STRONGLY-READ CHANNEL - hr is read at
+    corr ~0.9 so shifting it moves a signal the encoder tracks, while the hrv readout
+    is weak (dense corr 0.60 at best) so random mean-shifts DECOUPLE the target from
+    its correlates and teach the LM that hrv_raw is a random number near the marginal
+    mode (~84 ms). Do not re-run a target-law lever on hrv; hrv needs an ENCODER-side
+    lever.'
+  transfers_to:
+  - hyp-e10-hrv-localization-20260814
+  - e1-band-mass-starvation-drives-supabase-mae-and-seed-band
+  - e1b-prob08-not-band-law-owns-the-dense-cost
 key_numbers: {}
 observed_effects:
 - delta: 0.82
@@ -48,6 +73,7 @@ prediction_match:
   per_diagnostic:
     eiv_supabase_seed_band_mae_bpm: false
 provenance: {}
+recipe_fingerprint: {}
 verdict: inconclusive
 ---
 
@@ -61,6 +87,13 @@ Branches from [[exp-e1b-band04-20260813]].
 - [[eiv_supabase_floor_emission_rate]]: before 0.0 → after 0.0  (Δ +0, flat)
 
 **Verdict:** inconclusive
+
+## Interpretation
+**Failure mode:** `claim_false`
+
+HEADLINE DIFFERS FROM THE MECHANICAL VERDICT: the record is filed 'inconclusive' but its own notes read REFUTED with all 4 preregistered gates failing, and the failure is decisive, not ambiguous. The hrv band-augmentation law (hrv_augment=True, prob 0.4, band_prob 0.5; single seed 42, Phase C 2600 steps) realized EXACTLY as designed at the supply level (target p50 63.2 vs designed 63.8, P(>=80) 0.246 vs 0.242, band mass 0.406->0.509) and still failed: supabase hrv MAE 12.64 vs trivial 8.31 = skill -4.33 (baseline -0.31), dense hrv skill -11.93 (was +3.52) with the model emitting p50 84.0 ms against dense truth p50 45.3; collapse only partially broke (top1 mass 0.853->0.284 but std_ratio 0.133 < the 0.3 bar, corr 0.127); and it BLOCKINGLY damaged the healthy axes, supabase hr MAE 2.85->3.67 (>3.45 bar) and dense-128 hr MAE 3.08->5.44 (>4.73 bar). The transferable rule: TARGET-SIDE BAND LAWS ONLY TRANSFER TO A STRONGLY-READ CHANNEL - hr is read at corr ~0.9 so shifting it moves a signal the encoder tracks, while the hrv readout is weak (dense corr 0.60 at best) so random mean-shifts DECOUPLE the target from its correlates and teach the LM that hrv_raw is a random number near the marginal mode (~84 ms). Do not re-run a target-law lever on hrv; hrv needs an ENCODER-side lever.
+
+Transfers to: [[hyp-e10-hrv-localization-20260814]], [[e1-band-mass-starvation-drives-supabase-mae-and-seed-band]], [[e1b-prob08-not-band-law-owns-the-dense-cost]]
 
 ## Notes
 VERDICT: REFUTED, all 4 preregistered gates FAIL (gates lived on runbook rb-e3-hrv-band-20260813; hypothesis carried none — recording them here). Scored logs/e3_verdict.json (scratch/score_e3.py), captures outputs/probes/v10hrv_s42_emissions_{supabase,n128}.json, all RC=0, batch_size=1.

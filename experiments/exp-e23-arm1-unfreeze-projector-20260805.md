@@ -8,6 +8,7 @@ config_note: Arm 1 of the cheap-lever list = lever (c) unfreeze the projector. P
   gates eiv_gen_pred_bucket_entropy>=0.50 and eiv_gen_peak_corr>=0.30. Companion run
   E23N re-tested the RESCUED +0.418 nat swap effect on the e23v2 baseline with 6 donors/sample
   and a dose-response control.
+cost: null
 crash_reason: ''
 created_at: '2026-08-05T14:13:49+00:00'
 diagnostics_measured:
@@ -45,6 +46,33 @@ gate_results:
 git_ref: ''
 hypothesis_id: hyp-eiv-boost-categorical-slot-signal-20260805
 id: exp-e23-arm1-unfreeze-projector-20260805
+interpretation:
+  at: '2026-08-18T21:08:40+00:00'
+  failure_mode: mechanism_wrong
+  lesson: 'Unfreezing the projector is a real win for the NUMERIC slots and a refutation
+    of the categorical-conditioning story it was proposed for: every generation metric
+    rose (bucket entropy 0.0->0.3703, peak_corr 0.1587->0.6036, between-sample std
+    2.6->27.76, hr_raw corr full 0.604->0.740 / sparse 0.909->0.965), yet gate-entropy-recovered
+    FAILED at 0.370 vs the 0.50 bar and gate-effect-size-gain FAILED on a sign inversion,
+    with the full-coverage regime still 47/48 tachycardic (entropy 0.073) at n=12/label.
+    The decisive control is the mechanism, not the metrics: re-running the paired
+    swap with identical seed/samples/donors flipped swap_delta_mean +0.418 -> -1.128
+    and null_delta_mean -1.750 -> +1.090, i.e. a norm-matched RANDOM gaussian prefix
+    now scores the true label BETTER than the real encoder output, while the bucket
+    dose-response died (r=+0.204 p=9.7e-05 -> r=-0.073 p=0.166, CI [-1.327,+0.187]
+    now includes 0) and the hr_raw dose slope became significant instead (r=+0.113
+    p=0.033, CI [+0.057,+0.502], Wilcoxon p=0.0053). Read this as signal REALLOCATION
+    from the categorical to the numeric slot, keep the arm for hr_raw, and require
+    every future arm to report null_delta SIGN and the dose slope — generation metrics
+    alone would have scored this a success. Corollary that kills a planned method:
+    teacher-forced swap-delta does not rank slots by generation quality (on e23v2
+    the working hr_raw slot had the weaker, non-significant slope), so it cannot be
+    used as a conditioning surrogate.'
+  transfers_to:
+  - hyp-eiv-label-consistent-sampler-20260805
+  - the-hr-peak-failure-is-a-readout-965f58
+  - hyp-e7-projector-bottleneck-20260814
+  - hyp-e9-lmhead-lora-20260814
 key_numbers: {}
 observed_effects:
 - delta: 0.3703
@@ -69,6 +97,7 @@ prediction_match:
     eiv_gen_peak_corr: true
     eiv_gen_pred_bucket_entropy: true
 provenance: {}
+recipe_fingerprint: {}
 verdict: directional_only
 ---
 
@@ -91,6 +120,13 @@ Tests hypothesis [[hyp-eiv-boost-categorical-slot-signal-20260805]].
 **Verdict:** directional_only
 
 > Direction matched, but a preregistered blocking gate did NOT pass. This does not establish the claim.
+
+## Interpretation
+**Failure mode:** `mechanism_wrong`
+
+Unfreezing the projector is a real win for the NUMERIC slots and a refutation of the categorical-conditioning story it was proposed for: every generation metric rose (bucket entropy 0.0->0.3703, peak_corr 0.1587->0.6036, between-sample std 2.6->27.76, hr_raw corr full 0.604->0.740 / sparse 0.909->0.965), yet gate-entropy-recovered FAILED at 0.370 vs the 0.50 bar and gate-effect-size-gain FAILED on a sign inversion, with the full-coverage regime still 47/48 tachycardic (entropy 0.073) at n=12/label. The decisive control is the mechanism, not the metrics: re-running the paired swap with identical seed/samples/donors flipped swap_delta_mean +0.418 -> -1.128 and null_delta_mean -1.750 -> +1.090, i.e. a norm-matched RANDOM gaussian prefix now scores the true label BETTER than the real encoder output, while the bucket dose-response died (r=+0.204 p=9.7e-05 -> r=-0.073 p=0.166, CI [-1.327,+0.187] now includes 0) and the hr_raw dose slope became significant instead (r=+0.113 p=0.033, CI [+0.057,+0.502], Wilcoxon p=0.0053). Read this as signal REALLOCATION from the categorical to the numeric slot, keep the arm for hr_raw, and require every future arm to report null_delta SIGN and the dose slope — generation metrics alone would have scored this a success. Corollary that kills a planned method: teacher-forced swap-delta does not rank slots by generation quality (on e23v2 the working hr_raw slot had the weaker, non-significant slope), so it cannot be used as a conditioning surrogate.
+
+Transfers to: [[hyp-eiv-label-consistent-sampler-20260805]], [[the-hr-peak-failure-is-a-readout-965f58]], [[hyp-e7-projector-bottleneck-20260814]], [[hyp-e9-lmhead-lora-20260814]]
 
 ## Notes
 ARM 1 (unfreeze projector) = REFUTED on its primary claim. 2/4 preregistered gates pass, and the two that fail are the ones that carry the hypothesis.

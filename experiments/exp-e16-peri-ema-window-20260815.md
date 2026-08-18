@@ -15,6 +15,7 @@ config_note: "Runner: scratch/e16_peri_ema_window.py. Pure CPU, no GPU, no model
   delta over clock-only >= +0.03, within-subject perm p<0.05, MDE 0.028) and g2 (absolute
   AUC >= 0.58 AND above the within-subject constant-predictor AUC) are BLOCKING and
   were committed before any number existed."
+cost: null
 crash_reason: ''
 created_at: '2026-08-14T21:25:32+00:00'
 diagnostics_measured:
@@ -40,6 +41,30 @@ gate_results:
 git_ref: ''
 hypothesis_id: hyp-e16-peri-ema-window-20260815
 id: exp-e16-peri-ema-window-20260815
+interpretation:
+  at: '2026-08-18T21:08:39+00:00'
+  failure_mode: claim_false
+  lesson: 'The dilution mechanism is measured FALSE in reverse: affect skill rises
+    MONOTONICALLY with window rather than peaking sub-daily — best sub-daily delta
+    +0.0167 at W=120 vs +0.0228 at W=1440, with W=15 actually NEGATIVE (-0.0064, worse
+    than clock alone), all under the 0.028 MDE and the +0.03 gate. The decisive number
+    is a trivial baseline: a within-subject constant predictor using ZERO physiology
+    and ZERO clock scores AUC 0.7381 (tense) and 0.6731 (tired) while the best physiological
+    arm anywhere in the sweep is 0.5818 — cross-subject affect variance here is trait/base-rate,
+    so any future state work must be N-of-1 or transition-based where that constant
+    is unavailable by construction. What DOES survive once the clock confound is controlled:
+    lifesnaps TIRED +0.0340 at W=480 (perm p=0.000, null mean -0.0069 std 0.0190)
+    and dryad stress-above-own-median +0.0998 at W=15 (perm p=0.000) — but the dryad
+    arm is a COVERAGE selection effect, surviving on only 534/3926 pings (13.6%) and
+    collapsing to +0.0015 at W=60 (n=1331), so do not cite it as a timescale result.
+    Instrument rule from this run: the sweep parsed N_PERM and never used it, so any
+    probe in this family must assert its permutation null actually executed.'
+  transfers_to:
+  - hyp-e14-within-subject-affect-supply-20260814
+  - hyp-affect-multichannel-supply-20260814
+  - hyp-e18-within-subject-state-20260815
+  - hyp-e24-lab-protocol-subdaily-state-20260815
+  - hyp-e26-within-window-transitions-20260815
 key_numbers:
   dryad_W15_delta: 0.0998
   dryad_W15_n_usable: 534.0
@@ -74,6 +99,7 @@ prediction_match:
   per_diagnostic:
     eiv_affect_multichannel_increment: false
 provenance: {}
+recipe_fingerprint: {}
 verdict: refutes
 ---
 
@@ -90,6 +116,13 @@ Tests hypothesis [[hyp-e16-peri-ema-window-20260815]].
 - `g4_cross_target_sign`: PASS
 
 **Verdict:** refutes
+
+## Interpretation
+**Failure mode:** `claim_false`
+
+The dilution mechanism is measured FALSE in reverse: affect skill rises MONOTONICALLY with window rather than peaking sub-daily — best sub-daily delta +0.0167 at W=120 vs +0.0228 at W=1440, with W=15 actually NEGATIVE (-0.0064, worse than clock alone), all under the 0.028 MDE and the +0.03 gate. The decisive number is a trivial baseline: a within-subject constant predictor using ZERO physiology and ZERO clock scores AUC 0.7381 (tense) and 0.6731 (tired) while the best physiological arm anywhere in the sweep is 0.5818 — cross-subject affect variance here is trait/base-rate, so any future state work must be N-of-1 or transition-based where that constant is unavailable by construction. What DOES survive once the clock confound is controlled: lifesnaps TIRED +0.0340 at W=480 (perm p=0.000, null mean -0.0069 std 0.0190) and dryad stress-above-own-median +0.0998 at W=15 (perm p=0.000) — but the dryad arm is a COVERAGE selection effect, surviving on only 534/3926 pings (13.6%) and collapsing to +0.0015 at W=60 (n=1331), so do not cite it as a timescale result. Instrument rule from this run: the sweep parsed N_PERM and never used it, so any probe in this family must assert its permutation null actually executed.
+
+Transfers to: [[hyp-e14-within-subject-affect-supply-20260814]], [[hyp-affect-multichannel-supply-20260814]], [[hyp-e18-within-subject-state-20260815]], [[hyp-e24-lab-protocol-subdaily-state-20260815]], [[hyp-e26-within-window-transitions-20260815]]
 
 ## Key numbers
 - `dryad_W15_delta`: 0.0998

@@ -11,6 +11,7 @@ config_note: 'E13 N-of-1 head calibration, CPU-only (~seconds), zero GPU. Featur
   scored vs the BEST trivial per fold. Controls: shuffled-target refit, alpha rail
   check. Emission-path pairing: recompute emission hr MAE restricted to test rows.
   Script scratch/e13_nof1_head_calibration.py -> logs/e13_nof1_head_calibration.json.'
+cost: null
 crash_reason: ''
 created_at: '2026-08-14T11:44:57+00:00'
 diagnostics_measured:
@@ -55,6 +56,26 @@ gate_results:
 git_ref: ''
 hypothesis_id: n-of-1-head-calibration-linear-ridgecv-a45392
 id: exp-e13-nof1-calibration-20260814
+interpretation:
+  at: '2026-08-18T21:08:39+00:00'
+  failure_mode: recipe_conditional
+  lesson: 'Per-user (N-of-1) RidgeCV heads on L34 features are the correct deployment
+    frame — all 223 supabase rows are one subject (9e73d06e) — and for hr_raw the
+    claim is CONFIRMED-grade: walk-forward OOS MAE 2.689 beats both trivials (median-forward
+    4.33, persistence 5.455) and, on the same 140 test rows, the production emission
+    path 2.980 (skill +1.641 CI[1.049,2.235], corr 0.747, interior alphas) — the campaign''s
+    first supabase-side beat of the emission path. hrv is NOT established at this
+    data volume: skill +1.322 CI[0.179,2.483] (n_test 137) concentrates entirely in
+    fold 5 (+4.02; folds 1-4 pooled +0.613 CI[-0.555,1.680]) and that fold rails RidgeCV
+    to the grid edge even on an extended 1e-6..1e6 grid — re-test hrv with more accumulated
+    days rather than treating it as dead or as deployable. hr_peak is dead within-user
+    too (skill +0.201 CI[-0.933,1.275], corr 0.205, alphas railed HIGH at 49619..1e5
+    = model shrinking to the mean), so L34 hr_peak features have now failed under
+    every fitting regime tried.'
+  transfers_to:
+  - e11-s-supabase-transfer-failure-is-5472c8
+  - e11-a-linear-scalar-regression-head-127ffe
+  - the-hr-peak-readout-cap-is-an-a61025
 key_numbers: {}
 observed_effects:
 - delta: 2.998
@@ -70,6 +91,7 @@ prediction_match:
     eiv_nonhr_channel_grouped_r2: true
     eiv_supabase_hr_raw_mae_bpm: true
 provenance: {}
+recipe_fingerprint: {}
 verdict: directional_only
 ---
 
@@ -90,6 +112,13 @@ Branches from [[exp-e12-coverage-aug-heads-20260814]].
 **Verdict:** directional_only
 
 > Direction matched, but a preregistered blocking gate did NOT pass. This does not establish the claim.
+
+## Interpretation
+**Failure mode:** `recipe_conditional`
+
+Per-user (N-of-1) RidgeCV heads on L34 features are the correct deployment frame — all 223 supabase rows are one subject (9e73d06e) — and for hr_raw the claim is CONFIRMED-grade: walk-forward OOS MAE 2.689 beats both trivials (median-forward 4.33, persistence 5.455) and, on the same 140 test rows, the production emission path 2.980 (skill +1.641 CI[1.049,2.235], corr 0.747, interior alphas) — the campaign's first supabase-side beat of the emission path. hrv is NOT established at this data volume: skill +1.322 CI[0.179,2.483] (n_test 137) concentrates entirely in fold 5 (+4.02; folds 1-4 pooled +0.613 CI[-0.555,1.680]) and that fold rails RidgeCV to the grid edge even on an extended 1e-6..1e6 grid — re-test hrv with more accumulated days rather than treating it as dead or as deployable. hr_peak is dead within-user too (skill +0.201 CI[-0.933,1.275], corr 0.205, alphas railed HIGH at 49619..1e5 = model shrinking to the mean), so L34 hr_peak features have now failed under every fitting regime tried.
+
+Transfers to: [[e11-s-supabase-transfer-failure-is-5472c8]], [[e11-a-linear-scalar-regression-head-127ffe]], [[the-hr-peak-readout-cap-is-an-a61025]]
 
 ## Notes
 N-OF-1 CALIBRATION: hr_raw CONFIRMED-grade, hrv PROMISING-BUT-FRAGILE, peak dead. Key discovery driving this arm: ALL 223 supabase rows are one subject (9e73d06e) — deployment is N-of-1 by construction; E11/E12's cross-population fitting was the wrong frame. Results (walk-forward, 5 expanding folds, min_train 60, E12 supa feature cache, CPU seconds): (1) hr_raw: OOS MAE 2.689 beats BOTH trivials (median-fwd 4.33, persistence 5.455) AND the production emission path on identical test rows (2.980), skill +1.641 CI[1.049,2.235], interior alphas, corr 0.747 — the campaign's first supabase-side beat of the emission path. (2) hrv_raw: skill vs persistence +1.322 CI[0.179,2.483], corr 0.703, shuffle clean — BUT skill concentrates in fold 5 (+4.02; folds1-4 +0.613 CI includes 0) and fold-5 alpha rails at grid edge even on extended grid (1e-6) — g2 blocking fail, honest read: suggestive, needs more days of data, not deployable claim. (3) hr_peak: nothing within-user either (skill +0.201 CI includes 0, alphas railed high = model gave up); combined with E11/E12, hr_peak L34 features appear to lack usable peak info under ALL fitting regimes tried — candidate rule-out after one more targeted look. ARCHITECTURE IMPLICATION for Anton: per-user linear heads reading L34 at value positions, continually refit on the user's accumulating history (RidgeCV, seconds of CPU), beat the frozen emission path for hr_raw NOW and plausibly hrv with more data. This is arm-B-shaped (eiv annotate merge) — needs Anton's sign-off, bring numbers not code. Artifacts: scratch/e13_nof1_head_calibration.py, logs/e13_nof1_head_calibration.json, alpha diag scratch/tmp_e13_alpha_diag.py.

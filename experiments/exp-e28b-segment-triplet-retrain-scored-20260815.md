@@ -15,6 +15,7 @@ config_note: "Runner: `eiv train phase-b` on both profiles, then scratch/e28_sco
   by subject, LOCAL avgmax read over tokens covering [epoch-120, epoch). Each arm
   scored against its OWN 24-permutation within-window shuffle null. hr_mean guard
   on 2972 windows / 186 subjects."
+cost: null
 crash_reason: ''
 created_at: '2026-08-15T09:34:59+00:00'
 diagnostics_measured:
@@ -58,6 +59,31 @@ gate_results:
 git_ref: ''
 hypothesis_id: hyp-e28-segment-triplet-retrain-20260815
 id: exp-e28b-segment-triplet-retrain-scored-20260815
+interpretation:
+  at: '2026-08-18T21:08:42+00:00'
+  failure_mode: claim_false
+  lesson: 'Fixing triplet SUPPLY does not create representation: with the single variable
+    being segment_triplets at W=120 (1000 steps, seed 42, both arms 4-bit precompute,
+    exit 0, 8000 triplets, 0 skipped), state AUC moved 0.5237 -> 0.5325 (+0.0089 against
+    a +0.05 bar) and — the real headline — BOTH arms score BELOW their own 24-permutation
+    within-window shuffle nulls (control 0.5237 vs null 0.5548 +/- 0.0319, z -0.98,
+    p 0.7917; intervention 0.5325 vs null 0.5482 +/- 0.0325, z -0.48, p 0.5833), so
+    the +0.0089 is a difference between two noise draws. The intervention was NOT
+    a no-op, which is what makes this informative: triplet loss 0.4776 vs 0.1831 (2.6x),
+    easy-triplet ratio 0.625 vs 0.375, dynamic margin driven to its 0.80 ceiling vs
+    0.12 — the miner worked and the encoder still learned nothing about state, so
+    the miner was not the binding defect. The signal is definitely in the data: on
+    the same 3226 rows / 87 subjects / 660 windows, shallow percentile features read
+    0.6329 vs null mean 0.5492 at z +3.41, p 0.0000. Do-no-harm passed (hr R2 0.9398
+    -> 0.9399), so ''the retrain broke the encoder'' is excluded. Do not re-run this
+    exact arm; the one untried direction is a SUPERVISED state head (cross-entropy
+    on the momentary label) rather than a 0.05-weighted auxiliary margin under InfoNCE-dominated
+    gradients.'
+  transfers_to:
+  - hyp-e27-encoder-on-transitions-20260815
+  - hyp-e22-encoder-representation-affect-20260815
+  - e29-state-geometry-innocent-weights-guilty-20260815
+  - hyp-e26-within-window-transitions-20260815
 key_numbers:
   control_hr_r2: 0.9398
   control_null_mean: 0.5548
@@ -93,6 +119,7 @@ prediction_match:
   per_diagnostic:
     eiv_affect_multichannel_increment: true
 provenance: {}
+recipe_fingerprint: {}
 verdict: 'null'
 ---
 
@@ -115,6 +142,13 @@ External run: logs/e28_score.json + logs/e28_segtrip_report.json + logs/e28_winc
 **Verdict:** null
 
 > POWERED NULL: the observed effect is smaller than the minimum detectable effect this run preregistered. The direction is noise, not evidence — read this as a refutation of the lever at the committed scale.
+
+## Interpretation
+**Failure mode:** `claim_false`
+
+Fixing triplet SUPPLY does not create representation: with the single variable being segment_triplets at W=120 (1000 steps, seed 42, both arms 4-bit precompute, exit 0, 8000 triplets, 0 skipped), state AUC moved 0.5237 -> 0.5325 (+0.0089 against a +0.05 bar) and — the real headline — BOTH arms score BELOW their own 24-permutation within-window shuffle nulls (control 0.5237 vs null 0.5548 +/- 0.0319, z -0.98, p 0.7917; intervention 0.5325 vs null 0.5482 +/- 0.0325, z -0.48, p 0.5833), so the +0.0089 is a difference between two noise draws. The intervention was NOT a no-op, which is what makes this informative: triplet loss 0.4776 vs 0.1831 (2.6x), easy-triplet ratio 0.625 vs 0.375, dynamic margin driven to its 0.80 ceiling vs 0.12 — the miner worked and the encoder still learned nothing about state, so the miner was not the binding defect. The signal is definitely in the data: on the same 3226 rows / 87 subjects / 660 windows, shallow percentile features read 0.6329 vs null mean 0.5492 at z +3.41, p 0.0000. Do-no-harm passed (hr R2 0.9398 -> 0.9399), so 'the retrain broke the encoder' is excluded. Do not re-run this exact arm; the one untried direction is a SUPERVISED state head (cross-entropy on the momentary label) rather than a 0.05-weighted auxiliary margin under InfoNCE-dominated gradients.
+
+Transfers to: [[hyp-e27-encoder-on-transitions-20260815]], [[hyp-e22-encoder-representation-affect-20260815]], [[e29-state-geometry-innocent-weights-guilty-20260815]], [[hyp-e26-within-window-transitions-20260815]]
 
 ## Key numbers
 - `control_hr_r2`: 0.9398

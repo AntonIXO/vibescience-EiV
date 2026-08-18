@@ -13,6 +13,7 @@ config_note: 'Runner: scratch/e24_lab_cohorts.py -> logs/e24_lab_cohorts.json. P
   Fixed to fall back to `val >= max` when median==max, and the realised rule plus
   positive rate are now printed for every cohort so a degenerate split cannot pass
   unnoticed.'
+cost: null
 crash_reason: ''
 created_at: '2026-08-15T07:41:49+00:00'
 diagnostics_measured:
@@ -35,6 +36,35 @@ gate_results:
 git_ref: ''
 hypothesis_id: hyp-e24-lab-protocol-subdaily-state-20260815
 id: exp-e24-lab-cohorts-20260815
+interpretation:
+  at: '2026-08-18T21:08:41+00:00'
+  failure_mode: null
+  lesson: 'Sub-daily state detection WORKS on this corpus, and the prior nulls were
+    about LABELS, not sensors or representation: with the feature builder IDENTICAL
+    to E16/E18 and subject-grouped GroupKFold throughout, WESAD (15 subjects, n=1749,
+    pos 0.118) reaches HR AUC 0.8497 at W=120 vs clock 0.5640 (+0.2654; W=15 0.7739,
+    W=30 0.7745, W=60 0.7994) and neuro_stress_resilience_hci (35 subjects, n=962,
+    pos 0.547) reaches 0.6806 vs clock 0.4930 (+0.1870). ''State detection is dead
+    on this corpus'' is retracted and dropping the state slot is withdrawn; the correct
+    scoping is that it FAILS on sparse in-the-wild self-report (lifesnaps/dryad) and
+    SUCCEEDS on dense induced-stress protocols. The sub-daily grid is NECESSARY, not
+    optional, for these cohorts — they have ZERO usable windows at W=1440 — which
+    is the first measured argument for shortening the window that survives its own
+    controls. The two negative cohorts are label artifacts, not physiology: wearable_exam_stress
+    has EVERY AUC below 0.5 (clock 0.2966-0.3788, hr 0.3921-0.4801, 10 subjects),
+    a systematic cross-subject inversion produced by median-splitting a session-constant
+    label; nurse_stress deltas run -0.0834 to -0.2020 because clock alone already
+    reaches 0.6358 against a 0.771 majority and 77% of events sit at the top level
+    forcing a `>= max` binarisation. HONEST LIMIT: an induced stressor against a quiet
+    baseline is the easiest possible discrimination (literature: 0.95-0.99 lab vs
+    0.55-0.75 in-the-wild cross-subject), so 0.85 licenses ''the pipeline CAN learn
+    state when labels carry a real effect'', not a deployment claim on optihealth_supabase,
+    which currently has ZERO state labels.'
+  transfers_to:
+  - hyp-e16-peri-ema-window-20260815
+  - hyp-e18-within-subject-state-20260815
+  - hyp-e22-encoder-representation-affect-20260815
+  - hyp-e26-within-window-transitions-20260815
 key_numbers:
   exam_stress_best_hr_auc: 0.4801
   exam_stress_clock_auc_w30: 0.2966
@@ -64,6 +94,7 @@ prediction_match:
   per_diagnostic:
     eiv_affect_multichannel_increment: true
 provenance: {}
+recipe_fingerprint: {}
 verdict: supports
 ---
 
@@ -81,6 +112,11 @@ External run: logs/e24_lab_cohorts.json
 - `g3_replicates_across_cohorts`: PASS
 
 **Verdict:** supports
+
+## Interpretation
+Sub-daily state detection WORKS on this corpus, and the prior nulls were about LABELS, not sensors or representation: with the feature builder IDENTICAL to E16/E18 and subject-grouped GroupKFold throughout, WESAD (15 subjects, n=1749, pos 0.118) reaches HR AUC 0.8497 at W=120 vs clock 0.5640 (+0.2654; W=15 0.7739, W=30 0.7745, W=60 0.7994) and neuro_stress_resilience_hci (35 subjects, n=962, pos 0.547) reaches 0.6806 vs clock 0.4930 (+0.1870). 'State detection is dead on this corpus' is retracted and dropping the state slot is withdrawn; the correct scoping is that it FAILS on sparse in-the-wild self-report (lifesnaps/dryad) and SUCCEEDS on dense induced-stress protocols. The sub-daily grid is NECESSARY, not optional, for these cohorts — they have ZERO usable windows at W=1440 — which is the first measured argument for shortening the window that survives its own controls. The two negative cohorts are label artifacts, not physiology: wearable_exam_stress has EVERY AUC below 0.5 (clock 0.2966-0.3788, hr 0.3921-0.4801, 10 subjects), a systematic cross-subject inversion produced by median-splitting a session-constant label; nurse_stress deltas run -0.0834 to -0.2020 because clock alone already reaches 0.6358 against a 0.771 majority and 77% of events sit at the top level forcing a `>= max` binarisation. HONEST LIMIT: an induced stressor against a quiet baseline is the easiest possible discrimination (literature: 0.95-0.99 lab vs 0.55-0.75 in-the-wild cross-subject), so 0.85 licenses 'the pipeline CAN learn state when labels carry a real effect', not a deployment claim on optihealth_supabase, which currently has ZERO state labels.
+
+Transfers to: [[hyp-e16-peri-ema-window-20260815]], [[hyp-e18-within-subject-state-20260815]], [[hyp-e22-encoder-representation-affect-20260815]], [[hyp-e26-within-window-transitions-20260815]]
 
 ## Key numbers
 - `exam_stress_best_hr_auc`: 0.4801

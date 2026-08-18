@@ -22,6 +22,7 @@ config_note: 'Runner: scratch/e19b_pooling_across_checkpoints.py. GPU RTX 5070. 
 
   NOTE: an earlier attempt was interrupted by a gateway restart after 5 of 6 checkpoints
   and never wrote its JSON; those numbers are not citable and this is the clean re-run.'
+cost: null
 crash_reason: ''
 created_at: '2026-08-14T22:58:13+00:00'
 diagnostics_measured:
@@ -44,6 +45,29 @@ gate_results:
 git_ref: ''
 hypothesis_id: hyp-e19b-pooling-recipe-level-20260815
 id: exp-e19b-pooling-recipe-level-20260815
+interpretation:
+  at: '2026-08-18T21:08:40+00:00'
+  failure_mode: null
+  lesson: 'The avg->max pooling gap is a RECIPE-level property, citable as ~+0.40
+    with a measured band, not a v5d-basin artifact: holding rows/split/control fixed
+    (n=4000, 77 subjects, control 0.0649) and varying only the checkpoint gives v5d
+    +0.3963, v5c +0.4142, v4w +0.4059, v4c +0.3998, 12ch_v3 +0.4420 — median +0.4059,
+    band width 0.0457, i.e. the effect is 8.9x the across-checkpoint band, across
+    different training runs, basins and dataset allowlists. Both arms are individually
+    stable (avg +0.2441..+0.2807 band 0.0366; max +0.6674..+0.6860 band 0.0186), and
+    the readout-artifact explanation is dead: refitting identical avg and max readouts
+    on row-shuffled targets scores -0.0001..+0.0018 across all 10 fits. Two scope
+    limits to carry forward: 12ch_v2 was SKIPPED not measured (patch_len 8 / stride
+    4 -> 359 tokens, ~24.7 GiB, OOM-killed twice before a MAX_TOKEN_GIB guard was
+    added), so the gap at 359 tokens is UNTESTED — though E17 already measured 144
+    tokens as worse than 23 at every operator; and this remains a linear probe, so
+    end-to-end LM consumption on deployment metrics across >=3 seeds is still the
+    required next measurement.'
+  transfers_to:
+  - hyp-e19-encoder-pooling-transfer-20260815
+  - hyp-e17-unified-readout-operator-20260815
+  - e4-encoder-excursion-avgmax-20260813
+  - hyp-e6-peak-maxpool-readout-20260814
 key_numbers:
   avg_arm_band_width: 0.0366
   effect_to_band_ratio: 8.9
@@ -72,6 +96,7 @@ prediction_match:
   per_diagnostic:
     eiv_peak_excursion_increment_r2: true
 provenance: {}
+recipe_fingerprint: {}
 verdict: supports
 ---
 
@@ -89,6 +114,11 @@ External run: logs/e19b_pooling_across_checkpoints.json
 - `g3_report_gap_band`: PASS
 
 **Verdict:** supports
+
+## Interpretation
+The avg->max pooling gap is a RECIPE-level property, citable as ~+0.40 with a measured band, not a v5d-basin artifact: holding rows/split/control fixed (n=4000, 77 subjects, control 0.0649) and varying only the checkpoint gives v5d +0.3963, v5c +0.4142, v4w +0.4059, v4c +0.3998, 12ch_v3 +0.4420 — median +0.4059, band width 0.0457, i.e. the effect is 8.9x the across-checkpoint band, across different training runs, basins and dataset allowlists. Both arms are individually stable (avg +0.2441..+0.2807 band 0.0366; max +0.6674..+0.6860 band 0.0186), and the readout-artifact explanation is dead: refitting identical avg and max readouts on row-shuffled targets scores -0.0001..+0.0018 across all 10 fits. Two scope limits to carry forward: 12ch_v2 was SKIPPED not measured (patch_len 8 / stride 4 -> 359 tokens, ~24.7 GiB, OOM-killed twice before a MAX_TOKEN_GIB guard was added), so the gap at 359 tokens is UNTESTED — though E17 already measured 144 tokens as worse than 23 at every operator; and this remains a linear probe, so end-to-end LM consumption on deployment metrics across >=3 seeds is still the required next measurement.
+
+Transfers to: [[hyp-e19-encoder-pooling-transfer-20260815]], [[hyp-e17-unified-readout-operator-20260815]], [[e4-encoder-excursion-avgmax-20260813]], [[hyp-e6-peak-maxpool-readout-20260814]]
 
 ## Key numbers
 - `avg_arm_band_width`: 0.0366

@@ -16,6 +16,7 @@ config_note: 'Runner: scratch/e19_encoder_pooling.py. GPU RTX 5070, ~1 min. Ran 
   Pool n=4000, 77 subjects, identical filter/seed to exp-e17 task_a so the two are
   directly comparable. Excursion mean 61.33 std 20.69 bpm. Control R2(excursion |
   true daily mean) = +0.0649, identical to E17 by construction.'
+cost: null
 crash_reason: ''
 created_at: '2026-08-14T22:28:12+00:00'
 diagnostics_measured:
@@ -35,6 +36,31 @@ gate_results:
 git_ref: ''
 hypothesis_id: hyp-e19-encoder-pooling-transfer-20260815
 id: exp-e19-encoder-pooling-20260815
+interpretation:
+  at: '2026-08-18T21:08:40+00:00'
+  failure_mode: null
+  lesson: 'E17''s raw-patch pooling result TRANSFERS to the real trained encoder and
+    transfers STRONGER: on v5d Phase-B tokens ([4000, 24, 23, 192], strict weight
+    load, 77 subjects), excursion increment over the daily-mean control (0.0649) is
+    avg +0.2807 (what production does today) -> max +0.6771 -> avgmax +0.6849 -> lse
+    +0.5116, a +0.4042 gap that is eight times the preregistered +0.05 bar and larger
+    than E17''s +0.3515 raw-patch bound. The dimensionality confound is ELIMINATED
+    — max reaches +0.6771 at identical dim 4608 to avg, so the dim-controlled gap
+    is +0.3964, essentially the whole effect; and the H4b worry that mean-caption
+    InfoNCE had already destroyed spread upstream is measured false, since the encoder
+    concentrates excursion (avg +0.2807 vs raw-patch avg +0.0090) and it is adaptive_avg_pool2d
+    that discards it. Act on this as a code change, not a data change — but note the
+    scope: this is a LINEAR PROBE on pooled tokens and does not establish the frozen
+    LM will consume the signal at generation, so the next arm must be an end-to-end
+    retrain across >=3 seeds scored on eiv_supabase_hr_raw_mae_bpm (trivial 4.02)
+    and recording eiv_peak_vram_gib against the 11.25 GiB ceiling, since avgmax doubles
+    projector input width 4608 -> 9216 (max-only is the equal-dim fallback).'
+  transfers_to:
+  - hyp-e17-unified-readout-operator-20260815
+  - hyp-e19b-pooling-recipe-level-20260815
+  - e4-encoder-excursion-avgmax-20260813
+  - hyp-e6-peak-maxpool-readout-20260814
+  - h4b-supersedes-h4-sharpened-from-add-82c23a
 key_numbers:
   encoder_avg_INCUMBENT: 0.2807
   encoder_avgmax_BEST: 0.6849
@@ -56,6 +82,7 @@ prediction_match:
   per_diagnostic:
     eiv_peak_excursion_increment_r2: true
 provenance: {}
+recipe_fingerprint: {}
 verdict: supports
 ---
 
@@ -72,6 +99,11 @@ External run: logs/e19_encoder_pooling.json
 - `g2_gap_vs_raw_patch_bound`: PASS
 
 **Verdict:** supports
+
+## Interpretation
+E17's raw-patch pooling result TRANSFERS to the real trained encoder and transfers STRONGER: on v5d Phase-B tokens ([4000, 24, 23, 192], strict weight load, 77 subjects), excursion increment over the daily-mean control (0.0649) is avg +0.2807 (what production does today) -> max +0.6771 -> avgmax +0.6849 -> lse +0.5116, a +0.4042 gap that is eight times the preregistered +0.05 bar and larger than E17's +0.3515 raw-patch bound. The dimensionality confound is ELIMINATED — max reaches +0.6771 at identical dim 4608 to avg, so the dim-controlled gap is +0.3964, essentially the whole effect; and the H4b worry that mean-caption InfoNCE had already destroyed spread upstream is measured false, since the encoder concentrates excursion (avg +0.2807 vs raw-patch avg +0.0090) and it is adaptive_avg_pool2d that discards it. Act on this as a code change, not a data change — but note the scope: this is a LINEAR PROBE on pooled tokens and does not establish the frozen LM will consume the signal at generation, so the next arm must be an end-to-end retrain across >=3 seeds scored on eiv_supabase_hr_raw_mae_bpm (trivial 4.02) and recording eiv_peak_vram_gib against the 11.25 GiB ceiling, since avgmax doubles projector input width 4608 -> 9216 (max-only is the equal-dim fallback).
+
+Transfers to: [[hyp-e17-unified-readout-operator-20260815]], [[hyp-e19b-pooling-recipe-level-20260815]], [[e4-encoder-excursion-avgmax-20260813]], [[hyp-e6-peak-maxpool-readout-20260814]], [[h4b-supersedes-h4-sharpened-from-add-82c23a]]
 
 ## Key numbers
 - `encoder_avg_INCUMBENT`: 0.2807

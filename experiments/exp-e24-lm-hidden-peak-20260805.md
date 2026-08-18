@@ -9,6 +9,7 @@ config_note: E24 hidden-state probe on adapter outputs/adapters/medgemma_12ch_e2
   steps, daily mean>40, coverage>0.9). RidgeCV 70/30 seed 0, with mandatory increment-over-true-mean
   control, hr_raw positive control, and shuffled-target null. NO training run, NO
   generation.
+cost: null
 crash_reason: ''
 created_at: '2026-08-05T17:54:39+00:00'
 diagnostics_measured:
@@ -81,6 +82,36 @@ gate_results:
 git_ref: ''
 hypothesis_id: the-hr-peak-failure-is-a-readout-965f58
 id: exp-e24-lm-hidden-peak-20260805
+interpretation:
+  at: '2026-08-18T21:08:41+00:00'
+  failure_mode: null
+  lesson: 'The hr_peak defect is localised to the READOUT, not the representation
+    and not the forward pass: on adapter medgemma_12ch_e23v2 the peak is linearly
+    present in the residual stream at the exact token that emits it, R2 0.6850 vs
+    level control 0.0665 (increment +0.6185) under a NEUTRAL uninformative context
+    at n=600, with a donor-prefix null of -0.0014 (per-sample prefix effect +0.6864)
+    and shuffled-target nulls -0.0125/-0.0034 — yet the emitted value has NEGATIVE
+    skill against an always-predict-median constant (-5.88 bpm). Cite +0.6185, NOT
+    the preregistered +0.7476 (R2 0.8029, n=900), which is withdrawn as leakage: teacher-forcing
+    the answer prefix to place the read head supplies the true bucket label and true
+    hr_raw digits, and zeroing the soft-token prefix entirely still scores 0.7560,
+    so (A-B) was only +0.0253. Apparatus is sound — L0 recovers nothing (-0.0145 hr_raw,
+    -0.0675 increment) and both slots peak by L8, with the hr_raw positive control
+    at R2 0.9905 teacher-forced and 0.9701 neutral. This makes LoRA on the LM head
+    / final layers (currently absent from DEFAULT_TARGET_MODULES) the mechanistically
+    targeted arm rather than the next untried lever. Two limits before over-reading:
+    presence under a free-scale linear probe is not usability by a frozen head, and
+    hr_raw sits at 0.9905/0.9701 while hr_peak sits at 0.8029/0.6850 at the SAME position
+    while only hr_raw generates — so probe R2 does not by itself predict generation
+    quality. Measured on ONE checkpoint; mechanism evidence is not inheritable across
+    checkpoints. Gate-design lesson: conjoining a REDUNDANCY test (A-B) with a PRESENCE
+    test was wrong — when the context already reconstructs the target at 0.756, no
+    second source can add much regardless of what it carries.'
+  transfers_to:
+  - hyp-e9-lmhead-lora-20260814
+  - hyp-e8-lm-readout-transfer-20260814
+  - hyp-e7-projector-bottleneck-20260814
+  - hyp-eiv-boost-categorical-slot-signal-20260805
 key_numbers: {}
 observed_effects:
 - delta: 0.6185
@@ -93,6 +124,7 @@ prediction_match:
     eiv_gen_peak_corr: false
     eiv_lm_hidden_peak_r2: true
 provenance: {}
+recipe_fingerprint: {}
 verdict: supports
 ---
 
@@ -123,6 +155,11 @@ Independently confirmed under the neutral-context condition in E24c: arm C recov
 Additional null not required by the gate but measured: arm E (donor prefix + neutral context) = -0.0014, and arm D (donor prefix + true context) = 0.7526 vs arm A 0.7813. The D/A comparison shows the true-context configuration is almost entirely donor-insensitive, which is the same leakage the B arm exposed.
 
 **Verdict:** supports
+
+## Interpretation
+The hr_peak defect is localised to the READOUT, not the representation and not the forward pass: on adapter medgemma_12ch_e23v2 the peak is linearly present in the residual stream at the exact token that emits it, R2 0.6850 vs level control 0.0665 (increment +0.6185) under a NEUTRAL uninformative context at n=600, with a donor-prefix null of -0.0014 (per-sample prefix effect +0.6864) and shuffled-target nulls -0.0125/-0.0034 — yet the emitted value has NEGATIVE skill against an always-predict-median constant (-5.88 bpm). Cite +0.6185, NOT the preregistered +0.7476 (R2 0.8029, n=900), which is withdrawn as leakage: teacher-forcing the answer prefix to place the read head supplies the true bucket label and true hr_raw digits, and zeroing the soft-token prefix entirely still scores 0.7560, so (A-B) was only +0.0253. Apparatus is sound — L0 recovers nothing (-0.0145 hr_raw, -0.0675 increment) and both slots peak by L8, with the hr_raw positive control at R2 0.9905 teacher-forced and 0.9701 neutral. This makes LoRA on the LM head / final layers (currently absent from DEFAULT_TARGET_MODULES) the mechanistically targeted arm rather than the next untried lever. Two limits before over-reading: presence under a free-scale linear probe is not usability by a frozen head, and hr_raw sits at 0.9905/0.9701 while hr_peak sits at 0.8029/0.6850 at the SAME position while only hr_raw generates — so probe R2 does not by itself predict generation quality. Measured on ONE checkpoint; mechanism evidence is not inheritable across checkpoints. Gate-design lesson: conjoining a REDUNDANCY test (A-B) with a PRESENCE test was wrong — when the context already reconstructs the target at 0.756, no second source can add much regardless of what it carries.
+
+Transfers to: [[hyp-e9-lmhead-lora-20260814]], [[hyp-e8-lm-readout-transfer-20260814]], [[hyp-e7-projector-bottleneck-20260814]], [[hyp-eiv-boost-categorical-slot-signal-20260805]]
 
 ## Notes
 RESULT: the hr_peak failure is localised to the READOUT. All three preregistered gates pass, but READ THE METHOD CAVEAT -- my own headline number was an artifact and I withdrew it.

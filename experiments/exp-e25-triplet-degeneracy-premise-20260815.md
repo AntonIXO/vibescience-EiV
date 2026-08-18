@@ -18,6 +18,7 @@ config_note: 'Runner: scratch/e25_triplet_degeneracy_premise.py -> logs/e25_trip
   thresholds are taken from the PROBLEM RECORD''s own prior claims (0.991 single-state,
   100% purity), not chosen after seeing the result. Recorded as a post-hoc formalisation
   rather than presented as a blind preregistration.'
+cost: null
 crash_reason: ''
 created_at: '2026-08-15T07:46:10+00:00'
 diagnostics_measured:
@@ -40,6 +41,27 @@ gate_results:
 git_ref: ''
 hypothesis_id: hyp-e25-triplet-degeneracy-fixed-20260815
 id: exp-e25-triplet-degeneracy-premise-20260815
+interpretation:
+  at: '2026-08-18T21:08:41+00:00'
+  failure_mode: claim_false
+  lesson: 'Read the headline, not the verdict: ''refutes'' here refers to the PARKED
+    PROBLEM''s two blocking premises being false, and both preregistered gates PASSED
+    (the mechanical refutation comes from the tracked diagnostic moving down, 0.991
+    -> 0.8194). Claim 1 ''99.1% of windows carry a single state'' is false — of 7054
+    labelled windows (62.33% of 11318 samples) 5780 carry one state, 1175 two and
+    99 three, i.e. 1274 transition-bearing windows = 18.06%, a ~20x increase over
+    the ~0.9% implied. Claim 2 ''100%-pure dataset identifier'' is false — flow spans
+    6 datasets at purity 0.5455 (n=2858) and stress spans 8 at 0.4751 (n=2387), so
+    roughly half of same-state positive pairs are cross-dataset and the triplet margin
+    is no longer forced to encode provenance; the per-epoch series is strictly broader
+    than the day-reduced label (flow 4->6, stress 7->8 datasets), so majority-collapsing
+    was destroying supply. This is a LABEL-SUPPLY measurement only: it licenses a
+    Phase B triplet arm as non-vacuous, it does not predict that retraining helps
+    (and exp-e28b later showed it does not).'
+  transfers_to:
+  - hyp-e26-within-window-transitions-20260815
+  - hyp-e28-segment-triplet-retrain-20260815
+  - hyp-e24-lab-protocol-subdaily-state-20260815
 key_numbers:
   day_flow_n_datasets: 4.0
   day_flow_purity: 0.6045
@@ -71,6 +93,7 @@ prediction_match:
   per_diagnostic:
     eiv_affect_multichannel_increment: false
 provenance: {}
+recipe_fingerprint: {}
 verdict: refutes
 ---
 
@@ -88,6 +111,13 @@ External run: logs/e25_triplet_degeneracy_premise.json
 - `g2_states_span_multiple_datasets`: PASS
 
 **Verdict:** refutes
+
+## Interpretation
+**Failure mode:** `claim_false`
+
+Read the headline, not the verdict: 'refutes' here refers to the PARKED PROBLEM's two blocking premises being false, and both preregistered gates PASSED (the mechanical refutation comes from the tracked diagnostic moving down, 0.991 -> 0.8194). Claim 1 '99.1% of windows carry a single state' is false — of 7054 labelled windows (62.33% of 11318 samples) 5780 carry one state, 1175 two and 99 three, i.e. 1274 transition-bearing windows = 18.06%, a ~20x increase over the ~0.9% implied. Claim 2 '100%-pure dataset identifier' is false — flow spans 6 datasets at purity 0.5455 (n=2858) and stress spans 8 at 0.4751 (n=2387), so roughly half of same-state positive pairs are cross-dataset and the triplet margin is no longer forced to encode provenance; the per-epoch series is strictly broader than the day-reduced label (flow 4->6, stress 7->8 datasets), so majority-collapsing was destroying supply. This is a LABEL-SUPPLY measurement only: it licenses a Phase B triplet arm as non-vacuous, it does not predict that retraining helps (and exp-e28b later showed it does not).
+
+Transfers to: [[hyp-e26-within-window-transitions-20260815]], [[hyp-e28-segment-triplet-retrain-20260815]], [[hyp-e24-lab-protocol-subdaily-state-20260815]]
 
 ## Key numbers
 - `day_flow_n_datasets`: 4

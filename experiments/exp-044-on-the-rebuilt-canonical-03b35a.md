@@ -25,6 +25,7 @@ config_note: 'GPU: RTX 5070 (11.5 GiB usable). Corpus data/canonical [10338,1440
 
   Text-embedding caches are keyed on tensor sha256 + dataset_filter, so the rebuild
   invalidates all of them and each arm recomputes its own - expected cost, not a fault.'
+cost: null
 crash_reason: ''
 created_at: '2026-08-08T12:39:07+00:00'
 diagnostics_measured:
@@ -123,6 +124,33 @@ gate_results:
 git_ref: ''
 hypothesis_id: on-the-rebuilt-canonical-corpus-commits-4ae088
 id: exp-044-on-the-rebuilt-canonical-03b35a
+interpretation:
+  at: '2026-08-18T21:08:38+00:00'
+  failure_mode: noise
+  lesson: 'Propagating one repaired 6-dataset allowlist through all three phases on
+    the rebuilt corpus (n=5889, 127 subjects, single seed 42 both arms) produced NO
+    EVIDENCE OF DIFFERENCE: peak-excursion increment +0.4350 (v4w) vs +0.4102 (v4c)
+    = +0.0249 against a >= +0.03 bar and well inside the documented 0.066 single-seed
+    band, with linear and nonlinear increments moving in OPPOSITE directions at both
+    phases (A -0.0179/+0.0523; B +0.0249/-0.0477). Do not retry the dataset allowlist
+    as a lever without new evidence — the coverage justification survives (HR coverage
+    0.022-0.157, zero strict-clean days, 93 samples = 0.9% of corpus) but the Phase-B
+    mechanism story was FABRICATED: state_label is not a key in sample_metadata.json
+    across all 10338 records, so the reported ''99.0% NONE / dataset-pure states''
+    was a uniform default; measured truth is neutral 47.5% / stress 32.3% / flow 20.2%
+    with 5427 samples (52.5%) carrying a usable non-neutral anchor and no state dataset-pure.
+    The separable, durable finding outranks the allowlist question entirely: on the
+    SAME v4w checkpoint a p1 linear probe reads hr_r2 0.9672 / MAE 1.134 bpm against
+    a trivial always-median MAE of 16.954, yet generated HR buckets score -0.1719
+    (v4w) and -0.2031 (v4c) BELOW an always-majority constant of 0.7734 on 128 rows
+    — a DECODING failure, not a representation failure, which also makes every Phase-C
+    delta in this run untrustworthy in either direction including the +3.1 points
+    favouring the intervention.'
+  transfers_to:
+  - h1-dataset-allowlist-repairing-the-per-93cde5
+  - h1b-reopened-and-this-time-it-tests-the-98f8db
+  - h5-the-shortcut-is-the-coverage-2aaaa0
+  - v4w-s-genuine-deployment-advantage-9d4fbf
 key_numbers: {}
 observed_effects:
 - delta: 0.0248
@@ -146,6 +174,7 @@ prediction_match:
     eiv_heldout_hr_r2: false
     eiv_peak_excursion_increment_r2: true
 provenance: {}
+recipe_fingerprint: {}
 verdict: directional_only
 ---
 
@@ -168,6 +197,13 @@ Tests hypothesis [[on-the-rebuilt-canonical-corpus-commits-4ae088]].
 **Verdict:** directional_only
 
 > Direction matched, but a preregistered blocking gate did NOT pass. This does not establish the claim.
+
+## Interpretation
+**Failure mode:** `noise`
+
+Propagating one repaired 6-dataset allowlist through all three phases on the rebuilt corpus (n=5889, 127 subjects, single seed 42 both arms) produced NO EVIDENCE OF DIFFERENCE: peak-excursion increment +0.4350 (v4w) vs +0.4102 (v4c) = +0.0249 against a >= +0.03 bar and well inside the documented 0.066 single-seed band, with linear and nonlinear increments moving in OPPOSITE directions at both phases (A -0.0179/+0.0523; B +0.0249/-0.0477). Do not retry the dataset allowlist as a lever without new evidence — the coverage justification survives (HR coverage 0.022-0.157, zero strict-clean days, 93 samples = 0.9% of corpus) but the Phase-B mechanism story was FABRICATED: state_label is not a key in sample_metadata.json across all 10338 records, so the reported '99.0% NONE / dataset-pure states' was a uniform default; measured truth is neutral 47.5% / stress 32.3% / flow 20.2% with 5427 samples (52.5%) carrying a usable non-neutral anchor and no state dataset-pure. The separable, durable finding outranks the allowlist question entirely: on the SAME v4w checkpoint a p1 linear probe reads hr_r2 0.9672 / MAE 1.134 bpm against a trivial always-median MAE of 16.954, yet generated HR buckets score -0.1719 (v4w) and -0.2031 (v4c) BELOW an always-majority constant of 0.7734 on 128 rows — a DECODING failure, not a representation failure, which also makes every Phase-C delta in this run untrustworthy in either direction including the +3.1 points favouring the intervention.
+
+Transfers to: [[h1-dataset-allowlist-repairing-the-per-93cde5]], [[h1b-reopened-and-this-time-it-tests-the-98f8db]], [[h5-the-shortcut-is-the-coverage-2aaaa0]], [[v4w-s-genuine-deployment-advantage-9d4fbf]]
 
 ## Notes
 CLOSED 2026-08-08. Code: git 32b0ae3 on branch fix/soft-token-norm-scale.

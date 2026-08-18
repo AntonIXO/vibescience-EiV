@@ -15,6 +15,7 @@ config_note: 'CPU/GPU probe, no training. Repo /root/optiHealth-EiV, commit b34e
   patch_len=120/stride=60 grid, zero learned parameters), enc_token (9216 feats, trained
   encoder tokens, same covering patches, same avgmax pool). Each arm scored against
   its OWN 24-permutation within-window shuffle null. Label supply counted via src.training.datasets.state_series.'
+cost: null
 crash_reason: ''
 created_at: '2026-08-15T10:20:39+00:00'
 diagnostics_measured:
@@ -56,6 +57,32 @@ gate_results:
 git_ref: ''
 hypothesis_id: e29-state-geometry-innocent-weights-guilty-20260815
 id: exp-e29-state-localisation-20260815
+interpretation:
+  at: '2026-08-18T21:08:43+00:00'
+  failure_mode: null
+  lesson: 'Momentary state IS linearly present in the encoder''s INPUT geometry and
+    is destroyed by its trained weights: raw canonical HR read on the encoder''s own
+    patch grid (patch_len=120/stride=60, 8 features, ZERO learned parameters) scores
+    AUC 0.6309 vs its own 24-perm within-window null 0.5189 (z +2.66, perm p 0.0),
+    essentially matching the 15-feature shallow arm 0.6430 (gap only 0.0121), while
+    the same geometry pushed through the InfoNCE-trained encoder collapses to 0.5202
+    BELOW its own null 0.5495 (z -0.84, perm p 0.7917), on n=3226 epochs / 87 subjects
+    / 660 transition windows, pos rate 0.481. Patching is innocent, the trained weights
+    are guilty, so a supervised state head is justified rather than dead on arrival.
+    Two operational rules follow: NEVER quote a bare AUC on this task because the
+    shuffle null is not 0.5 and RISES with dimensionality (0.5189 at 8 feats -> 0.5495
+    at 9216 feats), which retro-demotes exp-e28''s 0.5237/0.5325 to below-null; and
+    label SUPPLY is not the constraint (77081 state-labelled epochs over 281 subjects)
+    but CLASS IMBALANCE is (neutral 62053 = 80.5%, stress 10297, flow 4731). Caveat
+    the record states itself: this shows the geometry CAN carry state under a RandomForest
+    on 8 hand-built features, not that a head trained through the encoder will reach
+    it or that the LM will consume it at generation.'
+  transfers_to:
+  - hyp-e28-segment-triplet-retrain-20260815
+  - hyp-e26-within-window-transitions-20260815
+  - hyp-e22-encoder-representation-affect-20260815
+  - hyp-e19-encoder-pooling-transfer-20260815
+  - hyp-e18-within-subject-state-20260815
 key_numbers:
   enc_token_auc: 0.5202
   enc_token_dim: 9216.0
@@ -94,6 +121,7 @@ prediction_match:
   per_diagnostic:
     eiv_momentary_state_auc_over_null: false
 provenance: {}
+recipe_fingerprint: {}
 verdict: supports
 ---
 
@@ -108,6 +136,11 @@ Tests hypothesis [[e29-state-geometry-innocent-weights-guilty-20260815]].
 - `g2_encoder_tokens_reproduce_e28_null`: PASS
 
 **Verdict:** supports
+
+## Interpretation
+Momentary state IS linearly present in the encoder's INPUT geometry and is destroyed by its trained weights: raw canonical HR read on the encoder's own patch grid (patch_len=120/stride=60, 8 features, ZERO learned parameters) scores AUC 0.6309 vs its own 24-perm within-window null 0.5189 (z +2.66, perm p 0.0), essentially matching the 15-feature shallow arm 0.6430 (gap only 0.0121), while the same geometry pushed through the InfoNCE-trained encoder collapses to 0.5202 BELOW its own null 0.5495 (z -0.84, perm p 0.7917), on n=3226 epochs / 87 subjects / 660 transition windows, pos rate 0.481. Patching is innocent, the trained weights are guilty, so a supervised state head is justified rather than dead on arrival. Two operational rules follow: NEVER quote a bare AUC on this task because the shuffle null is not 0.5 and RISES with dimensionality (0.5189 at 8 feats -> 0.5495 at 9216 feats), which retro-demotes exp-e28's 0.5237/0.5325 to below-null; and label SUPPLY is not the constraint (77081 state-labelled epochs over 281 subjects) but CLASS IMBALANCE is (neutral 62053 = 80.5%, stress 10297, flow 4731). Caveat the record states itself: this shows the geometry CAN carry state under a RandomForest on 8 hand-built features, not that a head trained through the encoder will reach it or that the LM will consume it at generation.
+
+Transfers to: [[hyp-e28-segment-triplet-retrain-20260815]], [[hyp-e26-within-window-transitions-20260815]], [[hyp-e22-encoder-representation-affect-20260815]], [[hyp-e19-encoder-pooling-transfer-20260815]], [[hyp-e18-within-subject-state-20260815]]
 
 ## Key numbers
 - `enc_token_auc`: 0.5202

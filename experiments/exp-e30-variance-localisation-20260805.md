@@ -17,6 +17,7 @@ config_note: 'One GPU extraction pass, NO training, ~40 min on RTX 5070. Adapter
   gemma_runtime.py:373); verified at n=12 that S1 alignment then matches S0 to 4 decimals.
   Script scratch/probe_e30_variance_localisation.py, decision rule in docstring, smoke-tested
   twice. Committed to branch (b) before running.'
+cost: null
 crash_reason: ''
 created_at: '2026-08-05T21:42:06+00:00'
 diagnostics_measured:
@@ -108,6 +109,34 @@ gate_results:
 git_ref: ''
 hypothesis_id: the-hr-peak-signal-enters-the-lm-well-ba9dd9
 id: exp-e30-variance-localisation-20260805
+interpretation:
+  at: '2026-08-18T21:08:43+00:00'
+  failure_mode: test_invalid
+  lesson: 'The preregistered PRIMARY statistic was the wrong instrument and the run''s
+    real answer came from its secondary sweep, so read this record for the decodability
+    numbers and ignore the alignment ones. Signal-variance alignment (variance-weighted
+    mean |corr(PC_i,y)| over the top 50 PCs) is uniformly LOW and NON-monotone at
+    every stage - S0 0.1602, S1 0.1602, L8 0.1143, L17 0.1680 (the series maximum,
+    above S0), L25 0.1176, L34 0.1033 - against a preregistered bar of >0.30 declining
+    monotonically; a variance-weighted average over leading components is structurally
+    blind to the high-rank low-variance directions this signal lives in, so NEVER
+    preregister it for this question again. Full-dimensional RidgeCV decodability
+    in the SAME run (n=1000, 700/300, SEED 0) is monotone and decision-relevant: S0
+    projector 7.605, S1 7.608, L8 9.026, L17 9.723, L25 10.159, L34 emission position
+    10.270 bpm, against always-predict-median 18.492 - the frozen forward pass costs
+    2.665 bpm. Donor arms 19.222-19.441 and shuffled arms 19.181-19.732 at every k
+    at every stage, both worse than a constant and neither improving with k, and the
+    L34 anchor reproduces exp-e29 exactly (10.270/10.270, k=3 18.407/18.407). ACTIONABLE:
+    the representation ENTERING the LM (7.605) is materially better than the record
+    assumed, and every E24-E29 number measured at/after the emission position measured
+    a degraded copy - re-site readout-side levers accordingly. Scope: fitted readouts
+    on FROZEN features, mean-pooled over 96 slots; this bounds what each stage permits,
+    not what training finds.'
+  transfers_to:
+  - the-hr-peak-signal-at-the-projector-4aa472
+  - the-hr-peak-failure-is-a-readout-965f58
+  - hyp-e7-projector-bottleneck-20260814
+  - hyp-e8-lm-readout-transfer-20260814
 key_numbers: {}
 observed_effects:
 - delta: 2.665
@@ -119,6 +148,7 @@ prediction_match:
   per_diagnostic:
     eiv_peak_excursion_increment_r2: false
 provenance: {}
+recipe_fingerprint: {}
 verdict: inconclusive
 ---
 
@@ -140,6 +170,13 @@ CRITICALLY, the alignment statistic turned out to be the wrong summary, and the 
 - `gate-scope-alignment-is-descriptive`: PASS — HONOURED, and this experiment demonstrated exactly why the caveat was needed -- in an unexpected way. The alignment statistic I preregistered as PRIMARY proved to be a poor summary: it is uniformly low (0.10-0.17) at every stage and non-monotone, while the full-dimensional decodability in the SAME run declines cleanly and monotonically (7.605 -> 10.270 bpm). A variance-weighted mean of |corr| over the top 50 PCs compresses away precisely the high-rank low-variance structure that e29 showed carries this signal, so it was the wrong instrument for this question even though it was the instrument I committed to. The decodability trajectory is reported as the substantive result and the alignment trajectory is reported as a failed summary statistic, not quietly swapped. Standing caveats reaffirmed: these are FITTED readouts on FROZEN features; the trajectory shows WHERE decodability is lost, not that restoring it would restore generation quality; S0 and S1 are mean-pooled summaries and a per-slot analysis could differ.
 
 **Verdict:** inconclusive
+
+## Interpretation
+**Failure mode:** `test_invalid`
+
+The preregistered PRIMARY statistic was the wrong instrument and the run's real answer came from its secondary sweep, so read this record for the decodability numbers and ignore the alignment ones. Signal-variance alignment (variance-weighted mean |corr(PC_i,y)| over the top 50 PCs) is uniformly LOW and NON-monotone at every stage - S0 0.1602, S1 0.1602, L8 0.1143, L17 0.1680 (the series maximum, above S0), L25 0.1176, L34 0.1033 - against a preregistered bar of >0.30 declining monotonically; a variance-weighted average over leading components is structurally blind to the high-rank low-variance directions this signal lives in, so NEVER preregister it for this question again. Full-dimensional RidgeCV decodability in the SAME run (n=1000, 700/300, SEED 0) is monotone and decision-relevant: S0 projector 7.605, S1 7.608, L8 9.026, L17 9.723, L25 10.159, L34 emission position 10.270 bpm, against always-predict-median 18.492 - the frozen forward pass costs 2.665 bpm. Donor arms 19.222-19.441 and shuffled arms 19.181-19.732 at every k at every stage, both worse than a constant and neither improving with k, and the L34 anchor reproduces exp-e29 exactly (10.270/10.270, k=3 18.407/18.407). ACTIONABLE: the representation ENTERING the LM (7.605) is materially better than the record assumed, and every E24-E29 number measured at/after the emission position measured a degraded copy - re-site readout-side levers accordingly. Scope: fitted readouts on FROZEN features, mean-pooled over 96 slots; this bounds what each stage permits, not what training finds.
+
+Transfers to: [[the-hr-peak-signal-at-the-projector-4aa472]], [[the-hr-peak-failure-is-a-readout-965f58]], [[hyp-e7-projector-bottleneck-20260814]], [[hyp-e8-lm-readout-transfer-20260814]]
 
 ## Notes
 MY BRANCH-(b) PREDICTION FAILED, THE PREREGISTERED PRIMARY STATISTIC WAS THE WRONG INSTRUMENT, AND THE RANK SWEEP IN THE SAME RUN ANSWERED THE QUESTION ANYWAY. All three facts are recorded; none is swapped quietly for another.

@@ -20,6 +20,7 @@ config_note: 'Runner: scratch/e23_power_check.py -> logs/e23_power_check.json. P
 
   This answers a question E18 never asked: given ~10-40 pings per subject at 12.4%
   positive (2-5 positives in a held-out tail), what effect size can this design RECOVER?'
+cost: null
 crash_reason: ''
 created_at: '2026-08-15T07:39:55+00:00'
 diagnostics_measured:
@@ -39,6 +40,33 @@ gate_results:
 git_ref: ''
 hypothesis_id: hyp-e18-within-subject-state-20260815
 id: exp-e23-power-check-20260815
+interpretation:
+  at: '2026-08-18T21:08:41+00:00'
+  failure_mode: test_invalid
+  lesson: 'SYNTHETIC-CONTROL POWER CHECK — this measures what E18''s DESIGN can recover,
+    not biology, and its real content is that E18''s question is UNTESTED rather than
+    answered (note the mechanical verdict reads ''refutes'', but what it refutes is
+    E18''s ''POWERED NULL'' label, not the within-subject-state claim). Planting a
+    real effect into E18''s exact design (same 40 lifesnaps subjects, W=480, per-subject
+    forward-chaining walk-forward, RF(200, min_samples_leaf=3), MIN_PINGS=25/MIN_TEST=10,
+    base rate held at 12.4%) gives the recovery curve: true oracle AUC 0.5898 -> median
+    skill -0.0375 (frac>0 0.375); oracle 0.6667 -> -0.0015 (0.425); oracle 0.7412
+    -> +0.0741 (0.725); oracle 0.8125 -> +0.1736 (0.875). A genuinely useful 0.6667-AUC
+    detector therefore RECOVERS as -0.0015, indistinguishable from E18''s observed
+    +0.0037, so E18''s true MDE is ~0.72 ORACLE AUC, not the asserted ''+0.05 skill''.
+    With a median of only 6-8 positives in each held-out tail, maximising over three
+    baselines estimated on that same tail is upward-biased, which fully explains E18''s
+    ''physiology makes two-thirds of subjects worse'' as a small-sample artifact;
+    that claim and both do_not_retry entries on exp-e18 are retracted. Any future
+    per-subject arm on sparse labels must plant a known effect and publish this recovery
+    curve first, and needs either denser labels (the exp-e24 lab cohorts carry hundreds-to-thousands
+    of events each), pooled hierarchical estimation instead of per-subject AUC, or
+    a base rate nearer 50%. E16/E17 are cross-subject at n=4208 over 61 subjects and
+    are explicitly UNAFFECTED by this.'
+  transfers_to:
+  - hyp-e14-within-subject-affect-supply-20260814
+  - hyp-e24-lab-protocol-subdaily-state-20260815
+  - hyp-e26-within-window-transitions-20260815
 key_numbers:
   e18_claimed_mde: 0.05
   e18_observed_skill: 0.0037
@@ -62,6 +90,7 @@ prediction_match:
   per_diagnostic:
     eiv_affect_multichannel_increment: false
 provenance: {}
+recipe_fingerprint: {}
 verdict: refutes
 ---
 
@@ -78,6 +107,13 @@ External run: logs/e23_power_check.json
 - `g2_fraction_subjects_positive`: **FAIL**
 
 **Verdict:** refutes
+
+## Interpretation
+**Failure mode:** `test_invalid`
+
+SYNTHETIC-CONTROL POWER CHECK — this measures what E18's DESIGN can recover, not biology, and its real content is that E18's question is UNTESTED rather than answered (note the mechanical verdict reads 'refutes', but what it refutes is E18's 'POWERED NULL' label, not the within-subject-state claim). Planting a real effect into E18's exact design (same 40 lifesnaps subjects, W=480, per-subject forward-chaining walk-forward, RF(200, min_samples_leaf=3), MIN_PINGS=25/MIN_TEST=10, base rate held at 12.4%) gives the recovery curve: true oracle AUC 0.5898 -> median skill -0.0375 (frac>0 0.375); oracle 0.6667 -> -0.0015 (0.425); oracle 0.7412 -> +0.0741 (0.725); oracle 0.8125 -> +0.1736 (0.875). A genuinely useful 0.6667-AUC detector therefore RECOVERS as -0.0015, indistinguishable from E18's observed +0.0037, so E18's true MDE is ~0.72 ORACLE AUC, not the asserted '+0.05 skill'. With a median of only 6-8 positives in each held-out tail, maximising over three baselines estimated on that same tail is upward-biased, which fully explains E18's 'physiology makes two-thirds of subjects worse' as a small-sample artifact; that claim and both do_not_retry entries on exp-e18 are retracted. Any future per-subject arm on sparse labels must plant a known effect and publish this recovery curve first, and needs either denser labels (the exp-e24 lab cohorts carry hundreds-to-thousands of events each), pooled hierarchical estimation instead of per-subject AUC, or a base rate nearer 50%. E16/E17 are cross-subject at n=4208 over 61 subjects and are explicitly UNAFFECTED by this.
+
+Transfers to: [[hyp-e14-within-subject-affect-supply-20260814]], [[hyp-e24-lab-protocol-subdaily-state-20260815]], [[hyp-e26-within-window-transitions-20260815]]
 
 ## Key numbers
 - `e18_claimed_mde`: 0.05
