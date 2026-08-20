@@ -16,7 +16,37 @@ gates:
   10313), not by supabase.'
 hypothesis_id: null
 id: rb-dynamic-window-20260812
-notes: []
+notes:
+- at: '2026-08-20T21:20:23+00:00'
+  text: '[2026-08-20] T1 IS NOW OWNED BY A PROPERLY-GATED HYPOTHESIS AND RUNBOOK.
+    Do not execute T1 from this prompt. The extent problem was re-measured on corpus
+    ac7d2b1c and the mechanism restated more precisely than this prompt''s original
+    framing: the fill value 0.0 IS the corpus median under population normalisation,
+    so unmasked pooling computes exactly naive = median + c*(present - median) (slope
+    1.0000, intercept 0.00000, R2 1.00000, n=12503). The damage is a CONTRACTION of
+    between-subject spread, not the ''~87% toward the median'' OFFSET this prompt
+    describes -- and the offset framing is measurably misleading, because cohorts
+    sitting near the corpus median (WESAD 74.7, CASE 71.5 vs median 73.0) post tiny
+    mean gaps (5.8 and 4.9 bpm) while being MAXIMALLY compressed (variance ratio 0.0825
+    and 0.0285). A mean-based instrument is blind here; see rule_out `that-the-mean-gap-naive-pooled-mean-present-5bb2e3`.
+
+
+    NEW HOME: problem `extent-heterogeneity-short-lab-sessions-are-contracted-onto-the-corpus-median-by-unmasked-pooling`;
+    diagnostic `eiv_extent_variance_compression_ratio`; hypotheses h-w5 / h-w6 / h-w7
+    / h-w8 / h-w9; runbooks w5 (priority 1, CPU-only BLOCKING gate), w6 (2), w7 (3
+    -- this runbook''s T1), w8 (4).
+
+
+    T0 REMAINS DEAD exactly as recorded here (present-mean imputation: v4w 16.72 ->
+    16.56 bpm, v5c 20.83 -> 21.07, 133/200 emissions byte-identical). T2 (true variable-T,
+    attention-masked padded patches, 2-3 days) is superseded in spirit by w6/w8, which
+    obtain presence-awareness WITHOUT changing tensor width or the 23-token geometry
+    -- a far smaller blast radius.
+
+
+    This runbook stays QUEUED only as the historical source of the T0/T1/T2 ladder
+    and the verified zero-fill mechanism note. Execute w5 first; it decides whether
+    any of the rest is funded.'
 priority: 2
 problem_id: phase-c-arms-fail-on-the-deployment-9217e0
 status: queued
@@ -24,7 +54,7 @@ topic_tags:
 - deployment-distribution
 - padding
 - optihealth
-updated_at: '2026-08-12T09:19:52+00:00'
+updated_at: '2026-08-20T21:20:23+00:00'
 ---
 
 ## Prompt
@@ -32,6 +62,15 @@ DYNAMIC CONTEXT WINDOW (Anton, 2026-08-12): make the pipeline handle few-hour re
 
 ## Preconditions
 exp-atomfix-retrain-20260812 closed first: the floor atom dominates supabase error, so window work scored before the atom fix would be confounded. GPU free. Present-mean counterfactual results (outputs/probes/{v4w,v5c}_emissions_supabase_presentmean.json) read and recorded.
+
+## Log
+- **2026-08-20T21:20:23+00:00** — [2026-08-20] T1 IS NOW OWNED BY A PROPERLY-GATED HYPOTHESIS AND RUNBOOK. Do not execute T1 from this prompt. The extent problem was re-measured on corpus ac7d2b1c and the mechanism restated more precisely than this prompt's original framing: the fill value 0.0 IS the corpus median under population normalisation, so unmasked pooling computes exactly naive = median + c*(present - median) (slope 1.0000, intercept 0.00000, R2 1.00000, n=12503). The damage is a CONTRACTION of between-subject spread, not the '~87% toward the median' OFFSET this prompt describes -- and the offset framing is measurably misleading, because cohorts sitting near the corpus median (WESAD 74.7, CASE 71.5 vs median 73.0) post tiny mean gaps (5.8 and 4.9 bpm) while being MAXIMALLY compressed (variance ratio 0.0825 and 0.0285). A mean-based instrument is blind here; see rule_out `that-the-mean-gap-naive-pooled-mean-present-5bb2e3`.
+
+NEW HOME: problem `extent-heterogeneity-short-lab-sessions-are-contracted-onto-the-corpus-median-by-unmasked-pooling`; diagnostic `eiv_extent_variance_compression_ratio`; hypotheses h-w5 / h-w6 / h-w7 / h-w8 / h-w9; runbooks w5 (priority 1, CPU-only BLOCKING gate), w6 (2), w7 (3 -- this runbook's T1), w8 (4).
+
+T0 REMAINS DEAD exactly as recorded here (present-mean imputation: v4w 16.72 -> 16.56 bpm, v5c 20.83 -> 21.07, 133/200 emissions byte-identical). T2 (true variable-T, attention-masked padded patches, 2-3 days) is superseded in spirit by w6/w8, which obtain presence-awareness WITHOUT changing tensor width or the 23-token geometry -- a far smaller blast radius.
+
+This runbook stays QUEUED only as the historical source of the T0/T1/T2 ladder and the verified zero-fill mechanism note. Execute w5 first; it decides whether any of the rest is funded.
 
 ## Links
 Queued for problem [[phase-c-arms-fail-on-the-deployment-9217e0]].

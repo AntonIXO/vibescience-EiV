@@ -1,6 +1,8 @@
 ---
+ambition_class: null
 created_at: '2026-08-13T22:09:18+00:00'
 former_ids: []
+gap_closure_estimate: null
 gates:
 - blocking: true
   description: 'Stage-0 CPU gate BEFORE any GPU: ridge probe eiv_peak_excursion_increment_r2
@@ -29,6 +31,7 @@ gates:
   mde: null
 id: e4-encoder-excursion-avgmax-20260813
 interventions: []
+override_reason: ''
 paper_refs: []
 predicted_effects:
 - diagnostic_id: eiv_peak_excursion_increment_r2
@@ -43,7 +46,9 @@ predicted_effects:
   magnitude_note: must stay <= 3.45 (worst v9band04 seed); floor rate 0
 problem_id: phase-c-arms-fail-on-the-deployment-9217e0
 problem_tags: []
-status: testing
+reopen_reason: ''
+reopened_from: null
+status: inconclusive
 supersedes: null
 topic_tags:
 - cross-modal

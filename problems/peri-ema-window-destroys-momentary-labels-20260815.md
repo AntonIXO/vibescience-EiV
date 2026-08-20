@@ -18,7 +18,7 @@ topic_tags:
 - epoch-resolution
 - baseline
 - control
-updated_at: '2026-08-18T20:52:09+00:00'
+updated_at: '2026-08-18T23:25:08+00:00'
 updates:
 - at: '2026-08-14T21:41:57+00:00'
   text: "[2026-08-15 UNIFICATION — the window question and the state question are
@@ -315,7 +315,8 @@ momentary state at all.
 
 ## Synthesis
 STATE: the premise was CONFIRMED as a data fact and the proposed FIX was
-refuted; what survives is a supply verdict plus one live localisation result.
+refuted; what survives is a supply verdict plus one localisation result whose
+headline is now known to be READOUT-DEPENDENT (exp-046 + exp-e34, 2026-08-18).
 
 WHAT WE NOW BELIEVE.
 - The labels really are momentary now (commits a7fc419 / 052088f / e849eb7,
@@ -341,29 +342,80 @@ WHAT IS RULED OUT, AND HOW HARD.
   lifesnaps delta +0.0003, perm p = 0.6471 (50 perms, null mean +0.0048, std
   0.0168), linear check NEGATIVE. Its g0 power precondition PASSED — MDE ~0.028
   < the preregistered 0.05 bar — so an effect of the claimed size would have
-  been seen. This is the sigma now registered on
-  eiv_affect_multichannel_increment (0.0168, n=50, k=2).
+  been seen.
 - The design itself cannot recover much: exp-e23's synthetic-control power check
   planted a known effect in E18's EXACT design and recovered -0.0375 at a true
-  oracle AUC of 0.589 and only +0.0741 at 0.741. At ~10-40 pings per subject and
-  12.4% positive, this design cannot recover a moderate effect at all.
+  oracle AUC of 0.589 and only +0.0741 at 0.741.
 - The encoder does NOT carry ping-specific affect: ro-encoder-affect-is-time-of-
   day-20260815 retracted the earlier "locality confirmed" reading of E22.
+- JEPA / latent-prediction as a Phase-A replacement is ruled out AS A MOMENTARY-
+  STATE FIX (ro `that-a-jepa-latent-prediction-pretraining-7061c5`), along with
+  the DIMENSIONALITY and PRODUCTION-STAGE accounts of E29's encoder deficit.
+- The FUNCTION-CLASS account is ALSO ruled out (ro `the-function-class-account-
+  of-exp-046-that-8-511840`): the encoder's tokens CAN linearly reconstruct
+  their own input-patch order statistics (min/max/std mean R2 0.5182 against a
+  preregistered <0.50 falsifier), so patch-construction surgery is unjustified.
 
 WHAT SURVIVES AND IS WORTH BUILDING ON.
 - exp-e24 lab cohorts: 0.564 -> 0.8497 (supports). Where the labels are dense
   and lab-grade, the signal is there — the deficit is SUPPLY in the field
   cohorts, not architecture.
-- exp-e26 within-window transitions 0.5129 -> 0.6329 (supports) and exp-e29
-  state localisation (supports), against exp-e27's refute of the encoder-side
-  version. Transitions look like the live thread; the encoder route to them does
-  not.
+- exp-e26 within-window transitions 0.5129 -> 0.6329 (supports). The transition
+  design remains the only clean instrument on this problem.
+
+THE CENTRAL METHODOLOGICAL FINDING OF 2026-08-18, AND IT COST TWO OF MY OWN
+CLAIMS. E29's headline ("patch geometry innocent, learned weights guilty") was
+challenged on two confounds; both challenges died (exp-046), which PROMOTED the
+finding. Then a third probe (exp-e34) showed the whole comparison is an artifact
+of the ESTIMATOR. All arms, identical rows (n=3226 / 87 subjects / 660 windows /
+W=120), identical folds, each vs its OWN within-window shuffle null:
+
+    arm                readout    AUC     null            over_null    z
+    raw_patch_grid_8   RF      0.6309  0.5189+-0.0422     +0.1120   +2.66
+    raw_patch_grid_8   LINEAR  0.5855  0.5711+-0.0130     +0.0143   +1.10
+    enc_pca8           RF      0.4950  0.5442+-0.0293     -0.0492   -1.68
+    enc_pca8           LINEAR  0.5715  0.5310+-0.0143     +0.0405   +2.83
+    rand_pca8 (RANDOM) RF      0.5442  0.5464+-0.0290     -0.0022   -0.08
+    prod_pca8          RF      0.4747  0.5554+-0.0262     -0.0807   -3.08
+    enc_full (9216)    RF      0.5202  0.5495+-0.0351     -0.0293   -0.84
+
+Under a matched LINEAR readout the ordering INVERTS: the trained encoder clears
+its null (z+2.83) and the handcrafted features do not (z+1.10). The nulls
+themselves move with the readout (RF 0.5189/0.5442 vs linear 0.5711/0.5310). So
+"the trained encoder does not carry momentary state" is a statement about
+(representation x ESTIMATOR) and must never be quoted unqualified again. The
+diagnostic eiv_momentary_state_auc_over_null now MANDATES naming the estimator,
+recomputing the null per readout, and reporting >= 2 readout families.
+
+THREE FURTHER FACTS FROM THOSE RUNS, EACH KILLING A PLAUSIBLE STORY:
+- DIMENSIONALITY is not the explanation: 9216 -> PCA-8 moved the trained arm
+  DOWN (-0.0293 -> -0.0492) against a preregistered >= +0.05 recovery bar.
+- STAGE is not the explanation, and it INVERTS: prod_pca8 is the worst arm
+  measured. The 4.3x production-over-encoder advantage that
+  ro-dual-avg-max-pooling-downstream-20260805 measured for hr_peak does NOT
+  transport to a momentary target — prototype cross-attention plus a unit-RMS
+  tail concentrates daily-aggregate structure and erases a 2-hour contrast.
+  GENERAL RULE EARNED: evidence is bound to its TARGET as well as its substrate.
+- RECONSTRUCTION is not evidence about training: random-init reconstructs the 8
+  features as well as trained (0.6177 vs 0.5924), because the 120->192 patch
+  projection is over-complete by construction.
+
+HONEST RESIDUAL: under RF a random-init encoder is inert (-0.0022, z-0.08),
+which is what makes "a new pretraining objective has no headroom" persuasive.
+That arm was never measured under a LINEAR readout, so the argument is formally
+RF-only. Anyone reopening JEPA-for-state should spend the ~10 CPU minutes to
+measure it before spending GPU.
 
 CONSEQUENCE FOR THE PROJECT. Four independent instruments (cross-subject,
 within-subject, power check, encoder probe) agree there is no daily-summary
-affect signal to fuse in the field cohorts. Further fusion-architecture work on
-THIS supply is not gated by cleverness, and should not be funded without new
-labels.
+affect signal to fuse in the field cohorts, and further fusion-architecture work
+on THIS supply should not be funded without new labels. On the transition thread,
+the encoder's momentary-state signal is WEAK under every readout tried (best
++0.0405, z+2.83) and no arm has reached the raw_shallow bound of 0.6430. The one
+lever never tried remains a SUPERVISED head trained directly on the momentary
+label (rb-supervised-state-head-20260815, priority 3, supply 77081 epochs / 281
+subjects) — and its preregistration must now state the weaker, honest premise and
+score under two readout families.
 
 ## Updates
 - **2026-08-14T21:41:57+00:00** — [2026-08-15 UNIFICATION — the window question and the state question are ONE question about the READOUT, not two questions about the window]

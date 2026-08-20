@@ -5,18 +5,23 @@ gates:
 - g1_median_subject_skill_over_strongest_trivial
 - g2_fraction_subjects_positive
 - g3_within_subject_W_profile_shape
-hypothesis_id: null
+hypothesis_id: w2-n-of-1-within-subject-peri-ping-state-d2d708
 id: rb-w2-within-subject-peri-ping-state-20260815
-notes: []
+notes:
+- at: '2026-08-20T03:40:23+00:00'
+  text: '2026-08-20: executed as exp-053, verdict REFUTES with power (8/8 cells negative,
+    CIs exclude zero, walk-forward). Sub-daily N-of-1 physiology is closed; within-subject
+    skill lives at the daily timescale (E14). See exp-053 interpretation for the complete
+    four-regime state map.'
 priority: 10
 problem_id: peri-ema-window-destroys-momentary-labels-20260815
-status: queued
+status: done
 topic_tags:
 - wearables
 - n-of-1
 - baseline
 - control
-updated_at: '2026-08-14T21:35:40+00:00'
+updated_at: '2026-08-20T03:40:23+00:00'
 ---
 
 ## Prompt
@@ -67,8 +72,12 @@ NOTE ON DEPLOYMENT SUPPLY: optihealth_supabase currently carries ZERO state labe
 ## Preconditions
 Corpus at data/canonical with git_sha e849eb7 (tensor [11318,1440,12], label_events.parquet 102982 rows). Read shape, epoch_minutes and git_sha out of merge_manifest.json rather than assuming — this corpus has been rebuilt several times. Reusable feature builder already exists: hr_features() in scratch/e16_peri_ema_window.py (strictly causal, present-only, denormalised to bpm via population_stats.json median/IQR). No GPU needed.
 
+## Log
+- **2026-08-20T03:40:23+00:00** — 2026-08-20: executed as exp-053, verdict REFUTES with power (8/8 cells negative, CIs exclude zero, walk-forward). Sub-daily N-of-1 physiology is closed; within-subject skill lives at the daily timescale (E14). See exp-053 interpretation for the complete four-regime state map.
+
 ## Links
 Queued for problem [[peri-ema-window-destroys-momentary-labels-20260815]].
+Run as [[w2-n-of-1-within-subject-peri-ping-state-d2d708]].
 Intended gates: `g1_median_subject_skill_over_strongest_trivial`, `g2_fraction_subjects_positive`, `g3_within_subject_W_profile_shape`.
 This is a PLAN, not a preregistration — the prediction is committed via propose_hypothesis at run time.
 

@@ -5,14 +5,22 @@ gates:
 - gate-prediction-entropy
 - gate-null-delta-sign
 - gate-vram-ceiling
-hypothesis_id: null
+hypothesis_id: hyp-e9-lmhead-lora-20260814
 id: rb-e4-lora-lm-head-20260805
-notes: []
+notes:
+- at: '2026-08-20T08:20:38+00:00'
+  text: '2026-08-20 triage: ALREADY EXECUTED. This runbook''s arm ran as exp-e9-lmhead-lora-20260814
+    (verdict refutes) with follow-up exp-e11-linear-head-20260814 (directional_only);
+    checkpoint outputs/checkpoints/v11lmhead_s42, captures logs/e9_*/v11lmhead_*.
+    The lm_head LoRA lever was bought and scored 5 days before this triage — the runbook
+    was simply never marked. The E26-scoped expectation (~4 bpm coarse magnitude)
+    was the tested claim; the refute closes it. Successor (numeric head / binned-ordinal
+    target) named in the runbook''s own ''wrong lever'' note, unqueued by choice.'
 priority: 15
 problem_id: phase-c-hr-peak-saturated-prior-20260805
-status: queued
+status: done
 topic_tags: []
-updated_at: '2026-08-05T19:39:19+00:00'
+updated_at: '2026-08-20T08:20:38+00:00'
 ---
 
 ## Prompt
@@ -73,7 +81,11 @@ Same seed/samples/donors. scratch/eval_e23_gates.py (per-sample sidecar), scratc
 ## Preconditions
 Same seed/samples/donors. RTX 5070 budget: stay under 11.25 GiB, no OOM.
 
+## Log
+- **2026-08-20T08:20:38+00:00** — 2026-08-20 triage: ALREADY EXECUTED. This runbook's arm ran as exp-e9-lmhead-lora-20260814 (verdict refutes) with follow-up exp-e11-linear-head-20260814 (directional_only); checkpoint outputs/checkpoints/v11lmhead_s42, captures logs/e9_*/v11lmhead_*. The lm_head LoRA lever was bought and scored 5 days before this triage — the runbook was simply never marked. The E26-scoped expectation (~4 bpm coarse magnitude) was the tested claim; the refute closes it. Successor (numeric head / binned-ordinal target) named in the runbook's own 'wrong lever' note, unqueued by choice.
+
 ## Links
 Queued for problem [[phase-c-hr-peak-saturated-prior-20260805]].
+Run as [[hyp-e9-lmhead-lora-20260814]].
 Intended gates: `gate-prediction-entropy`, `gate-null-delta-sign`, `gate-vram-ceiling`.
 This is a PLAN, not a preregistration — the prediction is committed via propose_hypothesis at run time.

@@ -3,14 +3,21 @@ created_at: '2026-08-08T08:13:59+00:00'
 former_ids:
 - dataset-filtering-is-not-closed-re-open-and-do-it-properly-two-allowlist-arms-ca
 gates: []
-hypothesis_id: null
+hypothesis_id: allowlist-a-b-full-chain-executes-runbook-dc0de8
 id: dataset-filtering-is-not-closed-re-open-1050cb
-notes: []
+notes:
+- at: '2026-08-20T02:07:49+00:00'
+  text: '2026-08-20: EXECUTED as exp-050 (verdict refutes, failure_mode recipe_conditional).
+    Both full chains trained and audited on the 12,547 corpus; prediction inverted
+    (ctrl 6.03 beat wl 20.28) and the experiment surfaced a bigger variable: ALL fresh
+    new-corpus A/B encoders produce deployment-broken C adapters (new problem new-corpus-12-547-0-0-phase-a-b-encoders...).
+    The allowlist question is only re-askable once that problem is resolved — reopen
+    the hypothesis then (recipe_conditional).'
 priority: 1
 problem_id: the-15-min-1-min-epoch-migration-3e7d2d
-status: queued
+status: done
 topic_tags: []
-updated_at: '2026-08-14T17:19:18+00:00'
+updated_at: '2026-08-20T02:07:49+00:00'
 ---
 
 ## Prompt
@@ -60,6 +67,10 @@ MEASURED null this time, on generation metrics, not an inferred one.
 COST: ~4 h GPU for both arms; text-embedding precompute per distinct dataset_filter is now ~1 min
 on GPU (see 2026-08-14 update above).
 
+## Log
+- **2026-08-20T02:07:49+00:00** — 2026-08-20: EXECUTED as exp-050 (verdict refutes, failure_mode recipe_conditional). Both full chains trained and audited on the 12,547 corpus; prediction inverted (ctrl 6.03 beat wl 20.28) and the experiment surfaced a bigger variable: ALL fresh new-corpus A/B encoders produce deployment-broken C adapters (new problem new-corpus-12-547-0-0-phase-a-b-encoders...). The allowlist question is only re-askable once that problem is resolved — reopen the hypothesis then (recipe_conditional).
+
 ## Links
 Queued for problem [[the-15-min-1-min-epoch-migration-3e7d2d]].
+Run as [[allowlist-a-b-full-chain-executes-runbook-dc0de8]].
 This is a PLAN, not a preregistration — the prediction is committed via propose_hypothesis at run time.

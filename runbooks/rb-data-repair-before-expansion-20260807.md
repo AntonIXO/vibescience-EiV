@@ -7,12 +7,26 @@ gates:
 - gate-donor-prefix-null
 hypothesis_id: null
 id: rb-data-repair-before-expansion-20260807
-notes: []
+notes:
+- at: '2026-08-20T00:40:20+00:00'
+  text: '2026-08-20 triage: LARGELY SUPERSEDED BY LANDED REPAIRS — the 2026-08-07
+    ledger this runbook priced was measured before: (1) the 1-minute re-merge (lifesnaps
+    hourly-grid issue addressed at the resolution level); (2) the day-anchor re-merge
+    + min_coverage 0.0 (corpus now 12,547 windows, label losses collapsed — nurse_stress
+    50.8%→0%); (3) the M_mask zero-defect handling (zero_is_not_an_observation law
+    + validate reporting, dryad zeros mapped out at processor level); (4) population
+    normalization shipped. The sleep-block scaling defect (probability sum 0.027)
+    remains UNVERIFIED on the new corpus — folded into the eval-bundle census rather
+    than a standalone repair runbook. Data-expansion sequencing is now governed by
+    the newer supply findings (exp-047/049: state is supply-limited; open-access next
+    wave = StressID/SWELL/MAUS/POPANE-1-2-5-7, K-EmoPhone access-gated). A fresh ledger
+    on the 12,547 corpus would be the honest revival of this runbook if data repair
+    is re-prioritised.'
 priority: 5
 problem_id: lifesnaps-hr-is-hourly-so-the-strict-15550c
-status: queued
+status: abandoned
 topic_tags: []
-updated_at: '2026-08-07T12:14:18+00:00'
+updated_at: '2026-08-20T00:40:20+00:00'
 ---
 
 ## Prompt
@@ -57,6 +71,9 @@ would repeat the E24-E33 pattern of chasing an unpowered number.
 
 ## Preconditions
 No GPU needed for the repairs themselves. Raw LifeSnaps CSVs are NOT currently on disk; the BSON intraday claim is UNVERIFIED and must be checked before it is relied on. Re-merge required after any schema/mask change, per CLAUDE.md.
+
+## Log
+- **2026-08-20T00:40:20+00:00** — 2026-08-20 triage: LARGELY SUPERSEDED BY LANDED REPAIRS — the 2026-08-07 ledger this runbook priced was measured before: (1) the 1-minute re-merge (lifesnaps hourly-grid issue addressed at the resolution level); (2) the day-anchor re-merge + min_coverage 0.0 (corpus now 12,547 windows, label losses collapsed — nurse_stress 50.8%→0%); (3) the M_mask zero-defect handling (zero_is_not_an_observation law + validate reporting, dryad zeros mapped out at processor level); (4) population normalization shipped. The sleep-block scaling defect (probability sum 0.027) remains UNVERIFIED on the new corpus — folded into the eval-bundle census rather than a standalone repair runbook. Data-expansion sequencing is now governed by the newer supply findings (exp-047/049: state is supply-limited; open-access next wave = StressID/SWELL/MAUS/POPANE-1-2-5-7, K-EmoPhone access-gated). A fresh ledger on the 12,547 corpus would be the honest revival of this runbook if data repair is re-prioritised.
 
 ## Links
 Queued for problem [[lifesnaps-hr-is-hourly-so-the-strict-15550c]].

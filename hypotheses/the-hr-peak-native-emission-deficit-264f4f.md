@@ -1,10 +1,13 @@
 ---
+ambition_class: null
 created_at: '2026-08-06T11:49:23+00:00'
 former_ids:
 - the-hr-peak-native-emission-deficit-that-e24-e33-spent-ten-experiments-explainin
+gap_closure_estimate: null
 gates: []
 id: the-hr-peak-native-emission-deficit-264f4f
 interventions: []
+override_reason: ''
 paper_refs: []
 predicted_effects:
 - diagnostic_id: eiv_gen_peak_skill_bpm
@@ -24,7 +27,9 @@ problem_tags:
 - optihealth-eiv
 - conditioning-collapse
 - data-contract-violation
-status: testing
+reopen_reason: ''
+reopened_from: null
+status: refuted
 supersedes: null
 topic_tags:
 - cross-modal

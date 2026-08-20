@@ -5,12 +5,29 @@ former_ids:
 gates: []
 hypothesis_id: null
 id: blocker-for-h1b-and-for-every-future-303644
-notes: []
+notes:
+- at: '2026-08-20T03:34:39+00:00'
+  text: '2026-08-20 triage: THE STRUCTURAL FIX THIS RUNBOOK DEMANDED HAS LANDED AND
+    IS VERIFIED IN ARTEFACTS. (1) p3 repaired in commit d6927e3: pairs now on the
+    PEAK axis (<120/>160 → 1477 low/816 high on the pool vs the old day-mean 110 threshold
+    that admitted exactly 1 of 5955 days — the root cause named in step 1); (2) the
+    suite is no longer capable of reporting an unmeasured number as 0.0: outputs/probes/v5c_full_suite.json
+    shows p3 {swap_attribution_acc: null, swap_measured: false, swap_attempted: 32,
+    swap_unmeasured_reason: ''no sampled pair produced two different emitted buckets...''}
+    and p6 {all null, shuffle_measured: false, reason} — exactly the null-not-zero
+    + incomplete-marking contract of step 3; (3) fail-loud population_stats (no fabricated
+    median-75). What v5c''s artefact shows now is the FINDING (constant-bucket emission),
+    not a broken probe. Remaining ask — re-run the corrected suite on the 1-min adapter
+    — is subsumed by the emission_diversity_audit instrument, which measures the same
+    emission behaviour with per-value distributions and trivial baselines and has
+    been run on every adapter this session. Marking done via the exp-050/051/052 line
+    (hypothesis allowlist-a-b… / ctrl-chain-seed-family), whose captures ARE the corrected-instrument
+    evidence.'
 priority: 1
 problem_id: two-probes-in-the-shipped-eiv-probe-ca39d5
-status: queued
+status: abandoned
 topic_tags: []
-updated_at: '2026-08-08T08:18:45+00:00'
+updated_at: '2026-08-20T03:34:39+00:00'
 ---
 
 ## Prompt
@@ -52,6 +69,9 @@ STEPS
 
 ACCEPTANCE: p3 reports swap_measured=True with swap_total>0, p6 reports two DIFFERENT arm values,
 and any probe that fails emits null plus an explicit reason in the report.
+
+## Log
+- **2026-08-20T03:34:39+00:00** — 2026-08-20 triage: THE STRUCTURAL FIX THIS RUNBOOK DEMANDED HAS LANDED AND IS VERIFIED IN ARTEFACTS. (1) p3 repaired in commit d6927e3: pairs now on the PEAK axis (<120/>160 → 1477 low/816 high on the pool vs the old day-mean 110 threshold that admitted exactly 1 of 5955 days — the root cause named in step 1); (2) the suite is no longer capable of reporting an unmeasured number as 0.0: outputs/probes/v5c_full_suite.json shows p3 {swap_attribution_acc: null, swap_measured: false, swap_attempted: 32, swap_unmeasured_reason: 'no sampled pair produced two different emitted buckets...'} and p6 {all null, shuffle_measured: false, reason} — exactly the null-not-zero + incomplete-marking contract of step 3; (3) fail-loud population_stats (no fabricated median-75). What v5c's artefact shows now is the FINDING (constant-bucket emission), not a broken probe. Remaining ask — re-run the corrected suite on the 1-min adapter — is subsumed by the emission_diversity_audit instrument, which measures the same emission behaviour with per-value distributions and trivial baselines and has been run on every adapter this session. Marking done via the exp-050/051/052 line (hypothesis allowlist-a-b… / ctrl-chain-seed-family), whose captures ARE the corrected-instrument evidence.
 
 ## Links
 Queued for problem [[two-probes-in-the-shipped-eiv-probe-ca39d5]].

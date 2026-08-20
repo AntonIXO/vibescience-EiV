@@ -7,16 +7,24 @@ gates:
 - g3_gpu_deployment_beats_seed_band
 hypothesis_id: null
 id: rb-w3-patch-grid-token-count-20260815
-notes: []
+notes:
+- at: '2026-08-20T00:38:40+00:00'
+  text: '2026-08-20: Stage 1 executed as prescribed (CPU gate before GPU) and it KILLED
+    Stage 2 — rule-out that-the-encoder-s-23-token-patch-grid-is-under-bc9aef. On
+    the 12,547 strict-clean pool the incumbent 23-token grid carries the MOST linear
+    peak content (+0.0266 increment) and LSM-2''s 144-token grid the LEAST (-0.0143,
+    below the daily-mean baseline). Token count anti-correlates with peak content
+    here. No GPU retrain is justified; no hypothesis was promoted (the cheap probe
+    eliminated the premise), hence abandoned-with-evidence rather than done.'
 priority: 20
 problem_id: the-15-min-1-min-epoch-migration-3e7d2d
-status: queued
+status: abandoned
 topic_tags:
 - epoch-resolution
 - pooling
 - cross-modal
 - control
-updated_at: '2026-08-14T21:36:20+00:00'
+updated_at: '2026-08-20T00:38:40+00:00'
 ---
 
 ## Prompt
@@ -63,6 +71,9 @@ PAPER ANCHORS to attach via add_paper/link_paper: SensorLM arXiv:2506.09108; LSM
 
 ## Preconditions
 STAGE 1 is CPU-only and has no preconditions beyond the corpus (data/canonical, git_sha e849eb7, tensor [11318,1440,12] — read shape/epoch_minutes/git_sha from merge_manifest.json, do not assume). STAGE 2 requires Stage 1 to have PASSED its gate; do not start GPU work otherwise. Baseline recipe for any Stage-2 comparison is v9band04 (`lora_proxy_12ch_wl_band04`), documented in docs/BASELINE.md.
+
+## Log
+- **2026-08-20T00:38:40+00:00** — 2026-08-20: Stage 1 executed as prescribed (CPU gate before GPU) and it KILLED Stage 2 — rule-out that-the-encoder-s-23-token-patch-grid-is-under-bc9aef. On the 12,547 strict-clean pool the incumbent 23-token grid carries the MOST linear peak content (+0.0266 increment) and LSM-2's 144-token grid the LEAST (-0.0143, below the daily-mean baseline). Token count anti-correlates with peak content here. No GPU retrain is justified; no hypothesis was promoted (the cheap probe eliminated the premise), hence abandoned-with-evidence rather than done.
 
 ## Links
 Queued for problem [[the-15-min-1-min-epoch-migration-3e7d2d]].

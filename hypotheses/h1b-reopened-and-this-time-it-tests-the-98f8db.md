@@ -1,10 +1,13 @@
 ---
+ambition_class: null
 created_at: '2026-08-08T08:18:23+00:00'
 former_ids:
 - h1b-reopened-and-this-time-it-tests-the-hypothesis-that-was-actually-asked-chang
+gap_closure_estimate: null
 gates: []
 id: h1b-reopened-and-this-time-it-tests-the-98f8db
 interventions: []
+override_reason: ''
 paper_refs: []
 predicted_effects:
 - diagnostic_id: eiv_peak_excursion_increment_r2
@@ -18,7 +21,9 @@ predicted_effects:
   magnitude_note: ''
 problem_id: the-15-min-1-min-epoch-migration-3e7d2d
 problem_tags: []
-status: proposed
+reopen_reason: ''
+reopened_from: null
+status: confirmed
 supersedes: h1-dataset-allowlist-repairing-the-per-93cde5
 topic_tags:
 - dataset-whitelist
@@ -28,6 +33,7 @@ topic_tags:
 - control
 - epoch-resolution
 - wearables
+updated_at: '2026-08-20T22:02:11.408366+00:00'
 ---
 
 ## Statement

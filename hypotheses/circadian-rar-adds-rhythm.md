@@ -1,10 +1,13 @@
 ---
+ambition_class: null
 created_at: '2026-07-11T04:03:50+00:00'
 former_ids: []
+gap_closure_estimate: null
 gates: []
 id: circadian-rar-adds-rhythm
 interventions:
 - circadian-rar
+override_reason: ''
 paper_refs:
 - circadian-accel-2024-healthspan
 - hr-temp-circadian-2023
@@ -20,7 +23,9 @@ problem_tags:
 - missing-circadian
 - missing-early-warning
 - missing-directionality
-status: proposed
+reopen_reason: ''
+reopened_from: null
+status: inconclusive
 supersedes: null
 topic_tags:
 - circadian
