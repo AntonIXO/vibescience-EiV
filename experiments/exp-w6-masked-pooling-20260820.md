@@ -1,6 +1,6 @@
 ---
 artifacts: []
-closed: false
+closed: true
 config_note: 'Executes runbook w6-mask-weighted-cross-patch-pooling-end-to-end-51509d.
   Conditional on exp-w5-three-stage-contraction-20260820 (SUPPORTS, all 4 gates passed,
   g3 masked re-pool 0.1822 -> 0.8159 on frozen tokens).
@@ -46,7 +46,50 @@ config_note: 'Executes runbook w6-mask-weighted-cross-patch-pooling-end-to-end-5
   is treatment-vs-control WITHIN this run at matched seeds, with the v10conly numbers
   as the sanity anchor.'
 cost: null
-crash_reason: ''
+crash_reason: 'ALL THREE TREATMENT ARMS CRASHED AT STEP 0 -- CODE FAULT, NOT A RESULT.
+  Aborted rather than closed, because a crash is not evidence about the hypothesis.
+
+
+  RuntimeError: The size of tensor a (24) must match the size of tensor b (12) at
+  non-singleton dimension 2, raised inside the masked_avg pooling branch. Each treatment
+  arm died in ~8 seconds (02:12:04, 03:09:56, 04:08:29); the three CONTROL arms trained
+  normally to completion (37 min each) and their adapters and emission audits are
+  on disk, so the control half of the design is intact.
+
+
+  ROOT CAUSE. Under encoder_format_version=''with_presence_v1'' the encoder is fed
+  cat([values, presence_flags]) = 24 channels, while m_inherited is the raw 12-channel
+  mask. _patch_presence_from_mask built the presence tensor from the 12-channel mask
+  and handed it to a pooling site operating on a 24-channel axis. Fixed at 880c332
+  by passing n_encoder_channels and tiling the mask when the encoder axis is twice
+  the mask axis (a value channel and its presence flag are a pair describing one measurement),
+  plus folding presence alongside value_presence_fusion where that module halves the
+  axis.
+
+
+  WHY THE PRE-FLIGHT DID NOT CATCH IT, which is the transferable part: scratch/w6_preflight.py
+  constructed the projector DIRECTLY with n_input_channels=C_IN and no surrounding
+  wiring, so the 24-channel encoder input never met the presence tensor in that harness.
+  A pre-flight built on a SIMPLIFIED object can verify a unit property but cannot
+  verify an INTEGRATION property. It did earn its keep -- it caught two other real
+  bugs (channel-mean presence, and k>1 binning) before any GPU was spent -- but the
+  class of bug it is blind to is exactly this one.
+
+
+  VERIFICATION THAT THE FIX IS REAL, not assumed: a 12-step run through the ACTUAL
+  training path (eiv train lora-proxy, real profile, real checkpoint) now exits RC=0
+  with 0 tracebacks and a saved adapter. One intermediate attempt OOMed and was correctly
+  diagnosed as MY smoke command missing PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True,
+  which the runner sets -- not a property of the change; re-running with it succeeded.
+  Regression suite 774 passed / 1 skipped, including 5 new TestValuePresenceFusionInteraction
+  cases that reproduce the exact 24-vs-12 crash.
+
+
+  RELAUNCHED as the treatment-only arms (scratch/run_w6_treatment.sh) against the
+  SAME frozen ab_ctrl_s43 phase_b and the SAME already-trained controls, so the pairing
+  is preserved and no control seed noise is introduced. First treatment arm is past
+  step 260 with zero tracebacks at the time of writing. A successor experiment will
+  carry the scored result.'
 created_at: '2026-08-20T22:12:02+00:00'
 diagnostics_measured: []
 do_not_retry: []
@@ -63,12 +106,26 @@ parent_experiment_id: exp-w5-three-stage-contraction-20260820
 prediction_match: null
 provenance: {}
 recipe_fingerprint: {}
-verdict: null
+verdict: crashed
 ---
 
 ## Summary
 Tests hypothesis [[h-w6-mask-weighted-pooling-restores-short-9da5b6]].
 Branches from [[exp-w5-three-stage-contraction-20260820]].
 External run: logs/w6avg_s43.log
+
+**Verdict:** crashed
+
+**Crash:** ALL THREE TREATMENT ARMS CRASHED AT STEP 0 -- CODE FAULT, NOT A RESULT. Aborted rather than closed, because a crash is not evidence about the hypothesis.
+
+RuntimeError: The size of tensor a (24) must match the size of tensor b (12) at non-singleton dimension 2, raised inside the masked_avg pooling branch. Each treatment arm died in ~8 seconds (02:12:04, 03:09:56, 04:08:29); the three CONTROL arms trained normally to completion (37 min each) and their adapters and emission audits are on disk, so the control half of the design is intact.
+
+ROOT CAUSE. Under encoder_format_version='with_presence_v1' the encoder is fed cat([values, presence_flags]) = 24 channels, while m_inherited is the raw 12-channel mask. _patch_presence_from_mask built the presence tensor from the 12-channel mask and handed it to a pooling site operating on a 24-channel axis. Fixed at 880c332 by passing n_encoder_channels and tiling the mask when the encoder axis is twice the mask axis (a value channel and its presence flag are a pair describing one measurement), plus folding presence alongside value_presence_fusion where that module halves the axis.
+
+WHY THE PRE-FLIGHT DID NOT CATCH IT, which is the transferable part: scratch/w6_preflight.py constructed the projector DIRECTLY with n_input_channels=C_IN and no surrounding wiring, so the 24-channel encoder input never met the presence tensor in that harness. A pre-flight built on a SIMPLIFIED object can verify a unit property but cannot verify an INTEGRATION property. It did earn its keep -- it caught two other real bugs (channel-mean presence, and k>1 binning) before any GPU was spent -- but the class of bug it is blind to is exactly this one.
+
+VERIFICATION THAT THE FIX IS REAL, not assumed: a 12-step run through the ACTUAL training path (eiv train lora-proxy, real profile, real checkpoint) now exits RC=0 with 0 tracebacks and a saved adapter. One intermediate attempt OOMed and was correctly diagnosed as MY smoke command missing PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True, which the runner sets -- not a property of the change; re-running with it succeeded. Regression suite 774 passed / 1 skipped, including 5 new TestValuePresenceFusionInteraction cases that reproduce the exact 24-vs-12 crash.
+
+RELAUNCHED as the treatment-only arms (scratch/run_w6_treatment.sh) against the SAME frozen ab_ctrl_s43 phase_b and the SAME already-trained controls, so the pairing is preserved and no control seed noise is introduced. First treatment arm is past step 260 with zero tracebacks at the time of writing. A successor experiment will carry the scored result.
 
 #extent-heterogeneity #pooling #padding #deployment-distribution #wearables #denominator #state-supervision #optihealth-eiv #data-contract-violation #matched-baseline
