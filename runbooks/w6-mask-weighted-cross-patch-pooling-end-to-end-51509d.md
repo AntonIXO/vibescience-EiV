@@ -18,18 +18,25 @@ gates:
 - Validate the scorer on the BASELINE artifacts first -- reproduce v10conly's recorded
   numbers before scoring the new arm. A scorer bug found after scoring the new arm
   poisons the comparison.
-hypothesis_id: null
+hypothesis_id: h-w6-mask-weighted-pooling-restores-short-9da5b6
 id: w6-mask-weighted-cross-patch-pooling-end-to-end-51509d
-notes: []
+notes:
+- at: '2026-08-21T04:16:03+00:00'
+  text: DONE 2026-08-21. Scored by exp-w6b-masked-pooling-scored-20260821, verdict
+    SUPPORTS, hypothesis CONFIRMED. Short-cohort variance-compression at the production
+    stage 0.5630 -> 0.6897 (bar >=0.60), 7/7 short cohorts improve, dense no-harm
+    PASSED (3.575 -> 3.301 bpm), supabase delta +0.516 bpm is ~12x inside its 6.29
+    seed band and reported as uninterpretable. First pass (exp-w6-masked-pooling-20260820)
+    was ABORTED on a 24-vs-12 channel bug and relaunched treatment-only.
 priority: 2
 problem_id: extent-heterogeneity-short-lab-sessions-are-contracted-onto-the-corpus-median-by-unmasked-pooling
-status: queued
+status: done
 topic_tags:
 - extent-heterogeneity
 - pooling
 - padding
 - deployment-distribution
-updated_at: '2026-08-20T21:19:27+00:00'
+updated_at: '2026-08-21T04:16:03+00:00'
 ---
 
 ## Prompt
@@ -56,8 +63,12 @@ If short-cohort ratio rises but nothing downstream moves, spread was not the bin
 ## Preconditions
 H-W5 supported with g3 passed. GPU free (~2h per arm x3 seeds on the RTX 5070, <11.25 GiB). A fixed Phase-B checkpoint so the only variable is the Phase-C pooling. Baseline is the RECIPE (v10conly), not a stored checkpoint.
 
+## Log
+- **2026-08-21T04:16:03+00:00** — DONE 2026-08-21. Scored by exp-w6b-masked-pooling-scored-20260821, verdict SUPPORTS, hypothesis CONFIRMED. Short-cohort variance-compression at the production stage 0.5630 -> 0.6897 (bar >=0.60), 7/7 short cohorts improve, dense no-harm PASSED (3.575 -> 3.301 bpm), supabase delta +0.516 bpm is ~12x inside its 6.29 seed band and reported as uninterpretable. First pass (exp-w6-masked-pooling-20260820) was ABORTED on a 24-vs-12 channel bug and relaunched treatment-only.
+
 ## Links
 Queued for problem [[extent-heterogeneity-short-lab-sessions-are-contracted-onto-the-corpus-median-by-unmasked-pooling]].
+Run as [[h-w6-mask-weighted-pooling-restores-short-9da5b6]].
 Intended gates: `PRECONDITION: w5 closed with H-W5 SUPPORTED (gate g3-masked-repool-headroom passed, i.e. masked re-pooling of frozen tokens lifts short-cohort ratio >= 0.60). If g3 failed, the information was destroyed at patch construction and this arm is NOT funded -- abandon and re-scope to the encoder input path.`, `g1-dense-no-harm is BLOCKING: eiv_dense128_hr_raw_mae_bpm must not regress beyond 1.0 bpm. Mask-weighting moves the output of EVERY input with a missing channel, which is nearly all of them.`, `g2-seed-band-respected: >=3 seeds, per-seed values and the worst seed reported. The supabase MAE seed band is 6.29 bpm and EXCEEDS the 4.02 trivial baseline.`, `g3-single-variable-diff: yaml-diff the profile bodies; only the pooling mode, seed and notes may differ.`, `g4-excursion-guard: eiv_peak_excursion_increment_r2 must not fall by more than its recipe band 0.0457.`, `Validate the scorer on the BASELINE artifacts first -- reproduce v10conly's recorded numbers before scoring the new arm. A scorer bug found after scoring the new arm poisons the comparison.`.
 This is a PLAN, not a preregistration — the prediction is committed via propose_hypothesis at run time.
 
