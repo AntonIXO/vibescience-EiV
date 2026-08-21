@@ -78,7 +78,7 @@ problem_tags:
 - matched-baseline
 reopen_reason: ''
 reopened_from: null
-status: proposed
+status: refuted
 supersedes: null
 topic_tags:
 - extent-heterogeneity
