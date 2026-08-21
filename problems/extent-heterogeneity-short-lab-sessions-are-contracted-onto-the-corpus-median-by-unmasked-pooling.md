@@ -7,7 +7,7 @@ problem_tags:
 - optihealth-eiv
 - data-contract-violation
 - matched-baseline
-status: open
+status: resolved
 target: null
 title: 'Short lab sessions are contracted onto the corpus median by unmasked pooling:
   CASE retains 2.85% of its between-subject spread inside the 1440-minute window'
@@ -18,8 +18,41 @@ topic_tags:
 - wearables
 - state-supervision
 - deployment-distribution
-updated_at: '2026-08-20T22:15:51+00:00'
-updates: []
+updated_at: '2026-08-21T04:53:38+00:00'
+updates:
+- at: '2026-08-21T04:53:38+00:00'
+  text: 'RESOLVED 2026-08-21. All five hypotheses closed (2 confirmed / 3 refuted),
+    zero open, zero interpretation debt. The mechanism was measured (W4/W4b), shown
+    architectural and reversible (W5), and FIXED END-TO-END (exp-w6b: short-cohort
+    variance-compression 0.5630 -> 0.6897 at the production stage, dense no-harm 3.575
+    -> 3.301 bpm, H-W6 CONFIRMED). The three follow-on levers were each eliminated
+    on CPU before GPU spend: crop augmentation (W7 -- the frozen encoder retains 96.4%
+    of its scale-free readout skill on 41-minute crops against a gate demanding a
+    >=20% loss), coverage conditioning (W9 -- INERT: shuffled c scores at or above
+    true c, because encoder_format_version=with_presence_v1 already feeds the mask
+    as input channels), and attention pooling (W8 -- random-init matches or beats
+    trained in all four readout x null cells).
+
+
+    SHIPPED: patch_pool_mode=''masked_avg'' (665fff2; channel-layout fix 880c332),
+    inert unless explicitly selected, covered by 21 tests including a k-parametrised
+    all-present invariant.
+
+
+    TWO SCOPE LIMITS THAT MUST TRAVEL WITH ANY CITATION. (1) The deployment number
+    is NOT established: supabase +0.516 bpm sits ~12x INSIDE its own 6.29 seed band,
+    so no claim in either direction; establishing the sign needs >=5 seeds or a paired-row
+    bootstrap on the same 200-row draw. (2) The end-to-end figure is 0.5630 -> 0.6897
+    (+0.1267), NOT W5''s frozen-token 0.1822 -> 0.8159 -- the projector''s cross-attention
+    already undoes much of the contraction unaided, so quoting the probe number as
+    an end-to-end result is a stage error.
+
+
+    RESIDUAL FILED ELSEWHERE, NOT HERE: W8 established that momentary state is SUPPLY-limited
+    rather than architecture-limited (the trained encoder carries no more state signal
+    than a random projection of the same input, and the older RF-only ''random-init
+    is inert'' claim was itself a readout artifact). That belongs to the state/label-supply
+    track.'
 ---
 
 ## Description
@@ -99,29 +132,44 @@ SCOPE -- WHAT THIS PROBLEM IS NOT, so it cannot be over-cited later.
 DEPLOYMENT NOTE. optihealth_supabase sits at c=0.667 with ratio 0.5071 -- it loses roughly half its
 between-subject spread too, so this is not purely an academic-corpus problem.
 
-Primary diagnostic: `eiv_extent_variance_compression_ratio`. STATUS: open.
+Primary diagnostic: `eiv_extent_variance_compression_ratio`. STATUS: RESOLVED 2026-08-21 — see
+the update log and synthesis. The mechanism above is confirmed and FIXED end-to-end
+(`patch_pool_mode='masked_avg'`); the three follow-on levers (crop augmentation, coverage
+conditioning, attention pooling) were each refuted on CPU. Two limits travel with any citation:
+the deployment number is NOT established (supabase delta sits ~12x inside its own seed band), and
+the end-to-end figure is 0.5630 -> 0.6897, not W5's frozen-token 0.1822 -> 0.8159.
 
 ## Synthesis
-STATE 2026-08-20 EVENING. The mechanism is MEASURED, CONFIRMED AT THE REPRESENTATION, and shown REVERSIBLE at zero cost. The end-to-end test is running. Read the three layers separately.
+CLOSED 2026-08-21. All five hypotheses resolved: 2 confirmed, 3 refuted, zero open. The defect was REAL, was fixed END-TO-END, and the three follow-on levers were each killed cheaply on CPU. Read the layers separately -- they are separate claims with separate scopes.
 
-LAYER 1 -- THE ARITHMETIC (W4/W4b, settled). Fill 0.0 IS the corpus median, so presence-blind pooling computes exactly naive = median + c*(present - median): slope 1.0000, intercept 0.00000, R2 1.00000, n=12,503. The consequence is a CONTRACTION of between-subject spread by factor c. CASE keeps 2.85%, popane_s4 1.89%, wesad 8.25%, against lifesnaps 69.9% and pmdata 85.7%.
+LAYER 1 -- THE ARITHMETIC (W4/W4b, settled). Fill 0.0 IS the corpus median under population normalisation, so presence-blind pooling computes exactly naive = median + c*(present - median): slope 1.0000, intercept 0.00000, R2 1.00000, n=12,503. Consequence: between-subject spread contracts by factor c. CASE keeps 2.85%, popane_s4 1.89%, wesad 8.25%, versus lifesnaps 69.9% and pmdata 85.7%.
 
-LAYER 2 -- IT SURVIVES INTO THE REPRESENTATION AND IS REVERSIBLE (exp-w5-three-stage-contraction-20260820, SUPPORTS, all four preregistered gates passed, harness reproduced W4b to five decimals). Short-cohort means:
-  naive 1440-mean 0.0804 | trained encoder 0.1822 | random-init 0.1682 | MASKED RE-POOL 0.8159 | production stage 0.5157 | shuffle 0.0362
-  g1 (bar <0.5): contraction survives into the encoder's own tokens.
-  g2 (bar <=0.15): trained vs random-init differ by 0.0140 -> the defect is ARCHITECTURAL, a property of presence-blind pooling geometry, NOT of learned weights. This is what makes the denominator the correctly-targeted object; retraining alone would not remove it.
-  g3 (bar >=0.60): re-weighting the SAME FROZEN tokens recovers 0.1822 -> 0.8159 with zero training and zero new parameters. So the information was never destroyed at patch construction -- it is destroyed at the pooling step. That branch of the decision rule is CLOSED.
-  g4: shuffle 0.0362, so not a readout artifact.
-Unpreregistered follow-up (w5b) because three cohorts overshot ratio 1.0: the recovery is real, not magnitude-matched noise. Within-cohort r 0.497 -> 0.727 and MAE 8.73 -> 5.23 bpm on short cohorts; optihealth_supabase r 0.630 -> 0.962 and MAE 7.46 -> 1.67 bpm. NOTE that supabase figure is a PROBE on frozen features, NOT an emission, and the emission seed band (6.29 bpm, itself exceeding its 4.02 trivial baseline) still governs any deployment claim.
+LAYER 2 -- ARCHITECTURAL AND REVERSIBLE (exp-w5, SUPPORTS, all four gates, harness reproduced W4b to five decimals). Short-cohort means: naive 0.0804 | trained encoder 0.1822 | random-init 0.1682 | masked re-pool 0.8159 | production 0.5157 | shuffle 0.0362. Trained vs random-init differ by 0.0140, so the defect is POOLING GEOMETRY, not learned weights -- retraining alone could never remove it, which is what made the DENOMINATOR the correct object. Re-weighting the SAME frozen tokens recovered it with zero training and zero new parameters, so the information dies at the pooling step, not at patch construction. w5b confirmed the recovery is signal not magnitude-matched noise (r 0.497 -> 0.727, MAE 8.73 -> 5.23 bpm).
 
-LAYER 3 -- END-TO-END, IN FLIGHT (exp-w6-masked-pooling-20260820). masked_avg implemented at commit 665fff2 and plumbed profile -> cli_train -> pipeline, which it never was before. 6 chains (3 seeds x avg/masked_avg) off the frozen ab_ctrl_s43 phase_b, single variable proven by programmatic profile diff. NOT YET SCORED -- no claim about emission may be made from this problem until it closes.
+LAYER 3 -- FIXED END-TO-END (exp-w6b, SUPPORTS; H-W6 CONFIRMED). masked_avg implemented at 665fff2, channel-layout bug fixed at 880c332, plumbed profile -> cli_train -> pipeline for the first time. 3 seeds x avg/masked_avg off the frozen ab_ctrl_s43 phase_b, single variable proven by programmatic profile diff, scorer validated against the v10conly record first (median 2.836 vs recorded 2.84, band 0.800 vs 0.80).
+  PRIMARY: short-cohort ratio 0.5630 -> 0.6897 at the PRODUCTION stage (bar >=0.60), 7/7 short cohorts improve, long cohorts move <0.03 -- the predicted signature, since the correction is near-inert where coverage is already high.
+  DENSE NO-HARM (blocking): 3.575 -> 3.301 bpm. The blast-radius warning in cross_modal.py:260-270 is measured and does NOT materialise.
+  DEPLOYMENT: supabase +0.516 bpm, ~12x INSIDE its own 6.29 seed band -> UNINTERPRETABLE. No deployment claim in either direction.
+  CALIBRATE AGAINST W5: the frozen-token probe promised 0.1822 -> 0.8159; end-to-end the baseline is already 0.5630 (the projector's cross-attention undoes much of it unaided) and the fix lands 0.6897. The honest number for what TRAINING bought is +0.1267. Quoting 0.8159 as an end-to-end result is a stage error.
 
-THE PRE-FLIGHT IS PART OF THE RESULT. scratch/w6_preflight.py caught two bugs on real corpus rows before any GPU was spent, each of which would have produced a confidently wrong answer: (i) channel-MEAN presence read 0.4155 on a pmdata day with 98.7% HR coverage, which would have diluted the correction on exactly the dense rows the no-harm gate protects; (ii) collapsing to one global weighted mean broke k>1, and the shipped config runs k=4, so the all-present invariant diverged by 1.53 while k=1-only unit tests passed. Both fixed, a k-parametrised invariant test added, full suite 770 passed.
+LAYER 4 -- THE THREE FOLLOW-ON LEVERS ARE ALL DEAD, each killed on CPU before GPU spend.
+  H-W7 crop augmentation REFUTED at its own blocking Stage-0 gate. Paired on 1200 dense days / 81 subjects, the frozen encoder retains 96.4% (avg) and 95.0% (masked_avg) of its scale-free readout skill on 41-minute crops; the gate demanded a >=20% loss. THE DISTINCTION THIS BUYS: there are two separable defects and only one existed. Representation CONTRACTION (scale) was real and is fixed. Readout FRAGILITY on partial windows -- the thing crop augmentation would teach out -- was never real. A representation can be badly scaled and perfectly readable once the scale is corrected.
+  H-W9 coverage conditioning REFUTED, and INERT rather than harmful. Ratio moved -0.0048 (masked) / -0.0261 (avg) against a >= +0.05 bar, while SHUFFLED coverage scored 0.6902 -- at or above the true-coverage arm. Wrong c is indistinguishable from right c. Reason: encoder_format_version is with_presence_v1, i.e. the presence flags are ALREADY concatenated as input channels, so the encoder has been fed the mask all along. The algebra was right and the premise was already satisfied.
+  H-W8 attention pooling REFUTED, and it takes a load-bearing prior claim with it. On the clean pool (n=2272, 95 subjects, exact reproduction of the ro d55a19 reference): enc RF +0.0382 / LINEAR +0.0263; rand-init RF +0.0443 / LINEAR +0.0312. RANDOM-INIT MATCHES OR BEATS TRAINED IN ALL FOUR CELLS (trained-minus-random -0.0049 linear). Two prior claims die together: the old 'random-init sits exactly on its null so there is no headroom' was an RF-ONLY artifact (under linear it clears at z+4.61), and the trained encoder's momentary-state signal is no better than a random projection of the same input. Changing HOW you pool a representation cannot help when its learned content on that target is nil.
 
-WHAT REMAINS UNTOUCHED AND MUST NOT BE OVER-CITED. Nothing here changes the window (W stays 1440), the patch grid (120m/23tok), or the pooling OPERATOR. ro-window-shortening-20260805, shortening-the-analysis-window-to-align-with-0f6d56, that-the-encoder-s-23-token-patch-grid-is-under-bc9aef, ro-dual-avg-max-pooling-downstream-20260805 and ro-avgmax-pooling-production-site-20260815 all STAND. The E11 lesson (do not spend more on synthetic-coverage domain matching) still raises the prior against H-W7 and its three scope carve-outs must be restated whenever W7 is cited.
+WHAT THIS PROBLEM DOES **NOT** LICENSE. Window (1440), patch grid (120m/23tok) and pooling OPERATOR are untouched: ro-window-shortening-20260805, shortening-the-analysis-window-to-align-with-0f6d56, that-the-encoder-s-23-token-patch-grid-is-under-bc9aef, ro-dual-avg-max-pooling-downstream-20260805 and ro-avgmax-pooling-production-site-20260815 ALL STAND. The masked_avg win is on between-subject SPREAD (scale); W7 separately measured that masked_avg retains slightly LESS within-condition READABILITY on 41-minute crops (0.950 vs 0.964). Those are different axes and not substitutes -- say which one you mean.
 
-SIDE FINDING WORTH CARRYING (exp-e4-stage0-excursion-gate-20260820, same pooling line, DIFFERENT target): the same presence-blind pool also destroys ~0.43 R2 of daily EXCURSION, reproducibly across corpora (+0.4344 here vs E19's +0.4042 two rebuilds earlier), and max-pooling ALONE (+0.7348) matches avgmax (+0.7334) -- the concat's avg half is dead weight. That is an operator finding on an aggregate target; this problem is a denominator finding on a between-subject target. Do not merge them.
+SIDE FINDING, SAME POOLING LINE, DIFFERENT TARGET (exp-e4-stage0): the presence-blind pool also destroys ~0.43 R2 of daily EXCURSION, reproducibly across corpora (+0.4344 vs E19's +0.4042 two rebuilds earlier), and max ALONE (+0.7348) matches avgmax (+0.7334) -- the concat's avg half is dead weight. Operator finding on an aggregate target; this problem is a denominator finding on a between-subject target. Do not merge them.
 
-HONEST RESIDUAL: if W6's dense no-harm gate fails, the contraction was LOAD-BEARING (the model had learned to expect the diluted scale) and the correct reading is that the fix must move upstream of Phase C, not that the mechanism was wrong.
+WHERE THE EFFORT SHOULD GO NEXT, and it is not here. The extent axis is closed. H-W8's collapse says state is SUPPLY-limited, not architecture-limited: no further encoder-side state arms until dense induced-stress labels land, grouped by STRESSOR TYPE (arXiv:2405.09563 -- transfer is governed by stressor type, not intensity or device). The one open EMPIRICAL question left on this problem is the deployment sign: all three masked seeds sit above all-but-one avg seed on supabase, which is suggestive and nothing more; establishing it needs >=5 seeds or a paired-row bootstrap on the same 200-row draw.
+
+## Updates
+- **2026-08-21T04:53:38+00:00** — RESOLVED 2026-08-21. All five hypotheses closed (2 confirmed / 3 refuted), zero open, zero interpretation debt. The mechanism was measured (W4/W4b), shown architectural and reversible (W5), and FIXED END-TO-END (exp-w6b: short-cohort variance-compression 0.5630 -> 0.6897 at the production stage, dense no-harm 3.575 -> 3.301 bpm, H-W6 CONFIRMED). The three follow-on levers were each eliminated on CPU before GPU spend: crop augmentation (W7 -- the frozen encoder retains 96.4% of its scale-free readout skill on 41-minute crops against a gate demanding a >=20% loss), coverage conditioning (W9 -- INERT: shuffled c scores at or above true c, because encoder_format_version=with_presence_v1 already feeds the mask as input channels), and attention pooling (W8 -- random-init matches or beats trained in all four readout x null cells).
+
+SHIPPED: patch_pool_mode='masked_avg' (665fff2; channel-layout fix 880c332), inert unless explicitly selected, covered by 21 tests including a k-parametrised all-present invariant.
+
+TWO SCOPE LIMITS THAT MUST TRAVEL WITH ANY CITATION. (1) The deployment number is NOT established: supabase +0.516 bpm sits ~12x INSIDE its own 6.29 seed band, so no claim in either direction; establishing the sign needs >=5 seeds or a paired-row bootstrap on the same 200-row draw. (2) The end-to-end figure is 0.5630 -> 0.6897 (+0.1267), NOT W5's frozen-token 0.1822 -> 0.8159 -- the projector's cross-attention already undoes much of the contraction unaided, so quoting the probe number as an end-to-end result is a stage error.
+
+RESIDUAL FILED ELSEWHERE, NOT HERE: W8 established that momentary state is SUPPLY-limited rather than architecture-limited (the trained encoder carries no more state signal than a random projection of the same input, and the older RF-only 'random-init is inert' claim was itself a readout artifact). That belongs to the state/label-supply track.
 
 #extent-heterogeneity #pooling #denominator #wearables #state-supervision #deployment-distribution #optihealth-eiv #data-contract-violation #matched-baseline
