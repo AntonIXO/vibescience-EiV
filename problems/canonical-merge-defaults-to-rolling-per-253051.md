@@ -5,12 +5,44 @@ former_ids:
 id: canonical-merge-defaults-to-rolling-per-253051
 paper_refs: []
 problem_tags: []
-status: open
+status: parked
+target: null
 title: Canonical merge defaults to rolling per-user z-score while the Phase C target
   builder assumes population norm
 topic_tags: []
-updated_at: '2026-08-07T16:51:35+00:00'
-updates: []
+updated_at: '2026-09-01T07:45:31+00:00'
+updates:
+- at: '2026-09-01T07:45:31+00:00'
+  text: "PARKED 2026-09-01: THE DEFECT IS GONE, MEASURED WITH THE RECORD'S OWN NON-CIRCULAR
+    TEST (scratch/_norm_contract_audit.py).\n\nThe record warns that de-normalising
+    with the pinned stats and checking the values look physiological is CIRCULAR --
+    z*iqr+median reproduces the pinned centre for any z-scored channel -- and supplies
+    the valid test instead: DISPERSION. Under population norm an individual subject
+    spans only a fraction of the unit IQR; under rolling per-user norm each subject
+    is rescaled to IQR ~1. I used that test, not the circular one.\n\nMEASURED on
+    the current [14041,1440,12] bundle, per-subject IQR / population IQR, subjects
+    with >=200 present cells:\n  channel                       ratio    (record measured,
+    defect live)\n  hr_mean (control, norm=none)   0.78     0.78\n  hrv_rmssd                      0.46
+    \    1.01\n  respiratory_rate               0.33     0.97\n  skin_temperature
+    \              0.77     1.02\nThe control is unchanged at 0.78, which is what
+    makes the comparison meaningful -- the instrument reads the same on the channel
+    neither normaliser touches. All three z-scored channels have collapsed from ~1.0
+    to 0.33-0.77, i.e. individual subjects now span a fraction of the population spread.
+    That is the population-norm signature.\n\nINDEPENDENT CONFIRMATION that did not
+    exist when the record was written: merge_manifest.json now carries a `normalization`
+    block declaring mode 'population', a stats_sha256 (24e731a6...), and a per-channel
+    policy with hr_mean and hrv_rmssd both 'population' and the sleep/time block 'none'.
+    So the bundle now STATES its contract rather than leaving it to be inferred, which
+    is the structural fix for a declared-but-unenforced contract.\n\nCONSEQUENCE:
+    the Phase C target builder's inverse raw = z*iqr+median is VALID on this bundle,
+    so hrv/rr/temp values printed in captions and emitted in slots are in real physiological
+    units. That matters directly for the current campaign -- v35wide added hrv/rr/temp
+    dispersion clauses to the caption, and had this defect still been live those clauses
+    would have been per-user z-scores wearing physiological unit labels.\n\nPARKED
+    rather than resolved: a data-contract report with no hypothesis attached, and
+    'resolved' requires a confirmed one. scratch/_norm_contract_audit.py is the one-command
+    re-test after any future merge; run it BEFORE trusting a caption that prints hrv,
+    rr or temp."
 ---
 
 ## Description
@@ -121,3 +153,22 @@ retraction of either rule_out until measured.
 
 CHEAP DISCRIMINATING TEST, NO RE-MERGE: run a Phase A arm with use_layernorm: true (one-line config
 change). It isolates the input-scaling effect from the population-vs-rolling question.
+
+## Updates
+- **2026-09-01T07:45:31+00:00** — PARKED 2026-09-01: THE DEFECT IS GONE, MEASURED WITH THE RECORD'S OWN NON-CIRCULAR TEST (scratch/_norm_contract_audit.py).
+
+The record warns that de-normalising with the pinned stats and checking the values look physiological is CIRCULAR -- z*iqr+median reproduces the pinned centre for any z-scored channel -- and supplies the valid test instead: DISPERSION. Under population norm an individual subject spans only a fraction of the unit IQR; under rolling per-user norm each subject is rescaled to IQR ~1. I used that test, not the circular one.
+
+MEASURED on the current [14041,1440,12] bundle, per-subject IQR / population IQR, subjects with >=200 present cells:
+  channel                       ratio    (record measured, defect live)
+  hr_mean (control, norm=none)   0.78     0.78
+  hrv_rmssd                      0.46     1.01
+  respiratory_rate               0.33     0.97
+  skin_temperature               0.77     1.02
+The control is unchanged at 0.78, which is what makes the comparison meaningful -- the instrument reads the same on the channel neither normaliser touches. All three z-scored channels have collapsed from ~1.0 to 0.33-0.77, i.e. individual subjects now span a fraction of the population spread. That is the population-norm signature.
+
+INDEPENDENT CONFIRMATION that did not exist when the record was written: merge_manifest.json now carries a `normalization` block declaring mode 'population', a stats_sha256 (24e731a6...), and a per-channel policy with hr_mean and hrv_rmssd both 'population' and the sleep/time block 'none'. So the bundle now STATES its contract rather than leaving it to be inferred, which is the structural fix for a declared-but-unenforced contract.
+
+CONSEQUENCE: the Phase C target builder's inverse raw = z*iqr+median is VALID on this bundle, so hrv/rr/temp values printed in captions and emitted in slots are in real physiological units. That matters directly for the current campaign -- v35wide added hrv/rr/temp dispersion clauses to the caption, and had this defect still been live those clauses would have been per-user z-scores wearing physiological unit labels.
+
+PARKED rather than resolved: a data-contract report with no hypothesis attached, and 'resolved' requires a confirmed one. scratch/_norm_contract_audit.py is the one-command re-test after any future merge; run it BEFORE trusting a caption that prints hrv, rr or temp.

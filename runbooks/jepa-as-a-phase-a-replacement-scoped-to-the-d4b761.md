@@ -50,11 +50,26 @@ notes:
     bar (incumbent already reads R2 0.8084, increment +0.7211 at the production stage
     -- a HIGH bar), the anti-collapse instrumentation requirement (predictor effective
     rank + EMA/context cosine), and the recipe-not-checkpoint baseline rule."
+- at: '2026-09-01T08:24:47+00:00'
+  text: 'ABANDONED 2026-09-01 on a dead precondition, flagged by doctor(): the runbook
+    sat `queued` while the problem it serves is `parked`. A queued runbook against
+    a parked problem is the worst of both states -- it reads as live work to anyone
+    scanning the queue, and it cannot be started without first re-opening a problem
+    that was parked for cause.
+
+
+    No judgement is made here on JEPA as a Phase A replacement. The plan is not refuted;
+    it is unreachable from the current state. If the parent problem is ever re-opened
+    on new evidence, this runbook should be re-registered against that re-opening
+    rather than resurrected from this record -- its cost estimate and its comparators
+    were written for a corpus and a Phase A recipe that have both since changed (the
+    corpus is now [14041,1440,12] at merge f1b15e9e, and Phase A now carries the stratified-batches
+    fix that healed the collapse this plan predates).'
 priority: 20
 problem_id: optihealth-contrastive-loss-20260727
-status: queued
+status: abandoned
 topic_tags: []
-updated_at: '2026-08-18T23:24:00+00:00'
+updated_at: '2026-09-01T08:24:47+00:00'
 ---
 
 ## Prompt
@@ -104,6 +119,9 @@ DOES THIS REVIVE JEPA-FOR-STATE? NO, and the reasoning is worth stating so it is
 IF someone wants to reopen JEPA-for-state specifically, the honest cheap precondition is now: re-measure rand_pca8 and enc_pca8 under a LINEAR readout with their own nulls. If random-init still sits at its null under linear while trained clears it at z+2.83, training IS adding something and the 'no headroom' argument genuinely weakens. That is ~10 minutes of CPU and it should be run BEFORE any GPU is spent on that motivation. It does not block this runbook.
 
 UNCHANGED HERE: the blocking CPU Step 0 (latent-vs-raw prediction premise test), the hr_peak bar (incumbent already reads R2 0.8084, increment +0.7211 at the production stage -- a HIGH bar), the anti-collapse instrumentation requirement (predictor effective rank + EMA/context cosine), and the recipe-not-checkpoint baseline rule.
+- **2026-09-01T08:24:47+00:00** — ABANDONED 2026-09-01 on a dead precondition, flagged by doctor(): the runbook sat `queued` while the problem it serves is `parked`. A queued runbook against a parked problem is the worst of both states -- it reads as live work to anyone scanning the queue, and it cannot be started without first re-opening a problem that was parked for cause.
+
+No judgement is made here on JEPA as a Phase A replacement. The plan is not refuted; it is unreachable from the current state. If the parent problem is ever re-opened on new evidence, this runbook should be re-registered against that re-opening rather than resurrected from this record -- its cost estimate and its comparators were written for a corpus and a Phase A recipe that have both since changed (the corpus is now [14041,1440,12] at merge f1b15e9e, and Phase A now carries the stratified-batches fix that healed the collapse this plan predates).
 
 ## Links
 Queued for problem [[optihealth-contrastive-loss-20260727]].

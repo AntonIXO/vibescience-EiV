@@ -7,14 +7,65 @@ paper_refs: []
 problem_tags:
 - optihealth-eiv
 - data-contract-violation
-status: open
+status: parked
+target: null
 title: LifeSnaps HR is HOURLY, so the strict-clean eval population is 100% pmdata
   and 76% of hr_peak training targets are ~10 bpm suppressed
 topic_tags:
 - sensor-text
 - cross-modal
-updated_at: '2026-08-07T12:20:03+00:00'
-updates: []
+updated_at: '2026-09-01T07:41:54+00:00'
+updates:
+- at: '2026-09-01T07:41:54+00:00'
+  text: 'PARKED 2026-09-01: THE PREMISE NO LONGER HOLDS ON THIS CORPUS. Measured,
+    not assumed, and cross-checked two independent ways before retiring the record.
+
+
+    The problem states LifeSnaps HR is HOURLY, that the strict-clean eval population
+    is therefore 100% pmdata, and that 76% of hr_peak training targets are ~10 bpm
+    suppressed. On the current bundle that is false.
+
+
+    READ 1 -- inter-reading spacing (scratch/_hourly_peak_audit.py). Median gap between
+    consecutive present HR minutes, per dataset: lifesnaps 1.0 minutes, and only 16
+    of its 4,778 windows (0.3%) have a median gap >= 30 min. Across the whole Phase-A
+    roster 17/9,365 windows (0.2%) are hourly-sampled; across the Phase-C band04 roster
+    16/7,542 (0.2%). There is no hourly population left to mask.
+
+
+    READ 2 -- cross-check, because a median of 1 is compatible with a day that is
+    dense in bursts and hourly elsewhere (scratch/_hourly_crosscheck.py). Two further
+    statistics per dataset: the share of gaps that are exactly 1 minute, and readings
+    per PRESENT hour (60 = fully dense, ~1 = hourly knots). lifesnaps reads frac(gap==1)
+    p10/p50/p90 = 0.994/0.999/1.000 and readings-per-hour p10/p50/p90 = 36.4/59.4/60.0,
+    with only 99/4,778 windows (2.1%) under 5 reads/hour. Both reads agree: lifesnaps
+    is natively 1-minute in this bundle.
+
+
+    WHAT IS STILL TRUE AND WORTH KEEPING. The MECHANISM the record establishes is
+    sound and was independently reconfirmed today: subsampling dense pmdata days to
+    an hourly grid costs a mean peak deficit of 27.32 bpm (median 23.83, p90 52.98,
+    n=2,074) on this corpus -- larger than the 10.06 bpm the record measured on the
+    older bundle, because these windows are denser. So the physics is right; only
+    the population it applied to is gone. The record''s other standing conclusion
+    -- DO NOT INTERPOLATE HR to repair peaks, because the max of a piecewise-linear
+    interpolant is the max of its knots and PCHIP degrades the per-sample correlation
+    0.8456 -> 0.7664 -- remains valid and is worth preserving as a do-not-retry.
+
+
+    WHAT THIS MEANS FOR THE PROPOSED FIX. The record''s prescription was per-SLOT
+    supervision masking: train state and hr_raw on everything, render hr_peak only
+    on natively dense days. Grep confirms it was never implemented (no hourly / per-slot
+    / hr_density logic in src/training/datasets.py). It should NOT be implemented
+    now: it would gate 0.2% of rows, which cannot move any measured quantity, and
+    it would add a masking path that a future denser-or-sparser corpus could silently
+    mis-apply.
+
+
+    PARKED rather than resolved: this is a data-quality report with no hypothesis
+    attached, and ''resolved'' requires a confirmed one. If a future merge reintroduces
+    an hourly source, the mechanism and the reads above are the ready-made test --
+    re-run both scripts and the population is visible in one pass.'
 ---
 
 ## Description
@@ -99,5 +150,20 @@ The problem phase-c-hr-peak-saturated-prior-20260805 has spent ~18 experiments o
 (d) Re-run the exp-e40 comparison with an eval cohort matched to the TRAINING sampling mix, to separate     'the model generalises' from 'the model was scored on its easiest 18% of samples'.
 
 SCOPE: the 9.90 bpm figure is an EMULATION on pmdata, not a measurement of lifesnaps' own error (lifesnaps' true 15-min peaks are unavailable). It bounds the effect for days that look like pmdata's.
+
+## Updates
+- **2026-09-01T07:41:54+00:00** — PARKED 2026-09-01: THE PREMISE NO LONGER HOLDS ON THIS CORPUS. Measured, not assumed, and cross-checked two independent ways before retiring the record.
+
+The problem states LifeSnaps HR is HOURLY, that the strict-clean eval population is therefore 100% pmdata, and that 76% of hr_peak training targets are ~10 bpm suppressed. On the current bundle that is false.
+
+READ 1 -- inter-reading spacing (scratch/_hourly_peak_audit.py). Median gap between consecutive present HR minutes, per dataset: lifesnaps 1.0 minutes, and only 16 of its 4,778 windows (0.3%) have a median gap >= 30 min. Across the whole Phase-A roster 17/9,365 windows (0.2%) are hourly-sampled; across the Phase-C band04 roster 16/7,542 (0.2%). There is no hourly population left to mask.
+
+READ 2 -- cross-check, because a median of 1 is compatible with a day that is dense in bursts and hourly elsewhere (scratch/_hourly_crosscheck.py). Two further statistics per dataset: the share of gaps that are exactly 1 minute, and readings per PRESENT hour (60 = fully dense, ~1 = hourly knots). lifesnaps reads frac(gap==1) p10/p50/p90 = 0.994/0.999/1.000 and readings-per-hour p10/p50/p90 = 36.4/59.4/60.0, with only 99/4,778 windows (2.1%) under 5 reads/hour. Both reads agree: lifesnaps is natively 1-minute in this bundle.
+
+WHAT IS STILL TRUE AND WORTH KEEPING. The MECHANISM the record establishes is sound and was independently reconfirmed today: subsampling dense pmdata days to an hourly grid costs a mean peak deficit of 27.32 bpm (median 23.83, p90 52.98, n=2,074) on this corpus -- larger than the 10.06 bpm the record measured on the older bundle, because these windows are denser. So the physics is right; only the population it applied to is gone. The record's other standing conclusion -- DO NOT INTERPOLATE HR to repair peaks, because the max of a piecewise-linear interpolant is the max of its knots and PCHIP degrades the per-sample correlation 0.8456 -> 0.7664 -- remains valid and is worth preserving as a do-not-retry.
+
+WHAT THIS MEANS FOR THE PROPOSED FIX. The record's prescription was per-SLOT supervision masking: train state and hr_raw on everything, render hr_peak only on natively dense days. Grep confirms it was never implemented (no hourly / per-slot / hr_density logic in src/training/datasets.py). It should NOT be implemented now: it would gate 0.2% of rows, which cannot move any measured quantity, and it would add a masking path that a future denser-or-sparser corpus could silently mis-apply.
+
+PARKED rather than resolved: this is a data-quality report with no hypothesis attached, and 'resolved' requires a confirmed one. If a future merge reintroduces an hourly source, the mechanism and the reads above are the ready-made test -- re-run both scripts and the population is visible in one pass.
 
 #sensor-text #cross-modal #optihealth-eiv #data-contract-violation

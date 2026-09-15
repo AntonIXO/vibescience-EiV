@@ -8,12 +8,57 @@ problem_tags:
 - optihealth-eiv
 - data-contract-violation
 - masking
-status: open
+status: parked
+target: null
 title: Canonical M_mask marks all-zero channels as PRESENT, producing garbage training
   targets
 topic_tags: []
-updated_at: '2026-08-07T12:30:38+00:00'
-updates: []
+updated_at: '2026-09-01T07:43:59+00:00'
+updates:
+- at: '2026-09-01T07:43:59+00:00'
+  text: 'PARKED 2026-09-01: BOTH DEFECTS ARE GONE FROM THE CURRENT BUNDLE. Measured
+    directly off X_canonical + M_mask, no re-merge required to check (scratch/_mask_contract_audit.py).
+    This matters because the record''s own conclusion was that fixing it ''requires
+    a re-merge, which invalidates cached canonical artifacts'' -- and re-merges run
+    on Anton''s other machine, so leaving this open schedules work that is already
+    done.
+
+
+    CLAIM 1 -- absence encoded as present-and-zero, hr_peak=0 targets, ''72.0% of
+    ALL bradycardic training targets were this garbage''. Now measured on the [14041,1440,12]
+    bundle across all 21 datasets: the mean fraction of PRESENT hr cells holding a
+    sub-30 bpm value is 0.0000 in every single dataset, and 0 of 14,010 windows have
+    their entire present HR below 30. dryad_ifh_affect, the corpus the record measured
+    at zero-fraction mean 0.687 with 0/1500 days zero-free, now reads 0.0000 on 4,506
+    windows. The degenerate population is empty.
+
+
+    CLAIM 2 -- the four sleep_prob_* channels sum to ~0.031 per step instead of ~1.0,
+    ''roughly 30x too small everywhere''. Measured over 265,089 fully-observed sleep
+    steps: per-step sum mean 1.0000, p5 1.0000, p50 1.0000, p95 1.0000, and 100.00%
+    of steps are within 0.05 of 1.0. They are exact probabilities now.
+
+
+    WHAT THIS DOES NOT SAY. It does not say the code-level contract was repaired:
+    schema.py''s FeatureChannel.min_valid / max_valid may still be declared-and-unread,
+    and if so a future source that encodes non-wear as literal 0 could reintroduce
+    the same defect silently. What is established is that no such source is in the
+    CURRENT bundle. The train-time guard the record mentions (min_valid_hr_bpm=30.0
+    in InstructionDataset, pinned by tests/test_hr_bucket_marginal.py::TestZeroHrContamination)
+    remains as the backstop and should not be removed on the strength of this measurement.
+
+
+    CONSEQUENCE FOR ANALYSES THAT CITED IT. The record notes the contamination inflated
+    evaluation -- a degenerate model scored eiv_gen_peak_corr +0.680 pooled against
+    +0.086 on full-coverage rows, because the bimodal 0-vs-120 bpm truth made the
+    correlation easy. Any number quoted from a pre-fix bundle carries that inflation;
+    numbers measured on this bundle do not, which is one more reason the current campaign''s
+    captures are not comparable with pre-rebuild ones.
+
+
+    PARKED rather than resolved: a data-contract report with no hypothesis attached,
+    and ''resolved'' requires a confirmed one. scratch/_mask_contract_audit.py is
+    the one-command re-test if a new source is ever merged.'
 ---
 
 ## Description
@@ -109,5 +154,18 @@ Two distinct consequences:
 2. SLEEP CHANNELS ARE NOT PROBABILITIES. On the NON-degenerate 58.4%, the four sleep_prob_* channels sum to mean 0.031 per step (p5 0.010, p95 0.042) instead of ~1.0 - roughly 30x too small everywhere, not merely zero on some samples. Consistent with the persistently negative probe deep_sleep_r2 (-0.127 on 12ch_v1_lora_E22fix) and with P4 deep_sleep_acc = 1.00 being trivially satisfied by always emitting ~0%.
 
 A train-time filter (min_valid_hr_bpm=30.0 in InstructionDataset, guarded by tests/test_hr_bucket_marginal.py::TestZeroHrContamination) now drops the HR-degenerate samples, but that is a symptom patch on one channel. The real defect is in the canonical merge/mask contract: absence is encoded as present-and-zero rather than absent, and the sleep normalisation scale looks wrong independently of that. Fixing it properly requires a re-merge, which invalidates cached canonical artifacts - hence filed as its own problem rather than patched inline.
+
+## Updates
+- **2026-09-01T07:43:59+00:00** — PARKED 2026-09-01: BOTH DEFECTS ARE GONE FROM THE CURRENT BUNDLE. Measured directly off X_canonical + M_mask, no re-merge required to check (scratch/_mask_contract_audit.py). This matters because the record's own conclusion was that fixing it 'requires a re-merge, which invalidates cached canonical artifacts' -- and re-merges run on Anton's other machine, so leaving this open schedules work that is already done.
+
+CLAIM 1 -- absence encoded as present-and-zero, hr_peak=0 targets, '72.0% of ALL bradycardic training targets were this garbage'. Now measured on the [14041,1440,12] bundle across all 21 datasets: the mean fraction of PRESENT hr cells holding a sub-30 bpm value is 0.0000 in every single dataset, and 0 of 14,010 windows have their entire present HR below 30. dryad_ifh_affect, the corpus the record measured at zero-fraction mean 0.687 with 0/1500 days zero-free, now reads 0.0000 on 4,506 windows. The degenerate population is empty.
+
+CLAIM 2 -- the four sleep_prob_* channels sum to ~0.031 per step instead of ~1.0, 'roughly 30x too small everywhere'. Measured over 265,089 fully-observed sleep steps: per-step sum mean 1.0000, p5 1.0000, p50 1.0000, p95 1.0000, and 100.00% of steps are within 0.05 of 1.0. They are exact probabilities now.
+
+WHAT THIS DOES NOT SAY. It does not say the code-level contract was repaired: schema.py's FeatureChannel.min_valid / max_valid may still be declared-and-unread, and if so a future source that encodes non-wear as literal 0 could reintroduce the same defect silently. What is established is that no such source is in the CURRENT bundle. The train-time guard the record mentions (min_valid_hr_bpm=30.0 in InstructionDataset, pinned by tests/test_hr_bucket_marginal.py::TestZeroHrContamination) remains as the backstop and should not be removed on the strength of this measurement.
+
+CONSEQUENCE FOR ANALYSES THAT CITED IT. The record notes the contamination inflated evaluation -- a degenerate model scored eiv_gen_peak_corr +0.680 pooled against +0.086 on full-coverage rows, because the bimodal 0-vs-120 bpm truth made the correlation easy. Any number quoted from a pre-fix bundle carries that inflation; numbers measured on this bundle do not, which is one more reason the current campaign's captures are not comparable with pre-rebuild ones.
+
+PARKED rather than resolved: a data-contract report with no hypothesis attached, and 'resolved' requires a confirmed one. scratch/_mask_contract_audit.py is the one-command re-test if a new source is ever merged.
 
 #optihealth-eiv #data-contract-violation #masking

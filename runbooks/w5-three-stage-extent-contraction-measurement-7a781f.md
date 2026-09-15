@@ -23,17 +23,24 @@ gates:
   / num_channels match merge_manifest.json before reading anything. A checkpoint trained
   at another resolution loads cleanly against this tensor and silently invalidates
   the run.
-hypothesis_id: null
+hypothesis_id: h-w5-contraction-survives-into-the-91ad0b
 id: w5-three-stage-extent-contraction-measurement-7a781f
-notes: []
+notes:
+- at: '2026-08-29T22:11:08+00:00'
+  text: 'EXECUTED AND CLOSED. This runbook''s measurement was performed by exp-w5-three-stage-contraction-20260820
+    (contraction confirmed architectural; frozen re-pool 0.1822 -> 0.8159) and its
+    problem is now resolved. The extent line continued through W6 (end-to-end 0.5630
+    -> 0.6897), W10 (serving-path parity) and W12/W13 (out-of-sample: held-out popane_s5/s6
+    +0.2412, no harm to any long cohort with a working readout). Nothing here is unexecuted;
+    closing so the queue reflects reality.'
 priority: 1
 problem_id: extent-heterogeneity-short-lab-sessions-are-contracted-onto-the-corpus-median-by-unmasked-pooling
-status: queued
+status: done
 topic_tags:
 - extent-heterogeneity
 - pooling
 - denominator
-updated_at: '2026-08-20T21:17:39+00:00'
+updated_at: '2026-08-29T22:11:08+00:00'
 ---
 
 ## Prompt
@@ -85,8 +92,12 @@ Open the experiment against hypothesis `h-w5-contraction-survives-into-the-91ad0
 ## Preconditions
 Corpus data/canonical at git_sha ac7d2b1c (tensor [12547,1440,12]). A Phase-B checkpoint of the current recipe available for the encoder-stage read. CPU sufficient; no GPU required for the raw and re-pool arms. Read scratch/w4_extent_premise_audit.py and scratch/w4b_variance_compression.py first -- they already compute the naive-stage reference and the denormalisation is handled by scratch/canon_utils.channel_denorm.
 
+## Log
+- **2026-08-29T22:11:08+00:00** — EXECUTED AND CLOSED. This runbook's measurement was performed by exp-w5-three-stage-contraction-20260820 (contraction confirmed architectural; frozen re-pool 0.1822 -> 0.8159) and its problem is now resolved. The extent line continued through W6 (end-to-end 0.5630 -> 0.6897), W10 (serving-path parity) and W12/W13 (out-of-sample: held-out popane_s5/s6 +0.2412, no harm to any long cohort with a working readout). Nothing here is unexecuted; closing so the queue reflects reality.
+
 ## Links
 Queued for problem [[extent-heterogeneity-short-lab-sessions-are-contracted-onto-the-corpus-median-by-unmasked-pooling]].
+Run as [[h-w5-contraction-survives-into-the-91ad0b]].
 Intended gates: `BLOCKING AND FIRST: this runbook produces the evidence that decides whether ANY of H-W6/H-W7/H-W8 is funded. It is CPU-only. Do not launch a GPU arm from this problem before it closes.`, `Report eiv_extent_variance_compression_ratio at three stages (naive 1440-mean / trained-encoder patch tokens / production post-projector) for all 7 short and 4 long cohorts, each with mean coverage c alongside. Gate g1-three-stage-compression-measured: if the encoder-stage ratio on short cohorts is >= 0.5, H-W5 is REFUTED and the family is not funded.`, `Run the RANDOM-INIT encoder at matched geometry (gate g2-random-init-control, bar 0.15). Without it, 'training destroyed the spread' and 'this pooling never preserved it' are indistinguishable and imply opposite next moves. This control has repeatedly been the most informative number in this vault.`, `Run the masked re-pool headroom arm on the SAME frozen tokens (gate g3-masked-repool-headroom, bar 0.60). Zero training required -- it is a post-hoc re-pooling of already-computed tokens.`, `Report the shuffle control (gate g4). Confirm the ratio does not manufacture apparent spread on row-shuffled targets.`, `Load encoder weights with strict=True and assert the checkpoint's window_timesteps / num_channels match merge_manifest.json before reading anything. A checkpoint trained at another resolution loads cleanly against this tensor and silently invalidates the run.`.
 This is a PLAN, not a preregistration — the prediction is committed via propose_hypothesis at run time.
 

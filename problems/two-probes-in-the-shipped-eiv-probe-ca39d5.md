@@ -6,15 +6,43 @@ id: two-probes-in-the-shipped-eiv-probe-ca39d5
 paper_refs: []
 problem_tags:
 - conditioning-collapse
-status: open
+status: parked
+target: null
 title: 'Two probes in the shipped eiv probe suite are vacuous: P3 counterfactual never
   runs (swap_measured=False) and P6 shuffle control returns 0.0 on both arms'
 topic_tags:
 - control
 - baseline
 - medgemma
-updated_at: '2026-08-08T08:57:02+00:00'
-updates: []
+updated_at: '2026-09-01T07:36:13+00:00'
+updates:
+- at: '2026-09-01T07:36:13+00:00'
+  text: 'FIXED IN CODE AND VERIFIED 2026-09-01, by reading the shipped code rather
+    than trusting the earlier note. Parking rather than leaving open: recall hands
+    a future session the framing that the shipped probe suite is vacuous, and that
+    is no longer true.
+
+
+    p3 (counterfactual): src/probes/counterfactual.py pairs on the PEAK axis via masked_hr_peak_bpm
+    (defined line 20, used line 108) instead of the day-mean thresholds that made
+    the high pool 1 day out of 5,955. swap_measured is published (line 239), so an
+    unattempted swap can no longer read as ''no attribution''.
+
+
+    p6 (shuffle control): src/probes/shuffle_control.py lines 204-208 derive ordered_measured/shuffled_measured
+    from the denominators and return None -- not 0.0 -- when nothing parsed, with
+    shuffle_measured at line 220. The `else 0.0` that made ''nothing parsed'' indistinguishable
+    from ''no sensor dependence'' is gone.
+
+
+    tests/test_probe_null_discipline.py: 31 tests, all passing on this checkout.
+
+
+    PARKED, not resolved: ''resolved'' requires a confirmed hypothesis and this record
+    carries none -- it is a defect report, and the defect is repaired. The follow-on
+    measurement the note flags (re-run p3 with the corrected peak gates for the project''s
+    first causal read on conditioning) is a NEW question that belongs to the deployment
+    problem, not to this defect record.'
 ---
 
 ## Description
@@ -123,5 +151,16 @@ to mean.
 
 FIX, SAME RULE AS THE OTHERS: when `disable_mse_regress` is set, `hr_r2` must be logged as null /
 omitted, never as a float. A metric whose head gets no gradient is not a metric.
+
+## Updates
+- **2026-09-01T07:36:13+00:00** — FIXED IN CODE AND VERIFIED 2026-09-01, by reading the shipped code rather than trusting the earlier note. Parking rather than leaving open: recall hands a future session the framing that the shipped probe suite is vacuous, and that is no longer true.
+
+p3 (counterfactual): src/probes/counterfactual.py pairs on the PEAK axis via masked_hr_peak_bpm (defined line 20, used line 108) instead of the day-mean thresholds that made the high pool 1 day out of 5,955. swap_measured is published (line 239), so an unattempted swap can no longer read as 'no attribution'.
+
+p6 (shuffle control): src/probes/shuffle_control.py lines 204-208 derive ordered_measured/shuffled_measured from the denominators and return None -- not 0.0 -- when nothing parsed, with shuffle_measured at line 220. The `else 0.0` that made 'nothing parsed' indistinguishable from 'no sensor dependence' is gone.
+
+tests/test_probe_null_discipline.py: 31 tests, all passing on this checkout.
+
+PARKED, not resolved: 'resolved' requires a confirmed hypothesis and this record carries none -- it is a defect report, and the defect is repaired. The follow-on measurement the note flags (re-run p3 with the corrected peak gates for the project's first causal read on conditioning) is a NEW question that belongs to the deployment problem, not to this defect record.
 
 #control #baseline #medgemma #conditioning-collapse

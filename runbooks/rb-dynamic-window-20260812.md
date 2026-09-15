@@ -47,6 +47,14 @@ notes:
     This runbook stays QUEUED only as the historical source of the T0/T1/T2 ladder
     and the verified zero-fill mechanism note. Execute w5 first; it decides whether
     any of the rest is funded.'
+- at: '2026-09-03T06:44:13+00:00'
+  text: '2026-09-03 — still queued after 21 days, deliberately. The 2026-09-03 results
+    moved the binding constraint away from window geometry: the held-out state target
+    splits into lab (WESAD AUC 0.97) and free-living (LifeSnaps 0.47), and no encoder
+    objective beats 15 handcrafted multi-scale features on held-out subjects. A dynamic
+    window is only worth funding if the free-living cell shows any signal at the feature
+    level first (hypothesis registered 2026-09-03 on the momentary-state problem).
+    Re-prioritise after that reads.'
 priority: 2
 problem_id: phase-c-arms-fail-on-the-deployment-9217e0
 status: queued
@@ -54,7 +62,7 @@ topic_tags:
 - deployment-distribution
 - padding
 - optihealth
-updated_at: '2026-08-20T21:20:23+00:00'
+updated_at: '2026-09-03T06:44:13+00:00'
 ---
 
 ## Prompt
@@ -71,6 +79,7 @@ NEW HOME: problem `extent-heterogeneity-short-lab-sessions-are-contracted-onto-t
 T0 REMAINS DEAD exactly as recorded here (present-mean imputation: v4w 16.72 -> 16.56 bpm, v5c 20.83 -> 21.07, 133/200 emissions byte-identical). T2 (true variable-T, attention-masked padded patches, 2-3 days) is superseded in spirit by w6/w8, which obtain presence-awareness WITHOUT changing tensor width or the 23-token geometry -- a far smaller blast radius.
 
 This runbook stays QUEUED only as the historical source of the T0/T1/T2 ladder and the verified zero-fill mechanism note. Execute w5 first; it decides whether any of the rest is funded.
+- **2026-09-03T06:44:13+00:00** — 2026-09-03 — still queued after 21 days, deliberately. The 2026-09-03 results moved the binding constraint away from window geometry: the held-out state target splits into lab (WESAD AUC 0.97) and free-living (LifeSnaps 0.47), and no encoder objective beats 15 handcrafted multi-scale features on held-out subjects. A dynamic window is only worth funding if the free-living cell shows any signal at the feature level first (hypothesis registered 2026-09-03 on the momentary-state problem). Re-prioritise after that reads.
 
 ## Links
 Queued for problem [[phase-c-arms-fail-on-the-deployment-9217e0]].

@@ -8,7 +8,6 @@ retraction_reason: ''
 ruled_out_at: '2026-08-14T20:24:32+00:00'
 topic_tags:
 - kernel
-- kernel-alignment
 ---
 
 ## Claim
@@ -23,4 +22,4 @@ Disjoint entity sets measuring different quantities: HSIC is a dependence statis
 ## Links
 Rules out for problem [[vault-hygiene-and-record-readability]].
 
-#kernel #kernel-alignment
+#kernel

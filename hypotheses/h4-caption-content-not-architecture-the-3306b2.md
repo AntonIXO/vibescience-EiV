@@ -1,10 +1,13 @@
 ---
+ambition_class: null
 created_at: '2026-08-08T00:27:55+00:00'
 former_ids:
 - h4-caption-content-not-architecture-the-hr-peak-deficit-is-a-supervision-deficit
+gap_closure_estimate: null
 gates: []
 id: h4-caption-content-not-architecture-the-3306b2
 interventions: []
+override_reason: ''
 paper_refs: []
 predicted_effects:
 - diagnostic_id: eiv_peak_excursion_increment_r2
@@ -15,7 +18,9 @@ predicted_effects:
   magnitude_note: ''
 problem_id: the-15-min-1-min-epoch-migration-3e7d2d
 problem_tags: []
-status: refuted
+reopen_reason: ''
+reopened_from: null
+status: inconclusive
 supersedes: null
 topic_tags:
 - cross-modal

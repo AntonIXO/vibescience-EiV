@@ -8,7 +8,7 @@ problem_tags:
 - data-contract-violation
 - matched-baseline
 - subject-heldout
-status: open
+status: resolved
 target: null
 title: 'The 24h window destroys the momentary EMA labels it is supposed to supervise:
   77.6% of daily LifeSnaps mood windows contain contradicting pings, and peri-ping
@@ -18,7 +18,7 @@ topic_tags:
 - epoch-resolution
 - baseline
 - control
-updated_at: '2026-08-18T23:25:08+00:00'
+updated_at: '2026-08-30T11:46:58+00:00'
 updates:
 - at: '2026-08-14T21:41:57+00:00'
   text: "[2026-08-15 UNIFICATION — the window question and the state question are
@@ -257,6 +257,11 @@ updates:
     transition windows lose their internal contrast before Phase B sees it. E26 shows
     that contrast is real (3.41 SD above its own null). Fixing the miner is the remaining
     supply-side lever."
+- at: '2026-08-30T11:46:58+00:00'
+  text: '2026-08-30: resolved per doctor(). 6 confirmed hypotheses, no live work.
+    The remaining actionable residue moved into code and the collapse problem: mask_unlabelled_state
+    fix landed (commit f1b15e9, exp-v11statemask measured it as hygiene-not-lever),
+    and window admission/pool questions continue under new-corpus-12-547 problem.'
 ---
 
 ## Description
@@ -524,5 +529,6 @@ DECISION, per the rule committed before the run: do NOT spend ~4 GPU-hours on th
 src/annotation/momentary_state.py + outputs/annotation/momentary_state_detector.joblib. flow-vs-stress, W=120, HR/HRV only, no clock features (E26 measured hr+clock 0.5786 < hr alone 0.6329). The trainer RE-SCORES with E26's protocol and refuses to write the artefact unless the AUC reproduces within 0.02 — it reproduced EXACTLY at 0.6329. n_train 3248, 87 subjects, 662 windows. Flagged provisional=True because optihealth_supabase still carries ZERO state labels, so this ships as a population model, not a per-user head.
 
 STANDING ENGINEERING DEFECT, UNCHANGED: TripletStateDataset (src/training/datasets.py:2149) mines on infer_state_label, one majority-collapsed label per window, so all 1274 transition windows lose their internal contrast before Phase B sees it. E26 shows that contrast is real (3.41 SD above its own null). Fixing the miner is the remaining supply-side lever.
+- **2026-08-30T11:46:58+00:00** — 2026-08-30: resolved per doctor(). 6 confirmed hypotheses, no live work. The remaining actionable residue moved into code and the collapse problem: mask_unlabelled_state fix landed (commit f1b15e9, exp-v11statemask measured it as hygiene-not-lever), and window admission/pool questions continue under new-corpus-12-547 problem.
 
 #wearables #epoch-resolution #baseline #control #optihealth-eiv #data-contract-violation #matched-baseline #subject-heldout

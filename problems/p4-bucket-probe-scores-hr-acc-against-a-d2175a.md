@@ -5,12 +5,33 @@ former_ids:
 id: p4-bucket-probe-scores-hr-acc-against-a-d2175a
 paper_refs: []
 problem_tags: []
-status: open
+status: parked
+target: null
 title: P4 bucket probe scores hr_acc against a different bucket definition than the
   training target (perfect model scores 0.26, majority scores 0.52)
 topic_tags: []
-updated_at: '2026-08-07T20:36:25+00:00'
-updates: []
+updated_at: '2026-09-01T07:36:26+00:00'
+updates:
+- at: '2026-09-01T07:36:26+00:00'
+  text: "FIXED IN CODE AND VERIFIED 2026-09-01. Parking: the record's framing -- that
+    P4 grades a bucket definition the model was never trained to emit, so a perfect
+    model scores 0.26 while a constant scores 0.52 -- is no longer true of the shipped
+    scorer, and leaving it open hands a future session a false account of the instrument.\n\nVERIFIED
+    by reading src/probes/bucket_parser.py rather than trusting the note. Lines 588-602
+    now derive the truth from hr_PEAK, not the day mean, and read the thresholds from
+    the training module itself:\n    _tach = getattr(_eiv_ds, 'HR_BUCKET_TACHYCARDIC',
+    120.0)\n    _elev = getattr(_eiv_ds, 'HR_BUCKET_ELEVATED', 100.0)\n    hr_peak
+    >= _tach -> 3 ; >= _elev -> 2 ; else -> 1\nwith an explicit comment that index
+    0 (bradycardic) is unreachable on the peak axis, matching the training rule which
+    has no bradycardic peak class. So the scorer and the training target now share
+    BOTH the axis and the thresholds, and the thresholds are imported rather than
+    hardcoded -- which is what stops the two drifting apart again.\n\nThis was the
+    third member of the instrument family this problem set documents (p3 swap 0.0,
+    p6 shuffle_gap 0.0, p4 wrong axis, W&B hr_r2 on an ungradiented head, mutable
+    HR cut points). The sibling record two-probes-in-the-shipped-eiv-probe-ca39d5
+    was parked in the same pass, with p3/p6 verified fixed and 31 tests passing.\n\nPARKED
+    rather than resolved: this is a defect report with no hypothesis attached, and
+    'resolved' requires a confirmed one. Nothing here is outstanding."
 ---
 
 ## Description
@@ -66,3 +87,16 @@ FIX: route p4's `true_hr` through `hr_label_bucket` so the scorer and the traini
 same function -- the same "make divergence unrepresentable" argument that function's own docstring
 already makes about the sampler. Until then, p4 hr_acc should be reported as UNINTERPRETABLE, and the
 Stage-C tripwire that gates on it should be treated as broken alongside p3 and p6.
+
+## Updates
+- **2026-09-01T07:36:26+00:00** — FIXED IN CODE AND VERIFIED 2026-09-01. Parking: the record's framing -- that P4 grades a bucket definition the model was never trained to emit, so a perfect model scores 0.26 while a constant scores 0.52 -- is no longer true of the shipped scorer, and leaving it open hands a future session a false account of the instrument.
+
+VERIFIED by reading src/probes/bucket_parser.py rather than trusting the note. Lines 588-602 now derive the truth from hr_PEAK, not the day mean, and read the thresholds from the training module itself:
+    _tach = getattr(_eiv_ds, 'HR_BUCKET_TACHYCARDIC', 120.0)
+    _elev = getattr(_eiv_ds, 'HR_BUCKET_ELEVATED', 100.0)
+    hr_peak >= _tach -> 3 ; >= _elev -> 2 ; else -> 1
+with an explicit comment that index 0 (bradycardic) is unreachable on the peak axis, matching the training rule which has no bradycardic peak class. So the scorer and the training target now share BOTH the axis and the thresholds, and the thresholds are imported rather than hardcoded -- which is what stops the two drifting apart again.
+
+This was the third member of the instrument family this problem set documents (p3 swap 0.0, p6 shuffle_gap 0.0, p4 wrong axis, W&B hr_r2 on an ungradiented head, mutable HR cut points). The sibling record two-probes-in-the-shipped-eiv-probe-ca39d5 was parked in the same pass, with p3/p6 verified fixed and 31 tests passing.
+
+PARKED rather than resolved: this is a defect report with no hypothesis attached, and 'resolved' requires a confirmed one. Nothing here is outstanding.

@@ -24,15 +24,33 @@ gates:
   grouped by stressor type. Do NOT propose a variant.
 hypothesis_id: null
 id: w8-cardinality-invariant-attention-pooling-a16135
-notes: []
+notes:
+- at: '2026-08-29T22:11:18+00:00'
+  text: 'ABANDONED ON ITS OWN PRECONDITION. exp-w8-precondition-randinit-linear-20260821
+    executed the mandatory precondition this runbook names and refuted the hypothesis
+    for ~10 CPU minutes instead of a GPU family: a RANDOM-INIT encoder matches or
+    beats the trained one on momentary state in all four cells (rand_pca8 linear +0.0312
+    z+4.61 vs enc_pca8 +0.0263 z+2.94; trained-minus-random -0.0049 linear, -0.0061
+    RF). Changing HOW you pool a representation cannot help when its learned content
+    on the target is nil.
+
+
+    2026-08-30 UPDATE, and the reason this stays ABANDONED rather than re-queued:
+    exp-w11 showed the deficit is partly SINGLE-SCALE, not purely supply -- multi-scale
+    concat over {30,120,240} beats the best single scale by +0.0369 with a dimension-matched
+    control at +0.0926. That reopens the multi-scale FEATURE question, NOT this runbook''s
+    cardinality-invariant attention pooling over the existing 23-token grid. The W8
+    finding that the trained representation carries nothing a random projection does
+    not is untouched. If anyone funds a pooling-side arm it must be justified by new
+    evidence about the representation, not by W11.'
 priority: 4
 problem_id: extent-heterogeneity-short-lab-sessions-are-contracted-onto-the-corpus-median-by-unmasked-pooling
-status: queued
+status: abandoned
 topic_tags:
 - extent-heterogeneity
 - pooling
 - state-supervision
-updated_at: '2026-08-20T21:19:54+00:00'
+updated_at: '2026-08-29T22:11:18+00:00'
 ---
 
 ## Prompt
@@ -57,6 +75,11 @@ Conclude that state is SUPPLY-limited, not architecture-limited. Stop funding en
 
 ## Preconditions
 H-W5 supported; W6 run and closed. GPU free. Clean transition pool (nurse_stress excluded, n~2272, 95 subjects) prepared. Read `that-the-full-corpus-12-547-window-flow-vs-d55a19`, `the-function-class-account-of-exp-046-that-8-511840`, and the eiv_momentary_state_auc_over_null diagnostic description (2026-08-18 amendment) BEFORE designing.
+
+## Log
+- **2026-08-29T22:11:18+00:00** — ABANDONED ON ITS OWN PRECONDITION. exp-w8-precondition-randinit-linear-20260821 executed the mandatory precondition this runbook names and refuted the hypothesis for ~10 CPU minutes instead of a GPU family: a RANDOM-INIT encoder matches or beats the trained one on momentary state in all four cells (rand_pca8 linear +0.0312 z+4.61 vs enc_pca8 +0.0263 z+2.94; trained-minus-random -0.0049 linear, -0.0061 RF). Changing HOW you pool a representation cannot help when its learned content on the target is nil.
+
+2026-08-30 UPDATE, and the reason this stays ABANDONED rather than re-queued: exp-w11 showed the deficit is partly SINGLE-SCALE, not purely supply -- multi-scale concat over {30,120,240} beats the best single scale by +0.0369 with a dimension-matched control at +0.0926. That reopens the multi-scale FEATURE question, NOT this runbook's cardinality-invariant attention pooling over the existing 23-token grid. The W8 finding that the trained representation carries nothing a random projection does not is untouched. If anyone funds a pooling-side arm it must be justified by new evidence about the representation, not by W11.
 
 ## Links
 Queued for problem [[extent-heterogeneity-short-lab-sessions-are-contracted-onto-the-corpus-median-by-unmasked-pooling]].

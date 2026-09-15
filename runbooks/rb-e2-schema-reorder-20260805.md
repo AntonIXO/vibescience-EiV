@@ -7,12 +7,27 @@ gates:
 - gate-bucket-dose-slope
 hypothesis_id: null
 id: rb-e2-schema-reorder-20260805
-notes: []
+notes:
+- at: '2026-08-30T07:28:19+00:00'
+  text: 'SUPERSEDED BY THE ROSTER FINDING, 2026-08-30. This runbook''s premise --
+    that the C-stage schema key ORDER is worth an arm -- was queued 24 days ago against
+    a C profile that has since been measured to see only 53.9% of the corpus and 44.2%
+    of its label-epochs, with SIX label channels at exactly ZERO reach (valence, arousal,
+    protocol_condition, exam_session_code, stress_raw, stimulus_class). Reordering
+    keys inside a schema whose supervision is half-missing tests the wrong variable.
+
+
+    Not abandoned on merit: schema reorder was never refuted, and E2 may still be
+    worth running. But it must be re-queued AFTER the v11 full-corpus chain closes
+    (hypothesis a-full-a-b-c-retrain-whose-roster-actually-052f9a), against a roster
+    that actually covers the corpus, or its result is uninterpretable for the same
+    reason exp-050''s allowlist deltas were: ''which arm is less broken'' rather than
+    ''which arm is better''.'
 priority: 30
 problem_id: phase-c-hr-peak-saturated-prior-20260805
-status: queued
+status: abandoned
 topic_tags: []
-updated_at: '2026-08-05T15:47:15+00:00'
+updated_at: '2026-08-30T07:28:19+00:00'
 ---
 
 ## Prompt
@@ -26,6 +41,11 @@ Full gate + E23M + E23N suite, same seed/samples/donors.
 
 ## Preconditions
 Same seed/samples/donors as prior arms. Preregister with a mechanism gate.
+
+## Log
+- **2026-08-30T07:28:19+00:00** — SUPERSEDED BY THE ROSTER FINDING, 2026-08-30. This runbook's premise -- that the C-stage schema key ORDER is worth an arm -- was queued 24 days ago against a C profile that has since been measured to see only 53.9% of the corpus and 44.2% of its label-epochs, with SIX label channels at exactly ZERO reach (valence, arousal, protocol_condition, exam_session_code, stress_raw, stimulus_class). Reordering keys inside a schema whose supervision is half-missing tests the wrong variable.
+
+Not abandoned on merit: schema reorder was never refuted, and E2 may still be worth running. But it must be re-queued AFTER the v11 full-corpus chain closes (hypothesis a-full-a-b-c-retrain-whose-roster-actually-052f9a), against a roster that actually covers the corpus, or its result is uninterpretable for the same reason exp-050's allowlist deltas were: 'which arm is less broken' rather than 'which arm is better'.
 
 ## Links
 Queued for problem [[phase-c-hr-peak-saturated-prior-20260805]].

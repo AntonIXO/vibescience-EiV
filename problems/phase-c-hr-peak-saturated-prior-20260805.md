@@ -7,7 +7,7 @@ problem_tags:
 - optihealth-eiv
 - conditioning-collapse
 - data-contract-violation
-status: open
+status: resolved
 target: null
 title: 'Phase C: bucket/hr_peak conditioning is ~12x too weak to beat the template
   prior (not a dead slot)'
@@ -16,8 +16,12 @@ topic_tags:
 - medgemma
 - collapse
 - sensor-text
-updated_at: '2026-08-18T20:52:08+00:00'
-updates: []
+updated_at: '2026-08-30T11:46:58+00:00'
+updates:
+- at: '2026-08-30T11:46:58+00:00'
+  text: '2026-08-30: resolved per doctor(). 4 confirmed hypotheses, no live work;
+    the saturated-prior finding is superseded by the current constant-emitter collapse
+    investigation (new-corpus-12-547), which carries the live version of this axis.'
 ---
 
 ## Description
@@ -750,5 +754,8 @@ OPEN QUESTIONS.
   That is the single decision-relevant measurement still outstanding.
 - Whether ANY single-seed Phase-C comparison in this problem's history can be
   trusted. Given the band, most cannot; future arms must report per-seed.
+
+## Updates
+- **2026-08-30T11:46:58+00:00** — 2026-08-30: resolved per doctor(). 4 confirmed hypotheses, no live work; the saturated-prior finding is superseded by the current constant-emitter collapse investigation (new-corpus-12-547), which carries the live version of this axis.
 
 #cross-modal #medgemma #collapse #sensor-text #optihealth-eiv #conditioning-collapse #data-contract-violation

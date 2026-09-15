@@ -5,7 +5,7 @@ former_ids:
 id: the-15-min-1-min-epoch-migration-3e7d2d
 paper_refs: []
 problem_tags: []
-status: open
+status: resolved
 target: null
 title: The 15-min -> 1-min epoch migration recovers a large, genuinely incremental
   hr_peak signal, and silently invalidates the dataset allowlist and coverage gates
@@ -15,8 +15,11 @@ topic_tags:
 - dataset-whitelist
 - wearables
 - baseline
-updated_at: '2026-08-18T21:11:40+00:00'
-updates: []
+updated_at: '2026-08-30T11:47:22+00:00'
+updates:
+- at: '2026-08-30T11:47:22+00:00'
+  text: '2026-08-30: resolved per doctor() -- 4 confirmed hypotheses, no live work;
+    the 1-min grid is the production default and every current arm trains on it.'
 ---
 
 ## Description
@@ -517,5 +520,8 @@ recorded as skipped, not measured. The gap at 359 tokens is UNTESTED.
 OPEN QUESTION. Whether the +0.40 encoder-side pooling gap survives end-to-end
 into the projector and the emitted slot — the readout-side win has never been
 shown to reach the deliverable metric.
+
+## Updates
+- **2026-08-30T11:47:22+00:00** — 2026-08-30: resolved per doctor() -- 4 confirmed hypotheses, no live work; the 1-min grid is the production default and every current arm trains on it.
 
 #epoch-resolution #dataset-whitelist #wearables #baseline

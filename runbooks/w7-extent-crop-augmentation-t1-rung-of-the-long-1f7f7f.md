@@ -22,15 +22,23 @@ gates:
   comparisons are uninterpretable.'
 hypothesis_id: null
 id: w7-extent-crop-augmentation-t1-rung-of-the-long-1f7f7f
-notes: []
+notes:
+- at: '2026-08-29T22:11:08+00:00'
+  text: 'ABANDONED ON MEASUREMENT, not on priority. exp-w7-stage0-crop-power-20260821
+    refuted the premise for ~4 CPU minutes instead of the ~6 GPU-hours this runbook
+    budgeted: the encoder reads a 41-minute crop at 0.964 (avg) / 0.950 (masked) retention
+    against a gate demanding >= 20% loss, so there is no readout fragility for crop
+    augmentation to teach out of. The two defects are separable and only one existed
+    -- representation CONTRACTION is real and now fixed and generalising (W5/W6/W12/W13),
+    readout FRAGILITY is not real. Problem resolved; do not re-queue.'
 priority: 3
 problem_id: extent-heterogeneity-short-lab-sessions-are-contracted-onto-the-corpus-median-by-unmasked-pooling
-status: queued
+status: abandoned
 topic_tags:
 - extent-heterogeneity
 - wearables
 - deployment-distribution
-updated_at: '2026-08-20T21:19:02+00:00'
+updated_at: '2026-08-29T22:11:08+00:00'
 ---
 
 ## Prompt
@@ -55,6 +63,9 @@ yaml-diff the profile bodies and assert the only differences are the augmentatio
 
 ## Preconditions
 H-W5 supported. GPU free (~2h per arm on the RTX 5070, <11.25 GiB). Corpus ac7d2b1c. Read rule_out `that-the-mean-gap-naive-pooled-mean-present-5bb2e3` and hypothesis `e11-s-supabase-transfer-failure-is-5472c8` BEFORE designing the arm.
+
+## Log
+- **2026-08-29T22:11:08+00:00** — ABANDONED ON MEASUREMENT, not on priority. exp-w7-stage0-crop-power-20260821 refuted the premise for ~4 CPU minutes instead of the ~6 GPU-hours this runbook budgeted: the encoder reads a 41-minute crop at 0.964 (avg) / 0.950 (masked) retention against a gate demanding >= 20% loss, so there is no readout fragility for crop augmentation to teach out of. The two defects are separable and only one existed -- representation CONTRACTION is real and now fixed and generalising (W5/W6/W12/W13), readout FRAGILITY is not real. Problem resolved; do not re-queue.
 
 ## Links
 Queued for problem [[extent-heterogeneity-short-lab-sessions-are-contracted-onto-the-corpus-median-by-unmasked-pooling]].

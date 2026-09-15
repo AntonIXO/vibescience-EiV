@@ -1,12 +1,20 @@
 ---
 direction: lower_better
 id: eiv_supabase_seed_band_mae_bpm
-name: Post-atomfix Phase-C seed-to-seed range of supabase hr_raw MAE
+name: eiv_supabase_seed_band_mae_bpm
 noise_k: 2.0
-noise_n: null
-noise_note: ''
-noise_sigma: null
-noise_source: null
+noise_n: 4000
+noise_note: 'Finite-DRAW sigma measured 2026-08-31 by scratch/noise_floor_emission.py
+  (row bootstrap, 4000 resamples, seed 0) on the fixed 200-row supabase capture: per-arm
+  sigma of the hr_raw MAE point estimate is 0.155 (v28affect01), 0.177 (v25r30), 0.209
+  (v27affect), 0.427 (baseline_sync); the PAIRED sigma of the difference between two
+  arms on shared rows is 0.195. 0.195 is the honest floor for an arm-vs-arm MAE claim
+  on this instrument. NOTE this is strictly the draw component and is MUCH SMALLER
+  than the seed-to-seed retrain band of 3.19 bpm measured in exp-052/exp-054 -- an
+  arm-vs-arm MAE gap must clear the SEED band, not this one, before it is a recipe
+  difference rather than a lucky init. Report logs/noise_floor_emission.json.'
+noise_sigma: 0.195
+noise_source: measured
 requires_control: null
 topic_tags: []
 unit: bpm

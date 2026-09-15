@@ -29,7 +29,7 @@ problem_tags:
 - data-contract-violation
 reopen_reason: ''
 reopened_from: null
-status: refuted
+status: inconclusive
 supersedes: null
 topic_tags:
 - cross-modal

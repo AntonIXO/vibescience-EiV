@@ -1,10 +1,13 @@
 ---
+ambition_class: null
 created_at: '2026-07-27T22:28:45+00:00'
 former_ids: []
+gap_closure_estimate: null
 gates: []
 id: hyp-eiv-native-kta-vicreg-20260727
 interventions:
 - eiv-native-rbf-kta-vicreg
+override_reason: ''
 paper_refs:
 - paper-cka-1905.00414
 - paper-vicreg-2105.04906
@@ -33,6 +36,8 @@ problem_tags:
 - subject-heldout
 - representation-learning
 - optihealth-eiv
+reopen_reason: ''
+reopened_from: null
 status: confirmed
 supersedes: hyp-eiv-vicreg-20260727
 topic_tags:
@@ -41,7 +46,7 @@ topic_tags:
 - cca
 - vicreg
 - wearable-ml
-- kernel-alignment
+- kernel
 - cross-modal
 - anti-collapse
 ---
@@ -66,4 +71,4 @@ Predicts [[eiv_peak_vram_gib]] (none).
 Cites [[paper-cka-1905.00414]], [[paper-vicreg-2105.04906]].
 Supersedes [[hyp-eiv-vicreg-20260727]].
 
-#contrastive #hsic #cca #vicreg #wearable-ml #kernel-alignment #cross-modal #anti-collapse #contrastive-loss #subject-heldout #representation-learning #optihealth-eiv
+#contrastive #hsic #cca #vicreg #wearable-ml #kernel #cross-modal #anti-collapse #contrastive-loss #subject-heldout #representation-learning #optihealth-eiv
