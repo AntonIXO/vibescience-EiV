@@ -20,7 +20,7 @@ target: null
 title: Nothing has ever checked whether the frozen LLM is load-bearing, or a formatter
   the encoder could do without
 topic_tags: []
-updated_at: '2026-09-03T06:43:54+00:00'
+updated_at: '2026-09-18T11:14:24+00:00'
 updates:
 - at: '2026-09-01T20:52:57+00:00'
   text: "2026-09-01 — TWO ADDENDA TO exp-t1-tan-ablation-heads-20260901, both measured
@@ -201,6 +201,16 @@ updates:
     this problem does NOT settle: whether the narrator carries STATE (g3 of exp-n
     unevaluated; follow-up pre-registered 2026-09-03), and the soft-token bridge as
     a research object under full fine-tuning (Track G, unfunded).'
+- at: '2026-09-18T11:14:24+00:00'
+  text: 'PROVENANCE CORRECTION 2026-09-18: the documented scratch/run_v41_rebased.sh
+    writes split=train to YAML, but src/cli_train.py at saved commit ad78bc2082d0
+    forwards split only for C; Phase A allowed_subject_keys was not forwarded (saved
+    allowed_subject_count=null) and B had no allowlist. This static evidence blocks
+    the WHOLE-PIPELINE subject-held-out claim for the documented path. Stored captures/numerical
+    comparisons are preserved; no historical rerun or unknown launch path is asserted.
+    A new campaign will rebuild a verified train-only common upstream tower. Numerical
+    readout-error differences between fitted heads are not an information-theoretic
+    decomposition.'
 ---
 
 ## Description
@@ -260,6 +270,7 @@ WHAT THE LITERATURE SAYS (papers linked): Song & Bahri 2025 (arXiv:2501.19383) �
 READING: 'formatter' is now split into two testable halves — (i) the forward pass discards (interface problem; fix = E/G or the narrator architecture), (ii) the emission step discards (objective/format problem; fix = D-a, then Chen-style reward). E36 on the old adapter says mostly (ii). Track A measures it on v41rebased_c on the 128 rows every other tower number was measured on; D-a (`d-a-number-first-digit-constrained-phase-c-target-recovers-emission-loss`) is pre-registered with A's hidden-state number as its g0 precondition.
 - **2026-09-02T21:05:37+00:00** — 2026-09-03 00:20 — THE FIELD HAS ALREADY MOVED THE LLM OFF THE SENSOR PATH, and two papers now report the same sign as exp-t1/t1b on numeric targets. (1) SensorFM (arXiv:2605.22759, Google 2026, added to vault): the deployed architecture is sensor FM -> PCA-50 + LINEAR heads -> Personal Health Agent that consumes the heads' PREDICTIONS; in the 1,860-rating clinician study the LLM-given-metrics-only condition is worst on every axis (p<0.001) and the LLM-given-head-predictions condition is indistinguishable from LLM-given-ground-truth (p=0.396). No condition feeds soft tokens to the LLM. (2) CHA-PPGHR (arXiv:2502.12836): an LLM orchestrating a signal-processing tool chain reads HR at ~2.8 bpm MAE against ECG where GPT-4o reading the data directly reads ~8.9 — the same ~3x gap as t1b's 0.81 head vs 2.84 LLM. (3) PH-LLM (arXiv:2406.06474): even with a learned multimodal encoder, the LLM only MATCHES specialised discriminative heads on sleep-outcome prediction; never exceeds them. NO published result anywhere in the OVERVIEW.md survey (29 systems) shows soft-token injection into a frozen LLM beating a task head on a numeric physiological target. Consequence for this problem: 'formatter' is not an EiV pathology, it is the field's settled position for numeric targets; what remains EiV-specific is Track A's localisation (emission vs forward pass) because it decides whether the soft-token path is worth ONE more Phase C retrain (D-a) before the narrator architecture becomes the product path. Diagnostic eiv_narration_numeric_fidelity_mae_bpm registered for that architecture.
 - **2026-09-03T06:43:54+00:00** — 2026-09-03 — RESOLVED. Both halves are now measured on the same 128 split-honest rows of the v41rebased PL60 tower. (1) LOAD-BEARING: no. Attention head over the 96 soft tokens 0.812 bpm vs MedGemma+LoRA emission 2.843 (trivial 6.876), rule-out `the-llm-s-emission-loss-was-an-artefact-of-the-incumbent-s-weak-tower`. (2) WHERE THE LOSS IS (exp-a-hr-tower-localisation-20260903): RidgeCV on the residual stream at the hr_raw emission token, zeroed-scaffold context, reads 2.331 (donor-null 7.645, zeroed 7.738). So 1.519 of the 2.031 bpm (75%) is lost in the FORWARD PASS and 0.512 at emission; medianK decoding does not help (3.032). The emission-fix branch (D-a) is therefore unpowered against the measured seed floor (sigma 0.208) and was not run. (3) THE ALTERNATIVE WORKS WITH NO TRAINING (exp-n-narrator-fidelity-20260903, supports): base MedGemma with the adapter disabled, handed the head's numbers in the prompt, repeats them at 0.0245 bpm fidelity; end-to-end 0.814 vs truth. Product path = head -> narrator, matching SensorFM / PH-LLM / CHA-PPGHR. What this problem does NOT settle: whether the narrator carries STATE (g3 of exp-n unevaluated; follow-up pre-registered 2026-09-03), and the soft-token bridge as a research object under full fine-tuning (Track G, unfunded).
+- **2026-09-18T11:14:24+00:00** — PROVENANCE CORRECTION 2026-09-18: the documented scratch/run_v41_rebased.sh writes split=train to YAML, but src/cli_train.py at saved commit ad78bc2082d0 forwards split only for C; Phase A allowed_subject_keys was not forwarded (saved allowed_subject_count=null) and B had no allowlist. This static evidence blocks the WHOLE-PIPELINE subject-held-out claim for the documented path. Stored captures/numerical comparisons are preserved; no historical rerun or unknown launch path is asserted. A new campaign will rebuild a verified train-only common upstream tower. Numerical readout-error differences between fitted heads are not an information-theoretic decomposition.
 
 ## Links
 Cites [[tan-2024-llm-useful-timeseries-2406-16964]], [[qiu-2026-rethinking-llm-tsf-2602-14744]], [[song-2025-decoding-based-regression-2501-19383]], [[chen-2025-rl-decoding-regression-2512-06533]], [[biderman-2024-lora-learns-less-2405-09673]], [[sensorlm-2025-2506-09108]], [[sensorfm-2026-2605-22759]], [[feli-2025-cha-ppghr-agent-2502-12836]], [[phllm-2024-personal-health-llm-2406-06474]].

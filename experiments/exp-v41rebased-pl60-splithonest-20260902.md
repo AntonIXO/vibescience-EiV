@@ -129,7 +129,7 @@ git_ref: fix/soft-token-norm-scale@ad78bc2+dirty
 hypothesis_id: v41-pl60-state-chain-rebased-and-split-honest
 id: exp-v41rebased-pl60-splithonest-20260902
 interpretation:
-  at: '2026-09-02T19:37:21+00:00'
+  at: '2026-09-18T11:14:23+00:00'
   failure_mode: null
   lesson: 'PL60/ST30 buys HR outright and buys state in a way its own gate could not
     see — and both halves needed the random-init twin plus a second estimator family
@@ -149,7 +149,17 @@ interpretation:
     HR/HRV features (union trained-minus-random +0.0116 / +0.0145). Operationally:
     never gate a representation claim on one estimator family, and never omit the
     random twin — `scratch/g3_state_readout.py --chain ''tag@random=<phase_a>''` costs
-    a minute and `scratch/g5_pool_ceiling.py` prices the whole ladder in CPU minutes.'
+    a minute and `scratch/g5_pool_ceiling.py` prices the whole ladder in CPU minutes.
+
+
+    PROVENANCE CORRECTION 2026-09-18: the documented scratch/run_v41_rebased.sh writes
+    split=train to YAML, but src/cli_train.py at saved commit ad78bc2082d0 forwards
+    split only for C; Phase A allowed_subject_keys was not forwarded (saved allowed_subject_count=null)
+    and B had no allowlist. This static evidence blocks the WHOLE-PIPELINE subject-held-out
+    claim for the documented path. Stored captures/numerical comparisons are preserved;
+    no historical rerun or unknown launch path is asserted. A new campaign will rebuild
+    a verified train-only common upstream tower. Numerical readout-error differences
+    between fitted heads are not an information-theoretic decomposition.'
   transfers_to:
   - the-llm-is-a-formatter-a-small-attention-head-matches-it-on-hr
   - a-held-out-scored-chain-combining-every-079038
@@ -231,6 +241,8 @@ External run: local: logs/v41rebased_phase_{a,b,c}.log, logs/emission_v41rebased
 
 ## Interpretation
 PL60/ST30 buys HR outright and buys state in a way its own gate could not see — and both halves needed the random-init twin plus a second estimator family to read correctly. HR: the trained PL60 tower beats its random twin by 1.275 bpm hr_raw and 5.746 bpm hr_peak (paired, CI95 excludes zero) and the trained PL120 tower by 0.235 / 3.299, yet at RANDOM init PL60 is WORSE than PL120 on hr_raw (2.086 vs 1.687) — so PL60's HR advantage is entirely LEARNED. State, and this CORRECTS the first reading of this experiment: g3's gate cell (single-span ridge) put trained-minus-random at +0.0070, inside the band, which reads as "training added nothing". Under a gradient-boosting readout on the same rows the same contrast is +0.0349, and under a {30,120,240} multi-span ridge +0.0367 — both far outside it. The twin FALLS (+0.0533 to +0.0405) while the trained encoder RISES (+0.0603 to +0.0852) as the readout widens, which is the signature of non-linear span-sensitive structure a single-span ridge cannot express. The honest verdict is therefore: Phase A/B does put momentary-state information into the tokens, the gate readout saw about a third of it, and most of what it learned is redundant with 15 handcrafted HR/HRV features (union trained-minus-random +0.0116 / +0.0145). Operationally: never gate a representation claim on one estimator family, and never omit the random twin — `scratch/g3_state_readout.py --chain 'tag@random=<phase_a>'` costs a minute and `scratch/g5_pool_ceiling.py` prices the whole ladder in CPU minutes.
+
+PROVENANCE CORRECTION 2026-09-18: the documented scratch/run_v41_rebased.sh writes split=train to YAML, but src/cli_train.py at saved commit ad78bc2082d0 forwards split only for C; Phase A allowed_subject_keys was not forwarded (saved allowed_subject_count=null) and B had no allowlist. This static evidence blocks the WHOLE-PIPELINE subject-held-out claim for the documented path. Stored captures/numerical comparisons are preserved; no historical rerun or unknown launch path is asserted. A new campaign will rebuild a verified train-only common upstream tower. Numerical readout-error differences between fitted heads are not an information-theoretic decomposition.
 
 Transfers to: [[the-llm-is-a-formatter-a-small-attention-head-matches-it-on-hr]], [[a-held-out-scored-chain-combining-every-079038]], [[eda-carries-state-information-beyond-corpus-identity]], [[e29-state-geometry-innocent-weights-guilty-20260815]]
 
